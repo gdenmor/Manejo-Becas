@@ -1,0 +1,28 @@
+<?php
+    class ITEM_BAREMABLE{
+        private $id_item;
+        private $nombre;
+
+        public function __construct($id_item,$nombre){
+            $this->id_item=$id_item;
+            $this->nombre=$nombre;
+        }
+
+        public function getID_Item(){
+            return $this->id_item;
+        }
+
+        public function getNombre(){
+            return $this->nombre;
+        }
+
+        public function setID_Item($id_item){
+            $this->id_item=$id_item;
+        }
+
+        public function setNombre($nombre){
+            $this->nombre=$nombre;
+        }
+    }
+
+?>
