@@ -1,17 +1,18 @@
 <?php
-    require_once "../Manejo-Becas/ENTIDADES/TUTOR_LEGAL.php";
-    class BD_CANDIDATO{
+    class BD_CANDIDATOS_CONVOCATORIA{
         public static function FindAll(){
             $conexion=CONEXION::AbreConexion();
-            $resultado=$conexion->prepare("SELECT * from CANDIDATOS");
+            $resultado=$conexion->prepare("SELECT * from CANDIDATOS_CONVOCATORIA");
             $resultado->execute();
 
-            $Candidatos=null;
+            $Candidatos_Convocatorias=null;
 
             $i=0;
 
 
             while ($tuplas=$resultado->fetch(PDO::FETCH_OBJ)) {
+                $id_candidato_convocatoria=$tuplas->id_candidato_convocatoria;
+                $id_convocatoria=$tuplas->id_convocatoria;
                 $DNI=$tuplas->DNI;
                 $fecha_nacimiento=$tuplas->fecha_nacimiento;
                 $tutor_dni=$tuplas->tutor_dni;
@@ -25,26 +26,27 @@
                 $correo=$tuplas->correo;
                 $domicilio=$tuplas->domicilio;
                 $rol=$tuplas->rol;
-                $Candidato=new CANDIDATO($DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio,$rol);
-                $Candidatos[]=$Candidato;
+                $Candidato_Convocatoria=new CANDIDATOS_CONVOCATORIA($id_candidato_convocatoria,$id_convocatoria,$DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio,$rol);
+                $Candidatos_Convocatorias[]=$Candidato_Convocatoria;
                 $i++;
             }
 
-            return $Candidatos;
+            return $Candidatos_Convocatorias;
         }
 
-        public static function FindByID($DNI){
+        public static function FindByID($id_candidato_convocatoria){
             $conexion = CONEXION::AbreConexion();
-            $resultado = $conexion->prepare("SELECT * FROM CANDIDATOS WHERE DNI=:DNI");
-            $resultado->bindParam(':DNI', $DNI, PDO::PARAM_STR);
+            $resultado = $conexion->prepare("SELECT * FROM CANDIDATOS_CONVOCATORIA WHERE id_candidato_convocatoria=:id_candidato_convocatoria");
+            $resultado->bindParam(':id_convocatoria', $id_candidato_convocatoria, PDO::PARAM_INT);
             $resultado->execute();
         
-            $Candidato = null;
+            $Candidato_Convocatoria = null;
         
             if ($resultado) {
                 $tuplas = $resultado->fetch(PDO::FETCH_OBJ);
         
                 if ($tuplas) {
+                    $id_convocatoria=$tuplas->id_convocatoria;
                     $DNI=$tuplas->DNI;
                     $fecha_nacimiento=$tuplas->fecha_nacimiento;
                     $tutor_dni=$tuplas->tutor_dni;
@@ -58,22 +60,22 @@
                     $correo=$tuplas->correo;
                     $domicilio=$tuplas->domicilio;
                     $rol=$tuplas->rol;
-                    $Candidato=new CANDIDATO($DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio,$rol);
+                    $Candidato_Convocatoria=new CANDIDATOS_CONVOCATORIA($id_candidato_convocatoria,$id_convocatoria,$DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio,$rol);
                 }
             }
         
-            return $Candidato;
+            return $Candidato_Convocatoria;
         }
 
-        public static function DeleteByID($DNI){
+        public static function DeleteByID($id_candidato_convocatoria){
             $conexion=CONEXION::AbreConexion();
 
-            $resultado=$conexion->prepare("DELETE from CANDIDATO where DNI=:DNI");
-            $resultado->bindParam(":DNI",$DNI,PDO::PARAM_STR);
+            $resultado=$conexion->prepare("DELETE from CANDIDATO_CONVOCATORIA where id_candidato_convocatoria=:id_candidato_convocatoria");
+            $resultado->bindParam(":id_candidato_convocatoria",$id_candidato_convocatoria,PDO::PARAM_INT);
             $resultado->execute();
         }
 
-        public static function UpdateByID($DNI,$objetoActualizado){
+        public static function UpdateByID($id_candidato_convocatoria,$objetoActualizado){
             $conexion=CONEXION::AbreConexion();
             $fecha_nacimiento=$objetoActualizado->getFechaNacimiento();
             $DNI_tutor_legal=$objetoActualizado->getTutorLegal()->getDNI();
@@ -86,9 +88,11 @@
             $tlf=$objetoActualizado->getTlf();
             $correo=$objetoActualizado->getCorreo();
             $rol=$objetoActualizado->getRol();
+            $DNI=$objetoActualizado->getDNI();
+            $id_convocatoria=$objetoActualizado->getConvocatoria()->getIdConvocatoria();
             
 
-            $resultado=$conexion->prepare("UPDATE CANDIDATOS set apellido1=upper(:apellido1),apellido2=upper(:apellido2),nombre=upper(:nombre),domicilio=upper(:domicilio),tlf=upper(:tlf),fecha_nacimiento=(:fecha_nacimiento),tutor_dni=upper(:DNI_tutor),contraseña=upper(:contraseña),curso=upper(:curso),correo=upper(:correo),rol=upper(:rol) where DNI=:DNI");
+            $resultado=$conexion->prepare("UPDATE CANDIDATOS_CONVOCATORIA set id_convocatoria=:id_convocatoria,DNI=:DNI,apellido1=upper(:apellido1),apellido2=upper(:apellido2),nombre=upper(:nombre),domicilio=upper(:domicilio),tlf=upper(:tlf),fecha_nacimiento=(:fecha_nacimiento),tutor_dni=upper(:DNI_tutor),contraseña=upper(:contraseña),curso=upper(:curso),correo=upper(:correo),rol=upper(:rol) where id_candidato_convocatoria=:id_candidato_convocatoria");
             $resultado->bindParam(":apellido1",$apellido1,PDO::PARAM_STR);
             $resultado->bindParam(":apellido2",$apellido2,PDO::PARAM_STR);
             $resultado->bindParam(":nombre",$nombre,PDO::PARAM_STR);
@@ -103,6 +107,9 @@
             $resultado->bindParam(":fecha_nacimiento",$fecha_nacimiento,PDO::PARAM_STR);
             $resultado->bindParam(":DNI",$DNI,PDO::PARAM_STR);
             $resultado->bindParam(":rol",$rol,PDO::PARAM_STR);
+            $resultado->bindParam(":id_candidato_convocatoria",$id_candidato_convocatoria,PDO::PARAM_INT);
+            $resultado->bindParam(":id_convocatoria",$id_convocatoria,PDO::PARAM_INT);
+
             
             $resultado->execute();
         }
@@ -119,11 +126,12 @@
             $domicilio=$objeto->getDomicilio();
             $tlf=$objeto->getTlf();
             $correo=$objeto->getCorreo();
-            $DNI=$objeto->getDNI();
             $rol=$objeto->getRol();
+            $DNI=$objeto->getDNI();
+            $id_convocatoria=$objeto->getConvocatoria()->getIdConvocatoria();
             
 
-            $resultado=$conexion->prepare("INSERT INTO CANDIDATOS (DNI,fecha_nacimiento,tutor_dni,apellido1,apellido2,nombre,contraseña,curso,tlf,correo,domicilio,rol) values (upper(:DNI),:fecha_nacimiento,upper(:DNI_tutor),upper(:apellido1),upper(:apellido2),upper(:nombre),upper(:contraseña),upper(:curso),upper(:tlf),upper(:correo),upper(:domicilio),upper(:rol))");
+            $resultado=$conexion->prepare("INSERT INTO CANDIDATOS_CONVOCATORIA (id_convocatoria,DNI,fecha_nacimiento,tutor_dni,apellido1,apellido2,nombre,contraseña,curso,tlf,correo,domicilio,rol) values (:id_convocatoria,upper(:DNI),:fecha_nacimiento,upper(:DNI_tutor),upper(:apellido1),upper(:apellido2),upper(:nombre),upper(:contraseña),upper(:curso),upper(:tlf),upper(:correo),upper(:domicilio),upper(:rol))");
             $resultado->bindParam(":apellido1",$apellido1,PDO::PARAM_STR);
             $resultado->bindParam(":apellido2",$apellido2,PDO::PARAM_STR);
             $resultado->bindParam(":nombre",$nombre,PDO::PARAM_STR);
@@ -138,9 +146,8 @@
             $resultado->bindParam(":fecha_nacimiento",$fecha_nacimiento,PDO::PARAM_STR);
             $resultado->bindParam(":DNI",$DNI,PDO::PARAM_STR);
             $resultado->bindParam(":rol",$rol,PDO::PARAM_STR);
+            $resultado->bindParam(":id_convocatoria",$id_convocatoria,PDO::PARAM_INT);
             $resultado->execute();
         }
     }
-
-
 ?>

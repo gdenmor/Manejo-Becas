@@ -1,18 +1,28 @@
 <?php
     class BAREMACION{
+        private $id_baremacion;
         private $dni;
-        private $id_convocatoria;
-        private $id_item;
+        private $convocatoria;
+        private $item;
         private $nota;
         private $url;
 
         // Constructor
-        public function __construct($dni, $id_convocatoria, $id_item, $nota, $url) {
+        public function __construct($id_baremacion,$dni, $convocatoria, $item, $nota, $url) {
+            $this->id_baremacion=$id_baremacion;
             $this->dni = $dni;
-            $this->id_convocatoria = $id_convocatoria;
-            $this->id_item = $id_item;
+            $this->convocatoria = $convocatoria;
+            $this->item = $item;
             $this->nota = $nota;
             $this->url = $url;
+        }
+
+        public function getID_Baremacion(){
+            return $this->id_baremacion;
+        }
+
+        public function setID_Baremacion($id_baremacion){
+            $this->id_baremacion=$id_baremacion;
         }
 
         // Setter para el DNI
@@ -21,13 +31,13 @@
         }
 
         // Setter para el ID de la convocatoria
-        public function setIdConvocatoria($id_convocatoria) {
-            $this->id_convocatoria = $id_convocatoria;
+        public function setConvocatoria($id_convocatoria) {
+            $this->convocatoria = $id_convocatoria;
         }
 
         // Setter para el ID del item baremable
-        public function setIdItem($id_item) {
-            $this->id_item = $id_item;
+        public function setItem($item) {
+            $this->item = $item;
         }
 
         // Setter para la nota
@@ -46,13 +56,13 @@
         }
 
         // Getter para el ID de la convocatoria
-        public function getIdConvocatoria() {
-            return $this->id_convocatoria;
+        public function getConvocatoria() {
+            return $this->convocatoria;
         }
 
         // Getter para el ID del item baremable
-        public function getIdItem() {
-            return $this->id_item;
+        public function getItem() {
+            return $this->item;
         }
 
         // Getter para la nota

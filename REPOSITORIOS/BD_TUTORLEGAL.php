@@ -5,7 +5,7 @@
             $resultado=$conexion->prepare("SELECT * from TUTOR_LEGAL");
             $resultado->execute();
 
-            $array=null;
+            $Tutores=null;
 
             $i=0;
 
@@ -18,13 +18,13 @@
                 $domicilio=$tuplas->domicilio;
                 $tlf=$tuplas->tlf;
                 $Tutor=new TutorLegal($DNI,$apellido1,$apellido2,$nombre,$domicilio,$tlf);
-                $array[$i]=$Tutor;
+                $Tutores[$i]=$Tutor;
                 $i++;
             }
 
             
 
-            return $array;
+            return $Tutores;
         }
 
         public static function FindByID($DNI){

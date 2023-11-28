@@ -11,6 +11,7 @@
         private $tlf;
         private $correo;
         private $domicilio;
+        private $rol;
 
         public function getDNI(){
             return $this->DNI;
@@ -100,7 +101,15 @@
             $this->domicilio=$domicilio;
         }
 
-        public function __construct($DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio){
+        public function getRol(){
+            return $this->rol;       
+        }
+
+        public function setRol($rol){
+            $this->rol=$rol;
+        }
+
+        public function __construct($DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio,$rol){
             $this->DNI=$DNI;
             $this->fecha_nacimiento=$fecha_nacimiento;
             $this->tutor_legal=$tutor_legal;
@@ -112,6 +121,7 @@
             $this->tlf=$tlf;
             $this->correo=$correo;
             $this->domicilio=$domicilio;
+            $this->rol=$rol;
         }
 
     }
