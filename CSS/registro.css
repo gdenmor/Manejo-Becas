@@ -1,0 +1,8 @@
+.error{
+    color: red;
+    position: absolute;
+}
+
+#contenido-registro section{
+    margin-bottom: 5%;
+}

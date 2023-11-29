@@ -1,17 +1,15 @@
 <?php
     class BAREMACION{
         private $id_baremacion;
-        private $dni;
-        private $convocatoria;
+        private $id_candidato_convocatoria;
         private $item;
         private $nota;
         private $url;
 
         // Constructor
-        public function __construct($id_baremacion,$dni, $convocatoria, $item, $nota, $url) {
+        public function __construct($id_baremacion,$convocatoria, $item, $nota, $url) {
             $this->id_baremacion=$id_baremacion;
-            $this->dni = $dni;
-            $this->convocatoria = $convocatoria;
+            $this->id_candidato_convocatoria = $convocatoria;
             $this->item = $item;
             $this->nota = $nota;
             $this->url = $url;
@@ -25,14 +23,10 @@
             $this->id_baremacion=$id_baremacion;
         }
 
-        // Setter para el DNI
-        public function setDNI($dni) {
-            $this->dni = $dni;
-        }
 
         // Setter para el ID de la convocatoria
         public function setConvocatoria($id_convocatoria) {
-            $this->convocatoria = $id_convocatoria;
+            $this->id_candidato_convocatoria = $id_convocatoria;
         }
 
         // Setter para el ID del item baremable
@@ -50,14 +44,9 @@
             $this->url = $url;
         }
 
-        // Getter para el DNI
-        public function getDNI() {
-            return $this->dni;
-        }
-
         // Getter para el ID de la convocatoria
         public function getConvocatoria() {
-            return $this->convocatoria;
+            return $this->id_candidato_convocatoria;
         }
 
         // Getter para el ID del item baremable

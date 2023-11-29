@@ -1,0 +1,16 @@
+#principal-div{
+    background-image: url("../IMAGENES/Becas-Junta-de-Andalucia.jpg");
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#principal-div h1,h2{
+    text-align: center;
+}
+
+#principal-div form input{
+    position: absolute;
+    top: 2%;
+    right: 0%;
+    background-color: rgb(33, 160, 33);
+}

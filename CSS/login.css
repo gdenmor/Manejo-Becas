@@ -1,0 +1,44 @@
+#contenedor-login{
+    background-color: #f9f9f5;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
+#contenido-login{
+    background-color: #ebebe7;
+    margin-top: 70%;
+    border: 3px solid black;
+    border-radius: 3%;
+    width: 162%;
+    height: 40%;
+    margin-left: -30%;
+}
+
+.elementos{
+    display: flex;
+    margin-top: 10%;
+    margin-left: 20%;
+}
+
+#linkForgotPassword-login{
+    margin-top: 10%;
+    text-align: center;
+}
+
+#btns-Login{
+    margin-top: 10%;
+    display: flex;
+    justify-content: center;
+    gap: 13%;
+}
+
+#contenedor-dni-login{
+    gap: 25%;
+}
+
+#contenedor-contraseña-login{
+    gap: 3%;
+}

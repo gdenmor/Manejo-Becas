@@ -135,4 +135,40 @@ class BD_CONVOCATORIA
 
         $resultado->execute();
     }
+
+    public static function BuscaConvocatoriasActivas()
+    {
+        $conexion = CONEXION::AbreConexion();
+        $resultado = $conexion->prepare("SELECT * FROM CONVOCATORIAS WHERE fecha_inicio>=sysdate() and fecha_fin<=sysdate()");
+        $resultado->execute();
+
+        $Convocatorias = null;
+
+        $i=0;
+
+
+        if ($resultado) {
+            $tuplas = $resultado->fetch(PDO::FETCH_OBJ);
+
+            if ($tuplas) {
+                $id_convocatoria = $tuplas->id_convocatoria;
+                $num_movilidades = $tuplas->num_movilidades;
+                $tipo = $tuplas->tipo;
+                $fecha_inicio = $tuplas->fecha_inicio;
+                $fecha_fin = $tuplas->fecha_fin;
+                $fechainicioPruebas = $tuplas->fechaInicioPruebas;
+                $fechafinPruebas = $tuplas->fechaFinPruebas;
+                $fechaListadoProvisional = $tuplas->fechaListadoProvisional;
+                $fechaListadoDefinitivo = $tuplas->fechaListadoDefinitivo;
+                $codigo_proyecto = $tuplas->codigo_proyecto;
+                $Proyecto = BD_PROYECTO::FindByID($codigo_proyecto);
+                $Convocatoria = new CONVOCATORIA($id_convocatoria, $num_movilidades, $tipo, $fecha_inicio, $fecha_fin, $fechainicioPruebas, $fechafinPruebas, $fechaListadoProvisional, $fechaListadoDefinitivo, $Proyecto);
+                $Convocatorias[] = $Convocatoria;
+                $i++;
+            }
+        }
+
+        return $Convocatorias;
+    }
+
 }
