@@ -11,6 +11,7 @@
         private $fechaListadoDefinitivo;
         private $Proyecto;
         private $pais_destino;
+        private $nombre;
 
         // Constructor
         public function __construct(
@@ -24,7 +25,8 @@
             $fechaListadoProvisional,
             $fechaListadoDefinitivo,
             $Proyecto,
-            $pais_destino
+            $pais_destino,
+            $nombre
             ) {
             $this->id_convocatoria=$id_convocatoria;
             $this->num_movilidades = $num_movilidades;
@@ -37,6 +39,7 @@
             $this->fechaListadoDefinitivo=$fechaListadoDefinitivo;
             $this->Proyecto = $Proyecto;
             $this->pais_destino=$pais_destino;
+            $this->nombre=$nombre;
         }
 
         public function getPais(){
@@ -47,6 +50,13 @@
             $this->pais_destino=$pais_destino;
         }
 
+        public function getNombre(){
+            return $this->nombre;
+        }
+
+        public function setNombre($pais_destino){
+            $this->nombre=$pais_destino;
+        }
         public function setID($id){
             $this->id_convocatoria=$id;
         }

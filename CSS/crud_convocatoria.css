@@ -1,3 +1,103 @@
-#select{
+#section-general {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+#span-nombre,
+#span-id,
+#span-proyecto,
+#span-destinatario,
+#span-movilidades,
+#span-pais,
+#span-fecha-inicio,
+#span-fecha-fin,
+#span-fecha-inicio-pruebas,
+#span-fecha-fin-pruebas,
+#span-fecha-provisional,
+#span-definitivo,
+#span-baremo {
+    display: block;
+    margin-top: 10px;
+}
+
+#txtNombre,
+#txt-id,
+#select-proyecto,
+#tabla-destinatario,
+#txt-movilidades,
+#txt-pais,
+#fecha-inicio,
+#fecha-fin,
+#fecha-inicio-pruebas,
+#fecha-fin-pruebas,
+#fecha-provisional,
+#fecha-definitivo,
+#tabla-baremo {
     width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+#select-proyecto,
+#tabla-baremo,
+#tabla-destinatario {
+    margin-top: 15px;
+}
+
+#tabla-destinatario, #tabla-baremo, #tabla-idioma {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#tabla-destinatario, #tabla-baremo,#tabla-idioma, th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+#crea,
+#actualiza,
+#mostrar
+{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+
+#crea:hover,
+#actualiza:hover,
+#mostrar:hover{
+    background-color: #45a049;
+}
+
+#botones{
+    margin-left: 7%;
+    margin-top: 5%;
+}
+
+#section-general{
+    background-color: #ddd;
+}
+
+#logout{
+    position: absolute;
+    top: 1%;
+    right: 0%;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+}
+#tabla-idioma{
+    display: none;
+    margin-left: 34%;
+    margin-top: 7%;
+    border: none;
+}
+#titulo{
+    text-align: center;
 }

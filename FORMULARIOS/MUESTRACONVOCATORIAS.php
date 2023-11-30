@@ -1,6 +1,5 @@
 <?php
     if ($_SERVER['REQUEST_METHOD']=="POST"){
-        require_once "../HELPERS/AUTOLOAD.php";
         $convocatorias=BD_CONVOCATORIA::FindAll();
         $convoelegidaid=null;
         if ($convocatorias!=null){
@@ -40,7 +39,6 @@
         <tbody>
             <form method="post">
             <?php
-                require_once "../HELPERS/AUTOLOAD.php";
                 $convocatorias=BD_CONVOCATORIA::FindAll();
                 if ($convocatorias!=null){
                     for ($i=0;$i<count($convocatorias);$i++){

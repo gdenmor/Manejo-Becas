@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if (is_array($Usuarios) && count($Usuarios) > 0) {
 
             for ($i = 0; $i < count($Usuarios); $i++) {
-                if (strtoupper(str_replace(" ", "", $Usuarios[$i]->getDNI())) == $DNI && password_verify($password, $Usuarios[$i]->getContraseña())) {
+                if (strtoupper(str_replace(" ", "", $Usuarios[$i]->getDNI())) == $DNI && $Usuarios[$i]->getContraseña()==$password) {
                     $User = $Usuarios[$i];
                     $existe = true;
                     break; // Salir del bucle una vez que se ha encontrado el usuario
@@ -28,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             
             if ($existe){
                 if ($User!=null){
-                    if ($User->getRol()=="Alumno"){
+                    if ($User->getRol()=="ALUMNO"){
                         SESSION::iniciaSesion('USER',$User,"http://localhost/Manejo-Becas/index.php?menu=alumno");
                     }else{
                         SESSION::iniciaSesion('USER',$User,"http://localhost/Manejo-Becas/index.php?menu=admin");

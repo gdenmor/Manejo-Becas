@@ -43,7 +43,7 @@
             }
 
             if ($validador->validaContraseña($contraseña)){
-                $password=password_hash($contraseña,PASSWORD_DEFAULT);
+                
             }else{
                 $mensajeErrorContraseña="La contraseña no está en el formato correcto";
                 $num_errores++;
@@ -64,7 +64,7 @@
             }
 
             if ($num_errores==0){
-                $candidato=new CANDIDATO($DNI,null,null,$apellido1,$apellido2,$nombre,$password,null,null,$correo,$domicilio,"ALUMNO");
+                $candidato=new CANDIDATO($DNI,null,null,$apellido1,$apellido2,$nombre,$contraseña,null,null,$correo,$domicilio,"ALUMNO");
                 BD_CANDIDATO::Insert($candidato);
                 header("Location: http://localhost/Manejo-Becas/index.php?menu=inicio");
             }   

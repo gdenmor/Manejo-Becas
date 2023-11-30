@@ -24,8 +24,9 @@ class BD_CONVOCATORIA
             $fechaListadoDefinitivo = $tuplas->fechaListadoDefinitivo;
             $codigo_proyecto = $tuplas->codigo_proyecto;
             $destino=$tuplas->pais_destino;
+            $nombre=$tuplas->nombre;
             $Proyecto = BD_PROYECTO::FindByID($codigo_proyecto);
-            $Convocatoria = new CONVOCATORIA($id_convocatoria, $num_movilidades, $tipo, $fecha_inicio, $fecha_fin, $fechainicioPruebas, $fechafinPruebas, $fechaListadoProvisional, $fechaListadoDefinitivo, $Proyecto,$destino);
+            $Convocatoria = new CONVOCATORIA($id_convocatoria, $num_movilidades, $tipo, $fecha_inicio, $fecha_fin, $fechainicioPruebas, $fechafinPruebas, $fechaListadoProvisional, $fechaListadoDefinitivo, $Proyecto,$destino,$nombre);
             $Convocatorias[] = $Convocatoria;
             $i++;
         }
@@ -57,8 +58,9 @@ class BD_CONVOCATORIA
                 $fechaListadoDefinitivo = $tuplas->fechaListadoDefinitivo;
                 $codigo_proyecto = $tuplas->codigo_proyecto;
                 $destino=$tuplas->pais_destino;
+                $nombre=$tuplas->nombre;
                 $Proyecto = BD_PROYECTO::FindByID($codigo_proyecto);
-                $Convocatoria = new CONVOCATORIA($id_convocatoria, $num_movilidades, $tipo, $fecha_inicio, $fecha_fin, $fechainicioPruebas, $fechafinPruebas, $fechaListadoProvisional, $fechaListadoDefinitivo, $Proyecto,$destino);
+                $Convocatoria = new CONVOCATORIA($id_convocatoria, $num_movilidades, $tipo, $fecha_inicio, $fecha_fin, $fechainicioPruebas, $fechafinPruebas, $fechaListadoProvisional, $fechaListadoDefinitivo, $Proyecto,$destino,$nombre);
             }
         }
 
@@ -87,13 +89,14 @@ class BD_CONVOCATORIA
         $fechaListadoDefinitivo = $objetoActualizado->getFechaListadoDefinitivo();
         $codigo_proyecto = $objetoActualizado->getProyecto()->getCodigoProyecto();
         $pais_destino=$objetoActualizado->getPais();
+        $nombre=$objetoActualizado->getNombre();
 
 
 
         $resultado = $conexion->prepare("UPDATE CONVOCATORIAS set num_movilidades=:num_movilidades,tipo=upper(:tipo),fecha_inicio=:fecha_inicio,fecha_fin=:fecha_fin,
                                         fechaInicioPruebas=:fechaInicioPruebas,fechaFinPruebas=:fechaFinPruebas,fechaListadoProvisional=:fechaListadoProvisional,
                                         fechaListadoDefinitivo=:fechaListadoDefinitivo,
-                                        codigo_proyecto=:codigo_proyecto,pais_destino=:pais_destino where id_convocatoria=:id_convocatoria");
+                                        codigo_proyecto=:codigo_proyecto,pais_destino=:pais_destino,nombre=:nombre where id_convocatoria=:id_convocatoria");
 
         $resultado->bindParam(":num_movilidades", $num_movilidades, PDO::PARAM_INT);
         $resultado->bindParam(":tipo", $tipo, PDO::PARAM_STR);
@@ -106,6 +109,7 @@ class BD_CONVOCATORIA
         $resultado->bindParam(":codigo_proyecto", $codigo_proyecto, PDO::PARAM_STR);
         $resultado->bindParam(":id_convocatoria",$id_convocatoria,PDO::PARAM_INT);
         $resultado->bindParam(":pais_destino",$pais_destino,PDO::PARAM_STR);
+        $resultado->bindParam(":nombre",$nombre,PDO::PARAM_STR);
 
         $resultado->execute();
     }
@@ -123,12 +127,14 @@ class BD_CONVOCATORIA
         $fechaListadoDefinitivo = $objeto->getFechaListadoDefinitivo();
         $codigo_proyecto = $objeto->getProyecto()->getCodigoProyecto();
         $pais_destino=$objeto->getPais();
+        $nombre=$objeto->getNombre();
 
 
-        $resultado = $conexion->prepare("INSERT INTO CONVOCATORIAS (pais_destino,num_movilidades,tipo,fecha_inicio,fecha_fin,fechaInicioPruebas,fechaFinPruebas,fechaListadoProvisional,fechaListadoDefinitivo,codigo_proyecto) 
-                                        values (:pais_destino,:num_movilidades,upper(:tipo),:fecha_inicio,:fecha_fin,
+        $resultado = $conexion->prepare("INSERT INTO CONVOCATORIAS (nombre,pais_destino,num_movilidades,tipo,fecha_inicio,fecha_fin,fechaInicioPruebas,fechaFinPruebas,fechaListadoProvisional,fechaListadoDefinitivo,codigo_proyecto) 
+                                        values (:nombre,:pais_destino,:num_movilidades,upper(:tipo),:fecha_inicio,:fecha_fin,
                                         :fechaInicioPruebas,:fechaFinPruebas,:fechaListadoProvisional,:fechaListadoDefinitivo,:codigo_proyecto)");
 
+        $resultado->bindParam(":nombre",$nombre,PDO::PARAM_STR);
         $resultado->bindParam(":pais_destino",$pais_destino,PDO::PARAM_STR);
         $resultado->bindParam(":num_movilidades", $num_movilidades, PDO::PARAM_INT);
         $resultado->bindParam(":tipo", $tipo, PDO::PARAM_STR);
@@ -146,7 +152,7 @@ class BD_CONVOCATORIA
     public static function BuscaConvocatoriasActivas()
     {
         $conexion = CONEXION::AbreConexion();
-        $resultado = $conexion->prepare("SELECT * FROM CONVOCATORIAS WHERE fecha_inicio>=sysdate() and fecha_fin<=sysdate()");
+        $resultado = $conexion->prepare("SELECT * FROM CONVOCATORIAS WHERE fecha_inicio<=sysdate() and fecha_fin>=sysdate()");
         $resultado->execute();
 
         $Convocatorias = null;
@@ -169,8 +175,9 @@ class BD_CONVOCATORIA
                 $fechaListadoDefinitivo = $tuplas->fechaListadoDefinitivo;
                 $codigo_proyecto = $tuplas->codigo_proyecto;
                 $destino=$tuplas->pais_destino;
+                $nombre=$tuplas->nombre;
                 $Proyecto = BD_PROYECTO::FindByID($codigo_proyecto);
-                $Convocatoria = new CONVOCATORIA($id_convocatoria, $num_movilidades, $tipo, $fecha_inicio, $fecha_fin, $fechainicioPruebas, $fechafinPruebas, $fechaListadoProvisional, $fechaListadoDefinitivo, $Proyecto,$destino);
+                $Convocatoria = new CONVOCATORIA($id_convocatoria, $num_movilidades, $tipo, $fecha_inicio, $fecha_fin, $fechainicioPruebas, $fechafinPruebas, $fechaListadoProvisional, $fechaListadoDefinitivo, $Proyecto,$destino,$nombre);
                 $Convocatorias[] = $Convocatoria;
                 $i++;
             }

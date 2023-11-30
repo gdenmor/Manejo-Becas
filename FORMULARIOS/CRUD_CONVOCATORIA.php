@@ -1,10 +1,14 @@
 <?php
-    require_once "../HELPERS/AUTOLOAD.php";
+    SESSION::CreaSesion();
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
         
         $num_errores=0;
         $crea=isset($_POST['crea'])?$_POST['crea']:"";
+        $logout=isset($_POST['logout'])?$_POST['logout']:"";
         $actualiza=isset($_POST['actualiza'])?$_POST['actualiza']:"";
+        if ($logout){
+            SESSION::Cerrar_Sesion();
+        }
         if ($crea){
             $proyecto=$_POST['proyecto'];
             $movilidades=$_POST['movilidades'];
@@ -15,8 +19,15 @@
             $fechafinPruebas=$_POST['fechafinPruebas'];
             $fechalistadoprovisional=$_POST['fechalistadoprovisional'];
             $fechalistadodefinitivo=$_POST['fechalistadodefinitivo'];
+            $nombre=$_POST['nombre'];
 
             $validador=new VALIDATOR();
+
+            if ($validador->validaNombre($nombre,100,1)){
+
+            }else{
+                $num_errores++;
+            }
 
             if ($validador->validaNombre($proyecto,100,1)){
 
@@ -72,7 +83,7 @@
                 $num_errores++;
             }
 
-            $destinatarios=BD_DESTINATARIOS::FindAll();
+            /*$destinatarios=BD_DESTINATARIOS::FindAll();
             $desti=[];
             for ($i = 0; $i<count($destinatarios); $i++) {
                 if (isset($_POST['boton' . $i])) {
@@ -85,9 +96,9 @@
 
             }else{
                 $num_errores++;
-            }
+            }*/
 
-            $baremo=[];
+            /*$baremo=[];
             $baremos=BD_ITEMBAREMABLE::FindAll();
             for ($i = 0; $i<count($baremos); $i++) {
                 if (isset($_POST['boton_baremo' . $i])) {
@@ -131,7 +142,7 @@
                 $apor=true;
             }else{
                 $apor=false;
-            }
+            }*/
 
             if ($num_errores==0){
                 $Proyecto=BD_PROYECTO::FindByNombre($proyecto);
@@ -146,14 +157,14 @@
                     $tipo="Corta";
                 }
                 
-                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino);
+                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino,$nombre);
                 BD_CONVOCATORIA::Insert($convocatoria);
 
                 $id=BD_CONVOCATORIA::sacarID();
 
                 $convocatoria->setID($id);
                 
-                for ($i=0;$i<count($baremo);$i++){
+                /*for ($i=0;$i<count($baremo);$i++){
                     $baremoelegido=$baremo[$i];
                     if ($baremoelegido->getNombre()!=="Idioma"){
                         $convocatoria_baremable=new CONVOCATORIA_BAREMABLE(null,$convocatoria,$baremoelegido,$maxima,$req,$minimo,$apor);
@@ -167,7 +178,9 @@
                     $destielegido=$desti[$i];
                     $destinatario_conv=new DESTINATARIO_CONVOCATORIA(null,$convocatoria,$destinatario);
                     BD_DESTINATARIOS_CONVOCATORIAS::Insert($destinatario_conv);
-                }
+                }*/
+            }else{
+                echo $num_errores;
             }
 
         }
@@ -183,6 +196,13 @@
             $fechafinPruebas=$_POST['fechafinPruebas'];
             $fechalistadoprovisional=$_POST['fechalistadoprovisional'];
             $fechalistadodefinitivo=$_POST['fechalistadodefinitivo'];
+            $nombre=$_POST['nombre'];
+
+            if ($validador->validaNombre($nombre,100,1)){
+
+            }else{
+                $num_errores++;
+            }
 
             $validador=new VALIDATOR();
 
@@ -314,7 +334,7 @@
                     $tipo="Corta";
                 }
                 
-                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino);
+                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino,$nombre);
                 BD_CONVOCATORIA::UpdateByID($id,$convocatoria);
                 
                 /*for ($i=0;$i<count($baremo);$i++){
@@ -348,17 +368,17 @@
 
 <body>
     <main>
-        <h1>CREACIÓN CONVOCATORIA</h1>
+        <h1 id="titulo">CREACIÓN CONVOCATORIA</h1>
         <h2>Si desea actualizar los baremos no serán actualizables</h2>
-        <section>
+        <section id="section-general">
             <form method="post">
-                <span>ID:</span>
-                <input type="number" text="id" name="id">
-                <span>Proyecto:</span>
-                <select name="proyecto" id="select">
+                <span id="span-nombre">NOMBRE</span>
+                <input id="txtNombre" type="text" name="nombre">
+                <span id="span-id">ID:</span>
+                <input id="txt-id" type="number" text="id" name="id">
+                <span id="span-proyecto">Proyecto:</span>
+                <select id="select-proyecto" name="proyecto" id="select">
                     <?php
-                    require_once "../HELPERS/AUTOLOAD.php";
-                    AUTOLOAD::AutoLoad();
                     $proyectos = BD_PROYECTO::FindAll();
                     if ($proyectos != null) {
                         for ($i = 0; $i < count($proyectos); $i++) {
@@ -369,16 +389,14 @@
                     }
                     ?>
                 </select><br>
-                <span>Destinatario:</span>
-                <table border="1">
+                <span id="span-destinatario">Destinatario:</span>
+                <table id="tabla-destinatario" border="1">
                     <thead>
-                        <th>NOMBRE</th>
+                        <th>NOMBRE:</th>
                         <th>MARCADO</th>
                     </thead>
                     <tbody>
                         <?php
-                        require_once "../HELPERS/AUTOLOAD.php";
-                        AUTOLOAD::AutoLoad();
                         $destinatarios = BD_DESTINATARIOS::FindAll();
                         if ($destinatarios != null) {
                             for ($i = 0; $i < count($destinatarios); $i++) {
@@ -393,24 +411,24 @@
                         ?>
                     </tbody>
                 </table><br>
-                <span>Movilidades</span>
-                <input name="movilidades" type="number"><br>
-                <span>País de destino:</span>
-                <input name="destino" type="text"><br>
-                <span>Fecha de inicio:</span>
-                <input name="fechainicio" type="datetime-local"><br>
-                <span>Fecha de fin:</span>
-                <input name="fechafin" type="datetime-local"><br>
-                <span>Fecha Inicio de Pruebas:</span>
-                <input name="fechainicioPruebas" type="datetime-local"><br>
-                <span>Fecha Fin de Pruebas:</span>
-                <input name="fechafinPruebas" type="datetime-local"><br>
-                <span>Fecha Listado Provisional:</span>
-                <input name="fechalistadoprovisional" type="datetime-local"><br>
-                <span>Fecha Listado Definitivo:</span>
-                <input name="fechalistadodefinitivo" type="datetime-local"><br>
-                <span>BAREMOS:</span><br>
-                <table>
+                <span id="span-movilidades">Movilidades</span>
+                <input id="txt-movilidades" name="movilidades" type="number"><br>
+                <span id="span-pais">País de destino:</span>
+                <input id="txt-pais" name="destino" type="text"><br>
+                <span id="span-fecha-inicio">Fecha de inicio:</span>
+                <input id="fecha-inicio" name="fechainicio" type="datetime-local"><br>
+                <span id="span-fecha-fin">Fecha de fin:</span>
+                <input id="fecha-fin" name="fechafin" type="datetime-local"><br>
+                <span id="span-fecha-inicio-pruebas">Fecha Inicio de Pruebas:</span>
+                <input id="fecha-inicio-pruebas" name="fechainicioPruebas" type="datetime-local"><br>
+                <span id="span-fecha-fin-pruebas">Fecha Fin de Pruebas:</span>
+                <input id="fecha-fin-pruebas" name="fechafinPruebas" type="datetime-local"><br>
+                <span id="span-fecha-provisional">Fecha Listado Provisional:</span>
+                <input id="fecha-provisional" name="fechalistadoprovisional" type="datetime-local"><br>
+                <span id="span-definitivo">Fecha Listado Definitivo:</span>
+                <input id="fecha-definitivo" name="fechalistadodefinitivo" type="datetime-local"><br>
+                <span id="span-baremo">BAREMOS:</span><br>
+                <table id="tabla-baremo">
                     <thead>
                         <th>MARCADO</th>
                         <th>NOMBRE BAREMO</th>
@@ -421,8 +439,6 @@
                     </thead>
                     <tbody>
                         <?php
-                        require_once "../HELPERS/AUTOLOAD.php";
-                        AUTOLOAD::AutoLoad();
                         $baremos = BD_ITEMBAREMABLE::FindAll();
                         if ($baremos != null) {
                             for ($i = 0; $i < count($baremos); $i++) {
@@ -441,8 +457,33 @@
                         ?>
                     </tbody>
                 </table>
-                <input type="submit" value="CREAR CONVOCATORIA" name="crea">
-                <input type="submit" value="ACTUALIZAR CONVOCATORIA" name="actualiza">
+                <table id="tabla-idioma">
+                    <thead>
+                        <th>NIVEL</th>
+                        <th>NOTA</th>
+                    </thead>
+                    <tbody>
+                        <?php
+                        $idiomas = BD_IDIOMA::FindAll();
+                        if ($idiomas != null) {
+                            for ($i = 0; $i < count($idiomas); $i++) {
+                                $idioma = $idiomas[$i];
+                                echo '<tr>
+                                    <td>' . $idiomas[$i]->getTitulo() . '</td>
+                                    <td><input name="maxima" type="number step="any""></td>
+                                </tr>';
+                            }
+                        }
+
+                        ?>
+                    </tbody>
+                </table>
+                <input name="logout" type="submit" value="CERRAR SESIÓN" id="logout">
+                <section id="botones">
+                    <input id="crea" type="submit" value="CREAR CONVOCATORIA" name="crea">
+                    <input id="actualiza" type="submit" value="ACTUALIZAR CONVOCATORIA" name="actualiza">
+                    <a href="http://localhost/Manejo-Becas/index.php?menu=mostrarConvocatorias"><input id="mostrar" type="button" value="MOSTRAR CONVOCATORIAS"></a>
+                </section>
             </form>
         </section>
     </main>

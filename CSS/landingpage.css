@@ -8,9 +8,19 @@
     text-align: center;
 }
 
-#principal-div form input{
-    position: absolute;
-    top: 2%;
-    right: 0%;
+
+#principal-div form input[type="submit"] {
     background-color: rgb(33, 160, 33);
+    color: #fff; 
+    padding: 1%; 
+    font-size: 16px; 
+    border: none;
+    position: absolute;
+    top: 1%;
+    right: 0%;
+}
+
+/* Optional: Add hover effect */
+#principal-div form input[type="submit"]:hover {
+    background-color: #218c21; /* Darker green on hover */
 }

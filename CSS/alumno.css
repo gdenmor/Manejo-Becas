@@ -1,0 +1,15 @@
+#imagen {
+    width: 2%;
+    margin-left: 1%;
+}
+
+#div {
+    display: flex;
+    align-items: center; /* Add this line to center items vertically */
+}
+
+#section {
+    display: flex;
+    flex-direction: column; /* Change to column for vertical alignment */
+    align-items: center; /* Add this line to center items horizontally */
+}

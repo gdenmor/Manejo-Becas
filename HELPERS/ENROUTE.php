@@ -10,7 +10,11 @@ if (isset($_GET['menu'])) {
     }else if ($_GET['menu']=="alumno"){
         require_once "../Manejo-Becas/FORMULARIOS/CONVOCATORIA_ALUMNO.php";
     }else if ($_GET['menu']=="admin"){
-        require_once "../Manejo-Becas/FORMULARIOS/ADMIN.php";
+        require_once "../Manejo-Becas/FORMULARIOS/CRUD_CONVOCATORIA.php";
+    }else if ($_GET['menu']=="solicitud"){
+        require_once "../Manejo-Becas/FORMULARIOS/FORMULARIO_SOLICITUD.php";
+    }else if ($_GET['menu']=="mostrarConvocatorias"){
+        require_once "../Manejo-Becas/FORMULARIOS/MUESTRACONVOCATORIAS.php";
     }else{
         SESSION::Cerrar_Sesion();
     }
