@@ -11,11 +11,11 @@
         }
 
         public function getConvocatoria(){
-            $this->convocatoria;
+            return $this->convocatoria;
         }
 
         public function getDestinatario(){
-            $this->destinatario;
+            return $this->destinatario;
         }
 
         public function setConvocatoria($convocatoria){

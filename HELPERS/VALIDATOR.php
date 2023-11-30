@@ -61,7 +61,8 @@
 
         public function validaFecha($fecha){
             $fechaactual=new DateTime();
-            if ($fechaactual<=$fecha){
+            $fechas=new DateTime($fecha);
+            if ($fechaactual<=$fechas){
                 return true;
             }else{
                 return false;

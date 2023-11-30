@@ -10,6 +10,7 @@
         private $fechaListadoProvisional;
         private $fechaListadoDefinitivo;
         private $Proyecto;
+        private $pais_destino;
 
         // Constructor
         public function __construct(
@@ -22,7 +23,8 @@
             $fechaFinPruebas,
             $fechaListadoProvisional,
             $fechaListadoDefinitivo,
-            $Proyecto
+            $Proyecto,
+            $pais_destino
             ) {
             $this->id_convocatoria=$id_convocatoria;
             $this->num_movilidades = $num_movilidades;
@@ -34,6 +36,19 @@
             $this->fechaListadoProvisional = $fechaListadoProvisional;
             $this->fechaListadoDefinitivo=$fechaListadoDefinitivo;
             $this->Proyecto = $Proyecto;
+            $this->pais_destino=$pais_destino;
+        }
+
+        public function getPais(){
+            return $this->pais_destino;
+        }
+
+        public function setPais($pais_destino){
+            $this->pais_destino=$pais_destino;
+        }
+
+        public function setID($id){
+            $this->id_convocatoria=$id;
         }
 
         // Setter para el número de movilidades
@@ -112,7 +127,7 @@
         }
 
         // Getter para la fecha de fin de baremación
-        public function getFechaFinBaremacion() {
+        public function getFechaFinPruebas() {
             return $this->fechaFinPruebas;
         }
 

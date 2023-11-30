@@ -71,8 +71,8 @@
 
         public static function Insert($objeto){
             $conexion=CONEXION::AbreConexion();
-            $id_convocatoria=$objeto->getConvocatoria()->getIdConvocatoria();
             $codigo_grupo=$objeto->getDestinatario()->getCodigoGrupo();
+            $id_convocatoria=$objeto->getConvocatoria()->getIdConvocatoria();
             
 
             $resultado=$conexion->prepare("INSERT INTO DESTINATARIOS_CONVOCATORIAS (id_convocatoria,codigo_grupo) values (:id_convocatoria,:codigo_grupo)");

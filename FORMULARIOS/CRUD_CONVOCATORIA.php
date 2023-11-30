@@ -1,8 +1,10 @@
 <?php
     require_once "../HELPERS/AUTOLOAD.php";
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
+        
         $num_errores=0;
-        $crea=$_POST['crea']?$_POST['crea']:"";
+        $crea=isset($_POST['crea'])?$_POST['crea']:"";
+        $actualiza=isset($_POST['actualiza'])?$_POST['actualiza']:"";
         if ($crea){
             $proyecto=$_POST['proyecto'];
             $movilidades=$_POST['movilidades'];
@@ -52,30 +54,30 @@
                 $num_errores++;
             }
 
-            if ($validador->validaFecha($fechafinPruebas)&&$fechainicioPruebas >= $fechainicio&&$fechainicioPruebas<=$fechafin&&$fechainicioPruebas<$fechafinPruebas){
+            if ($validador->validaFecha($fechafinPruebas)&&$fechainicioPruebas<$fechafinPruebas){
 
             }else{
                 $num_errores++;
             }
 
-            if ($validador->validaFecha($fechalistadoprovisional)&&$fechalistadoprovisional>$fechafin){
+            if ($validador->validaFecha($fechalistadoprovisional)&&$fechalistadoprovisional>$fechafinPruebas){
 
             }else{
                 $num_errores++;
             }
 
-            if ($validador->validaFecha($fechalistadodefinitivo)&&$fechalistadodefinitivo>$fechalistadodefinitivo){
+            if ($validador->validaFecha($fechalistadodefinitivo)&&$fechalistadodefinitivo>$fechalistadoprovisional){
 
             }else{
                 $num_errores++;
             }
 
             $destinatarios=BD_DESTINATARIOS::FindAll();
-            $desti="";
+            $desti=[];
             for ($i = 0; $i<count($destinatarios); $i++) {
                 if (isset($_POST['boton' . $i])) {
                     $destinatario=$destinatarios[$i];
-                    $desti=$destinatario;
+                    $desti[]=$destinatario;
                 }
             }
 
@@ -85,12 +87,12 @@
                 $num_errores++;
             }
 
-            $baremo="";
+            $baremo=[];
             $baremos=BD_ITEMBAREMABLE::FindAll();
             for ($i = 0; $i<count($baremos); $i++) {
                 if (isset($_POST['boton_baremo' . $i])) {
                     $bar=$baremos[$i];
-                    $baremo=$bar;
+                    $baremo[]=$bar;
                 }
             }
 
@@ -100,11 +102,240 @@
                 $num_errores++;
             }
 
-            if ($num_errores==0){
+            $maxima=$_POST['maxima'];
+            if ($maxima>1){
 
+            }else{
+                $num_errores++;
+            }
+
+            $requisito=$_POST['requisito'];
+            $minimo=$_POST['minima'];
+            $aporta=$_POST['aporta'];
+
+            if ($minimo>0){
+
+            }else{
+                $num_errores++;
+            }
+
+            $req="";
+            if ($requisito=="Sí"){
+                $req=true;
+            }else{
+                $req=false;
+            }
+
+            $apor="";
+            if ($aporta=="Sí"){
+                $apor=true;
+            }else{
+                $apor=false;
+            }
+
+            if ($num_errores==0){
+                $Proyecto=BD_PROYECTO::FindByNombre($proyecto);
+                $tipo="";
+                $fechaini=new DateTime($fechainicio);
+                $fechaf=new DateTime($fechafin);
+                $diff=$fechaf->diff($fechaini);
+                $dias=$diff->days;
+                if ($dias>=90){
+                    $tipo="Larga";
+                }else{
+                    $tipo="Corta";
+                }
+                
+                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino);
+                BD_CONVOCATORIA::Insert($convocatoria);
+
+                $id=BD_CONVOCATORIA::sacarID();
+
+                $convocatoria->setID($id);
+                
+                for ($i=0;$i<count($baremo);$i++){
+                    $baremoelegido=$baremo[$i];
+                    if ($baremoelegido->getNombre()!=="Idioma"){
+                        $convocatoria_baremable=new CONVOCATORIA_BAREMABLE(null,$convocatoria,$baremoelegido,$maxima,$req,$minimo,$apor);
+                        BD_CONVOCATORIA_BAREMABLE::Insert($convocatoria_baremable);
+                    }else{
+
+                    }
+                }
+
+                for ($i=0;$i<count($desti);$i++){
+                    $destielegido=$desti[$i];
+                    $destinatario_conv=new DESTINATARIO_CONVOCATORIA(null,$convocatoria,$destinatario);
+                    BD_DESTINATARIOS_CONVOCATORIAS::Insert($destinatario_conv);
+                }
             }
 
         }
+
+        if ($actualiza){
+            $id=$_POST['id'];
+            $proyecto=$_POST['proyecto'];
+            $movilidades=$_POST['movilidades'];
+            $destino=$_POST['destino'];
+            $fechainicio=$_POST['fechainicio'];
+            $fechafin=$_POST['fechafin'];
+            $fechainicioPruebas=$_POST['fechainicioPruebas'];
+            $fechafinPruebas=$_POST['fechafinPruebas'];
+            $fechalistadoprovisional=$_POST['fechalistadoprovisional'];
+            $fechalistadodefinitivo=$_POST['fechalistadodefinitivo'];
+
+            $validador=new VALIDATOR();
+
+            if ($validador->validaNombre($proyecto,100,1)){
+
+            }else{
+                $num_errores++;
+            }
+
+            if ($movilidades>0){
+
+            }else{
+                $num_errores++;
+            }
+
+            if ($validador->validaNombre($destino,100,1)){
+
+            }else{
+                $num_errores++;
+            }
+
+            if ($validador->validaFecha($fechainicio)){
+
+            }else{
+                $num_errores++;
+            }
+
+            if ($validador->validaFecha($fechafin)&&$fechafin>$fechainicio){
+
+            }else{
+                $num_errores++;
+            }
+
+            if ($validador->validaFecha($fechainicioPruebas)&&$fechainicioPruebas >= $fechainicio&&$fechainicioPruebas<=$fechafin){
+
+            }else{
+                $num_errores++;
+            }
+
+            if ($validador->validaFecha($fechafinPruebas)&&$fechainicioPruebas<$fechafinPruebas){
+
+            }else{
+                $num_errores++;
+            }
+
+            if ($validador->validaFecha($fechalistadoprovisional)&&$fechalistadoprovisional>$fechafinPruebas){
+
+            }else{
+                $num_errores++;
+            }
+
+            if ($validador->validaFecha($fechalistadodefinitivo)&&$fechalistadodefinitivo>$fechalistadoprovisional){
+
+            }else{
+                $num_errores++;
+            }
+
+            $destinatarios=BD_DESTINATARIOS::FindAll();
+            $desti=[];
+            for ($i = 0; $i<count($destinatarios); $i++) {
+                if (isset($_POST['boton' . $i])) {
+                    $destinatario=$destinatarios[$i];
+                    $desti[]=$destinatario;
+                }
+            }
+
+            if ($desti!=null){
+
+            }else{
+                $num_errores++;
+            }
+
+            $baremo=[];
+            $baremos=BD_ITEMBAREMABLE::FindAll();
+            for ($i = 0; $i<count($baremos); $i++) {
+                if (isset($_POST['boton_baremo' . $i])) {
+                    $bar=$baremos[$i];
+                    $baremo[]=$bar;
+                }
+            }
+
+            if ($baremo!=null){
+                
+            }else{
+                $num_errores++;
+            }
+
+            $maxima=$_POST['maxima'];
+            if ($maxima>1){
+
+            }else{
+                $num_errores++;
+            }
+
+            $requisito=$_POST['requisito'];
+            $minimo=$_POST['minima'];
+            $aporta=$_POST['aporta'];
+
+            if ($minimo>0){
+
+            }else{
+                $num_errores++;
+            }
+
+            $req="";
+            if ($requisito=="Sí"){
+                $req=true;
+            }else{
+                $req=false;
+            }
+
+            $apor="";
+            if ($aporta=="Sí"){
+                $apor=true;
+            }else{
+                $apor=false;
+            }
+
+            if ($num_errores==0){
+                $Proyecto=BD_PROYECTO::FindByNombre($proyecto);
+                $tipo="";
+                $fechaini=new DateTime($fechainicio);
+                $fechaf=new DateTime($fechafin);
+                $diff=$fechaf->diff($fechaini);
+                $dias=$diff->days;
+                if ($dias>=90){
+                    $tipo="Larga";
+                }else{
+                    $tipo="Corta";
+                }
+                
+                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino);
+                BD_CONVOCATORIA::UpdateByID($id,$convocatoria);
+                
+                /*for ($i=0;$i<count($baremo);$i++){
+                    $baremoelegido=$baremo[$i];
+                    if ($baremoelegido->getNombre()!=="Idioma"){
+                        $convocatoria_baremable=new CONVOCATORIA_BAREMABLE(null,$convocatoria,$baremoelegido,$maxima,$req,$minimo,$apor);
+                        BD_CONVOCATORIA_BAREMABLE::Insert($convocatoria_baremable);
+                    }else{
+
+                    }
+                }
+
+                for ($i=0;$i<count($desti);$i++){
+                    $destielegido=$desti[$i];
+                    $destinatario_conv=new DESTINATARIO_CONVOCATORIA(null,$convocatoria,$destinatario);
+                    BD_DESTINATARIOS_CONVOCATORIAS::Insert($destinatario_conv);
+                }*/
+            }
+        }
+
+        
     }
 ?>
 <!DOCTYPE html>
@@ -118,8 +349,11 @@
 <body>
     <main>
         <h1>CREACIÓN CONVOCATORIA</h1>
+        <h2>Si desea actualizar los baremos no serán actualizables</h2>
         <section>
             <form method="post">
+                <span>ID:</span>
+                <input type="number" text="id" name="id">
                 <span>Proyecto:</span>
                 <select name="proyecto" id="select">
                     <?php
@@ -196,10 +430,10 @@
                                 echo '<tr>
                                     <td>  <input type="checkbox" name="boton_baremo'.$i.'"> </td>
                                     <td>' . $baremo->getNombre() . '</td>
-                                    <td><input type="number"></td>
-                                    <td><select><option>Sí</option><option>No</option></select></td>
-                                    <td><input type="number"></td>
-                                    <td><select><option>Sí</option><option>No</option></select></td>
+                                    <td><input name="maxima" type="number"></td>
+                                    <td><select name="requisito"><option>Sí</option><option>No</option></select></td>
+                                    <td><input name="minima" type="number"></td>
+                                    <td><select name="aporta"><option>Sí</option><option>No</option></select></td>
                                 </tr>';
                             }
                         }
@@ -208,6 +442,7 @@
                     </tbody>
                 </table>
                 <input type="submit" value="CREAR CONVOCATORIA" name="crea">
+                <input type="submit" value="ACTUALIZAR CONVOCATORIA" name="actualiza">
             </form>
         </section>
     </main>

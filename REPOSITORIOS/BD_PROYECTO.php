@@ -23,6 +23,29 @@
             return $Proyectos;
         }
 
+        public static function FindByNombre($nombre){
+            $conexion = CONEXION::AbreConexion();
+            $resultado = $conexion->prepare("SELECT * FROM PROYECTOS WHERE nombre=:nombre");
+            $resultado->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+            $resultado->execute();
+        
+            $Proyecto = null;
+        
+            if ($resultado) {
+                $tuplas = $resultado->fetch(PDO::FETCH_OBJ);
+        
+                if ($tuplas) {
+                    $nombre=$tuplas->nombre;
+                    $codigo_proyecto=$tuplas->codigo_proyecto;
+                    $fecha_inicio=$tuplas->fecha_inicio;
+                    $fecha_fin=$tuplas->fecha_fin;
+                    $Proyecto=new PROYECTO($codigo_proyecto,$nombre,$fecha_inicio,$fecha_fin);
+                }
+            }
+        
+            return $Proyecto;
+        }
+
         public static function FindByID($codigo_proyecto){
             $conexion = CONEXION::AbreConexion();
             $resultado = $conexion->prepare("SELECT * FROM PROYECTOS WHERE codigo_proyecto=:codigo_proyecto");
@@ -36,6 +59,7 @@
         
                 if ($tuplas) {
                     $nombre=$tuplas->nombre;
+                    $codigo_proyecto=$tuplas->codigo_proyecto;
                     $fecha_inicio=$tuplas->fecha_inicio;
                     $fecha_fin=$tuplas->fecha_fin;
                     $Proyecto=new PROYECTO($codigo_proyecto,$nombre,$fecha_inicio,$fecha_fin);
