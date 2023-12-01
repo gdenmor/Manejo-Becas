@@ -117,6 +117,7 @@ class BD_CONVOCATORIA
     public static function Insert($objeto)
     {
         $conexion = CONEXION::AbreConexion();
+        $conexion->beginTransaction();
         $num_movilidades = $objeto->getNumMovilidades();
         $tipo = $objeto->getTipo();
         $fecha_inicio = $objeto->getFechaInicio();
@@ -188,7 +189,7 @@ class BD_CONVOCATORIA
 
     public static function sacarID(){
         $conexion = CONEXION::AbreConexion();
-        $resultado = $conexion->prepare("select count(id_convocatoria) as numeros from CONVOCATORIAS");
+        $resultado = $conexion->prepare("select last_insert_id() as id");
         $resultado->execute();
 
         $Convocatorias = null;
@@ -197,7 +198,7 @@ class BD_CONVOCATORIA
 
 
         while ($tuplas = $resultado->fetch(PDO::FETCH_OBJ)) {
-            $id=$tuplas->numeros;
+            $id = $tuplas->id;
         }
 
         return $id;

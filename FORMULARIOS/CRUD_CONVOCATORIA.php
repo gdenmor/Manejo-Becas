@@ -83,7 +83,7 @@
                 $num_errores++;
             }
 
-            /*$destinatarios=BD_DESTINATARIOS::FindAll();
+            $destinatarios=BD_DESTINATARIOS::FindAll();
             $desti=[];
             for ($i = 0; $i<count($destinatarios); $i++) {
                 if (isset($_POST['boton' . $i])) {
@@ -96,53 +96,60 @@
 
             }else{
                 $num_errores++;
-            }*/
+            }
 
-            /*$baremo=[];
+            $maximas = [];
+            $requisitos = [];
+            $minimas = [];
+            $aportas = [];
+            $baremo=[];
             $baremos=BD_ITEMBAREMABLE::FindAll();
-            for ($i = 0; $i<count($baremos); $i++) {
-                if (isset($_POST['boton_baremo' . $i])) {
+            for ($i = 0; $i < count($baremos); $i++) {
+                if (isset($_POST['boton_baremo'.$i])){
+                    $maximas[] = isset($_POST['maxima'.$i]) ? $_POST['maxima'.$i] : 0;
+                    $requisitos[] = isset($_POST['requisito'.$i]) && $_POST['requisito'.$i] == 'Sí';
+                    $minimas[] = isset($_POST['minima'.$i]) ? $_POST['minima'.$i] : 0;
+                    $aportas[] = isset($_POST['aporta'.$i]) && $_POST['aporta'.$i] == 'Sí';
                     $bar=$baremos[$i];
                     $baremo[]=$bar;
                 }
             }
-
+            
             if ($baremo!=null){
-                
+                for ($i=0;$i<count($maximas);$i++){
+                    if ($maximas[$i]>1){
+    
+                    }else{
+                        $num_errores++;
+                    }
+                }
+    
+                for ($i=0;$i<count($requisitos);$i++){
+                    if ($requisitos[$i]!==null){
+    
+                    }else{
+                        $num_errores++;
+                    }
+                }
+    
+                for ($i=0;$i<count($minimas);$i++){
+                    if ($minimas[$i]>0){
+                        
+                    }else{
+                        $num_errores++;
+                    }
+                }
+    
+                for ($i=0;$i<count($aportas);$i++){
+                    if ($aportas[$i]>0){
+    
+                    }else{
+                        $num_errores++;
+                    }
+                }
             }else{
                 $num_errores++;
             }
-
-            $maxima=$_POST['maxima'];
-            if ($maxima>1){
-
-            }else{
-                $num_errores++;
-            }
-
-            $requisito=$_POST['requisito'];
-            $minimo=$_POST['minima'];
-            $aporta=$_POST['aporta'];
-
-            if ($minimo>0){
-
-            }else{
-                $num_errores++;
-            }
-
-            $req="";
-            if ($requisito=="Sí"){
-                $req=true;
-            }else{
-                $req=false;
-            }
-
-            $apor="";
-            if ($aporta=="Sí"){
-                $apor=true;
-            }else{
-                $apor=false;
-            }*/
 
             if ($num_errores==0){
                 $Proyecto=BD_PROYECTO::FindByNombre($proyecto);
@@ -164,21 +171,36 @@
 
                 $convocatoria->setID($id);
                 
-                /*for ($i=0;$i<count($baremo);$i++){
+                for ($i=0;$i<count($baremo);$i++){
                     $baremoelegido=$baremo[$i];
                     if ($baremoelegido->getNombre()!=="Idioma"){
-                        $convocatoria_baremable=new CONVOCATORIA_BAREMABLE(null,$convocatoria,$baremoelegido,$maxima,$req,$minimo,$apor);
+                        $convocatoria_baremable=new CONVOCATORIA_BAREMABLE(null,$convocatoria,$baremoelegido,$maximas[$i],$requisitos[$i],$minimas[$i],$aportas[$i]);
                         BD_CONVOCATORIA_BAREMABLE::Insert($convocatoria_baremable);
                     }else{
+                        $idiomas = BD_IDIOMA::FindAll();
+                        $notas = [];
 
+                        for ($j = 0; $j < count($idiomas); $j++) {
+                            $idioma = $idiomas[$j];
+                            $nota = isset($_POST['maximaidioma' . $j]) ? $_POST['maximaidioma' . $j] : 0;
+                            $notas[] = $nota;
+
+                            // Puedes validar la nota aquí según tus requisitos
+                            // ...
+
+                            // Guardar la nota en la base de datos
+                            $convocatoria_baremable_idioma = new CONVOCATORIA_BAREMABLE_IDIOMA(null, $convocatoria, $idioma, $baremoelegido, $nota);
+                            BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremable_idioma);
+                        }
                     }
+
                 }
 
                 for ($i=0;$i<count($desti);$i++){
                     $destielegido=$desti[$i];
                     $destinatario_conv=new DESTINATARIO_CONVOCATORIA(null,$convocatoria,$destinatario);
                     BD_DESTINATARIOS_CONVOCATORIAS::Insert($destinatario_conv);
-                }*/
+                }
             }else{
                 echo $num_errores;
             }
@@ -290,36 +312,6 @@
                 $num_errores++;
             }
 
-            $maxima=$_POST['maxima'];
-            if ($maxima>1){
-
-            }else{
-                $num_errores++;
-            }
-
-            $requisito=$_POST['requisito'];
-            $minimo=$_POST['minima'];
-            $aporta=$_POST['aporta'];
-
-            if ($minimo>0){
-
-            }else{
-                $num_errores++;
-            }
-
-            $req="";
-            if ($requisito=="Sí"){
-                $req=true;
-            }else{
-                $req=false;
-            }
-
-            $apor="";
-            if ($aporta=="Sí"){
-                $apor=true;
-            }else{
-                $apor=false;
-            }
 
             if ($num_errores==0){
                 $Proyecto=BD_PROYECTO::FindByNombre($proyecto);
@@ -336,26 +328,8 @@
                 
                 $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino,$nombre);
                 BD_CONVOCATORIA::UpdateByID($id,$convocatoria);
-                
-                /*for ($i=0;$i<count($baremo);$i++){
-                    $baremoelegido=$baremo[$i];
-                    if ($baremoelegido->getNombre()!=="Idioma"){
-                        $convocatoria_baremable=new CONVOCATORIA_BAREMABLE(null,$convocatoria,$baremoelegido,$maxima,$req,$minimo,$apor);
-                        BD_CONVOCATORIA_BAREMABLE::Insert($convocatoria_baremable);
-                    }else{
-
-                    }
-                }
-
-                for ($i=0;$i<count($desti);$i++){
-                    $destielegido=$desti[$i];
-                    $destinatario_conv=new DESTINATARIO_CONVOCATORIA(null,$convocatoria,$destinatario);
-                    BD_DESTINATARIOS_CONVOCATORIAS::Insert($destinatario_conv);
-                }*/
             }
         }
-
-        
     }
 ?>
 <!DOCTYPE html>
@@ -446,11 +420,13 @@
                                 echo '<tr>
                                     <td>  <input type="checkbox" name="boton_baremo'.$i.'"> </td>
                                     <td>' . $baremo->getNombre() . '</td>
-                                    <td><input name="maxima" type="number"></td>
-                                    <td><select name="requisito"><option>Sí</option><option>No</option></select></td>
-                                    <td><input name="minima" type="number"></td>
-                                    <td><select name="aporta"><option>Sí</option><option>No</option></select></td>
-                                </tr>';
+                                    <td><input name="maxima'.$i.'" type="number"></td>';
+                                    if ($baremo->getNombre()!="Idioma"){
+                                        echo '<td><select name="requisito'.$i.'"><option>Sí</option><option>No</option></select></td>';
+                                        echo '<td><input name="minima'.$i.'" type="number"></td>';
+                                        echo '<td><select name="aporta'.$i.'"><option>Sí</option><option>No</option></select></td>';
+                                    }
+                                echo '</tr>';
                             }
                         }
 
@@ -470,7 +446,7 @@
                                 $idioma = $idiomas[$i];
                                 echo '<tr>
                                     <td>' . $idiomas[$i]->getTitulo() . '</td>
-                                    <td><input name="maxima" type="number step="any""></td>
+                                    <td><input name="maximaidioma'.$i.'" type="number step="any""></td>
                                 </tr>';
                             }
                         }

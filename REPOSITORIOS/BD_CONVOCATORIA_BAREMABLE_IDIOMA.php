@@ -95,7 +95,7 @@ class BD_CONVOCATORIA_BAREMABLE_IDIOMA
         $id_baremo =$objeto->getBaremo()->getIdBaremo();
         $notaidioma =$objeto->getNota_Idioma();
 
-        $resultado = $conexion->prepare("INSERT INTO CONVOCATORIA_BAREMABLE_IDIOMA (id_convocatoria,id_idioma,id_baremo,nota_idioma) values (:id_convocatoria,:id_idioma,:id_baremo,:nota_idioma)");
+        $resultado = $conexion->prepare("INSERT INTO CONVOCATORIA_BAREMABLES_IDIOMA (id_convocatoria,id_idioma,id_baremo,nota_idioma) values (:id_convocatoria,:id_idioma,:id_baremo,:nota_idioma)");
         $resultado->bindParam(":id_convocatoria", $id_convocatoria, PDO::PARAM_INT);
         $resultado->bindParam(":id_idioma", $id_idioma, PDO::PARAM_INT);
         $resultado->bindParam(":id_baremo", $id_baremo, PDO::PARAM_BOOL);
