@@ -1,0 +1,11 @@
+.baremos{
+    display: flex; 
+    align-items: center;
+}
+.baremos label{
+    margin-right: 0.5%;
+}
+
+.pdf{
+    margin-left: 5%;
+}

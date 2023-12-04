@@ -161,8 +161,11 @@ window.addEventListener("load", async function () {
                         "Content-type": "application/json"
                     }
                 })
-            }else {
-                alert("Error en la solicitud de Candidato_Convocatoria");
+                if (pdf.status==200){
+                    window.location.reload();
+                }
+            }else if (responseCandidatoConvocatoria.status==400){
+                alert("Ya ha realizado una solicitud este usuario");
             }
         } catch (error) {
             console.error("Error:", error);

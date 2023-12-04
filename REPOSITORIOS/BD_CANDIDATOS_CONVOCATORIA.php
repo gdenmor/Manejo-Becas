@@ -37,7 +37,7 @@
         public static function FindByID($id_candidato_convocatoria){
             $conexion = CONEXION::AbreConexion();
             $resultado = $conexion->prepare("SELECT * FROM CANDIDATOS_CONVOCATORIA WHERE id_candidato_convocatoria=:id_candidato_convocatoria");
-            $resultado->bindParam(':id_convocatoria', $id_candidato_convocatoria, PDO::PARAM_INT);
+            $resultado->bindParam(':id_candidato_convocatoria', $id_candidato_convocatoria, PDO::PARAM_INT);
             $resultado->execute();
         
             $Candidato_Convocatoria = null;
@@ -54,7 +54,7 @@
                     $apellido1=$tuplas->apellido1;
                     $apellido2=$tuplas->apellido2;
                     $nombre=$tuplas->nombre;
-                    $contraseña=$tuplas->contraseña;
+                    $contraseña=$tuplas->contrasena;
                     $curso=$tuplas->curso;
                     $tlf=$tuplas->tlf;
                     $correo=$tuplas->correo;
@@ -65,6 +65,18 @@
             }
         
             return $Candidato_Convocatoria;
+        }
+
+        public static function CompruebaHaSolicitado($DNI){
+            $conexion=CONEXION::AbreConexion();
+            $resultado=$conexion->prepare("SELECT count(*) as solicitudes from CANDIDATOS_CONVOCATORIA where DNI=:DNI");
+            $resultado->bindParam(":DNI",$DNI,PDO::PARAM_STR);
+            $resultado->execute();
+            $num=0;
+            while ($tuplas=$resultado->fetch(PDO::FETCH_OBJ)){
+                $num=$tuplas->solicitudes;
+            }
+            return $num;
         }
 
         public static function DeleteByID($id_candidato_convocatoria){

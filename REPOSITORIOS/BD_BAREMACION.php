@@ -14,11 +14,12 @@
         while ($tuplas = $resultado->fetch(PDO::FETCH_OBJ)) {
             $id_baremacion = $tuplas->id_baremacion;
             $id_candidato_convocatoria = $tuplas->id_candidato_convocatoria;
+            $candidato_convocatoria=BD_CANDIDATOS_CONVOCATORIA::FindByID($id_candidato_convocatoria);
             $id_item = $tuplas->id_item;
             $item = BD_ITEMBAREMABLE::FindByID($id_item);
             $nota = $tuplas->nota;
             $url=$tuplas->url;
-            $Baremacion = new BAREMACION($id_baremacion,$id_candidato_convocatoria,$item,$nota,$url);
+            $Baremacion = new BAREMACION($id_baremacion,$candidato_convocatoria,$item,$nota,$url);
             $Baremaciones[] = $Baremacion;
             $i++;
         }
