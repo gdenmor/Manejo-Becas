@@ -43,6 +43,9 @@
         $candidato_convocatoria->tutor_legal,$candidato_convocatoria->apellido1,$candidato_convocatoria->apellido2,$candidato_convocatoria->nombre,$candidato_convocatoria->contrasena,
         $candidato_convocatoria->curso,$candidato_convocatoria->tlf,$candidato_convocatoria->correo,$candidato_convocatoria->domicilio,$candidato_convocatoria->rol);
         BD_CANDIDATOS_CONVOCATORIA::Insert($can_conv);
+        http_response_code(200);
+        $id=BD_CONVOCATORIA::sacarID();
+        echo json_encode($id);
     }
 
     if ($_SERVER["REQUEST_METHOD"]=="PUT"){

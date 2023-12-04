@@ -118,7 +118,7 @@
             $conexion=CONEXION::AbreConexion();
             $fecha_nacimiento=$objeto->getFechaNacimiento();
             $DNI_tutor_legal="";
-            if ($objeto->getTutorLegal()!==""){
+            if ($objeto->getTutorLegal()!==null){
                 $DNI_tutor_legal=$objeto->getTutorLegal()->getDNI();
             }
             $apellido1=$objeto->getApellido1();

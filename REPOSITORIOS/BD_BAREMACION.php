@@ -12,7 +12,7 @@
 
 
         while ($tuplas = $resultado->fetch(PDO::FETCH_OBJ)) {
-            $id_baremacion = $tuplas->id_convocatoria_baremable_idioma;
+            $id_baremacion = $tuplas->id_baremacion;
             $id_candidato_convocatoria = $tuplas->id_candidato_convocatoria;
             $id_item = $tuplas->id_item;
             $item = BD_ITEMBAREMABLE::FindByID($id_item);
@@ -89,7 +89,8 @@
         $url = $objeto->getURL();
         $id_candidato_convocatoria = $objeto->getCandidatoConvocatoria()->getID_Candidatos_Convocatoria();
 
-        $resultado = $conexion->prepare("INSERT INTO BAREMACION(id_candidato_convocatoria, id_item, nota, url) VALUES (:id_candidato_convocatoria, :id_item, :nota, :url)");
+        $resultado = $conexion->prepare("INSERT INTO BAREMACION(id_candidato_convocatoria, id_item, nota, url) VALUES 
+        (:id_candidato_convocatoria, :id_item, :nota, :url)");
         $resultado->bindParam(":id_candidato_convocatoria", $id_candidato_convocatoria, PDO::PARAM_INT);
         $resultado->bindParam(":id_item", $id_item, PDO::PARAM_INT);
         $resultado->bindParam(":nota", $nota, PDO::PARAM_INT);

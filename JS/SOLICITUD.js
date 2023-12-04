@@ -1,10 +1,8 @@
-window.addEventListener("load", function () {
+window.addEventListener("load", async function () {
     const solicitar = this.document.getElementsByName("solicita")[0];
     var parametros = new URLSearchParams(this.window.location.search);
     var dni = parametros.get("dni");
     var idConvocatoria = parametros.get("idConvocatoria");
-
-    var candidato = null;
 
 
     //sacamos los datos introducidos
@@ -23,32 +21,30 @@ window.addEventListener("load", function () {
     const item = [];
     var i = 0;
 
-    fetch("../Manejo-Becas/APIS/apiCandidato.php?dni=" + dni, {
+    const fetchcandidato=await fetch("../Manejo-Becas/APIS/apiCandidato.php?dni=" + dni, {
         headers: {
             "Content-type": "application/json"
         },
         method: "GET"
     })
-        .then(x => x.json())
-        .then(y => {
-            var candidato = new CANDIDATO(y.DNI, y.fecha_nacimiento, y.tutor_legal, y.apellido1, y.apellido2, y.nombre, y.contraseña, y.tlf, y.curso, y.correo, y.domicilio, y.rol);
-            DNI.value = candidato.DNI;
-            nombre.value = candidato.nombre;
-            apellido1.value = candidato.apellido1;
-            apellido2.value = candidato.apellido2;
-            contraseña.value = candidato.contrasena;
-            correo.value = candidato.correo;
-            domicilio.value = candidato.domicilio;
-            rol.value = candidato.rol;
-        });
 
-    this.fetch("../Manejo-Becas/APIS/apiConvocatoriaBaremable.php?convocatoria=" + idConvocatoria, {
+    const jsonCandidato= await fetchcandidato.json();
+    const candidato = new CANDIDATO(jsonCandidato.DNI, jsonCandidato.fecha_nacimiento, jsonCandidato.tutor_legal, jsonCandidato.apellido1, jsonCandidato.apellido2, jsonCandidato.nombre, jsonCandidato.contraseña, jsonCandidato.tlf, jsonCandidato.curso, jsonCandidato.correo, jsonCandidato.domicilio, jsonCandidato.rol);
+    DNI.value = candidato.DNI;
+    nombre.value = candidato.nombre;
+    apellido1.value = candidato.apellido1;
+    apellido2.value = candidato.apellido2;
+    contraseña.value = candidato.contrasena;
+    correo.value = candidato.correo;
+    domicilio.value = candidato.domicilio;
+    rol.value = candidato.rol;
+
+    const apiConvocatoriaBaremable= await fetch("../Manejo-Becas/APIS/apiConvocatoriaBaremable.php?convocatoria=" + idConvocatoria, {
         headers: {
             "Content-type": "application/json"
         }
     })
-        .then(x => x.json())
-        .then(y => {
+    const jsonConvocatoriaBaremable= await apiConvocatoriaBaremable.json();
             var tabla = this.document.createElement("table");
             var tbody = this.document.createElement("tbody");
             var thead = this.document.createElement("thead");
@@ -62,7 +58,7 @@ window.addEventListener("load", function () {
             thead.appendChild(tr);
             tabla.appendChild(thead);
 
-            y.forEach(element => {
+            jsonConvocatoriaBaremable.forEach(element => {
                 var fila = this.document.createElement("tr");
                 var td = this.document.createElement("td");
                 td.innerHTML = element.baremo.nombre;
@@ -81,49 +77,97 @@ window.addEventListener("load", function () {
             });
             tabla.appendChild(tbody);
             contenido_registro.appendChild(tabla);
-        });
 
-    solicitar.addEventListener("click", function (ev) {
+    solicitar.addEventListener("click", async function (ev) {
         ev.preventDefault();
-        var convocatoria = null;
-        fetch("../Manejo-Becas/APIS/apiConvocatoria.php?id=" + idConvocatoria, {
-            headers: {
-                "Content-type": "application/json"
-            }
-        })
-        .then(x => x.json())
-            .then(y => {
+        try {
+            // Obtener convocatoria
+            const responseConvocatoria = await fetch('../Manejo-Becas/APIS/apiConvocatoria.php?id='+idConvocatoria, {
+                headers: {
+                    "Content-type": "application/json"
+                }
+            });
+            const convocatoriaData = await responseConvocatoria.json();
+            const convocatoria = new CONVOCATORIA(idConvocatoria, convocatoriaData.num_movilidades, convocatoriaData.fecha_inicio, convocatoriaData.fecha_fin, convocatoriaData.fechainicioPruebas, convocatoriaData.fechaFinPruebas, convocatoriaData.fechaListadoProvisional, convocatoriaData.fechaListadoDefinitivo, convocatoriaData.Proyecto, convocatoriaData.pais_destino,convocatoriaData.nombre);
+    
+            // Iniciar transacción
+            const inicioTransaccion=await fetch("../Manejo-Becas/APIS/apiinicioTransaccion.php", {
+                method: "POST"
+            });
+
+
+
+            const candidato_convocatoria = new CANDIDATO_CONVOCATORIA(
+                null,
+                convocatoria,
+                DNI.value,
+                candidato.fecha_nacimiento,
+                candidato.tutor_legal,
+                apellido1.value,
+                apellido2.value,
+                nombre.value,
+                contraseña.value,
+                curso.value,
+                tlf.value,
+                correo.value,
+                domicilio.value,
+                rol.value
+            );
+            console.log(JSON.stringify(candidato_convocatoria));
+    
+            // Enviar solicitud de Candidato_Convocatoria
+            const responseCandidatoConvocatoria = await fetch("../Manejo-Becas/APIS/apiCandidatoConvocatoria.php", {
+                method: "POST",
+                body: JSON.stringify(candidato_convocatoria),
+                headers: {
+                    "Content-type": "application/json"
+                }
+            });
+            if (responseCandidatoConvocatoria.status === 200) {
+                alert("Solicitud enviada correctamente");
+    
                 debugger;
-                convocatoria = new CONVOCATORIA(idConvocatoria, y.num_movilidades, y.fecha_inicio, y.fecha_fin, y.fechainicioPruebas, y.fechaFinPruebas, y.fechaListadoProvisional, y.fechaListadoDefinitivo, y.Proyecto, y.pais_destino,y.nombre);
-                console.log(convocatoria);
-                candidato = new CANDIDATO(DNI.value, nacimiento.value, "", apellido1.value, apellido2.value, nombre.value, contraseña.value, tlf.value, curso.value, correo.value, domicilio.value, rol.value);
-                var candidato_convocatoria = new CANDIDATO_CONVOCATORIA(null, convocatoria, candidato.DNI, candidato.fecha_nacimiento, candidato.tutor_legal, candidato.apellido1, candidato.apellido2,
-                candidato.nombre, candidato.contrasena, candidato.curso, candidato.tlf, candidato.correo, candidato.domicilio, candidato.rol);
+                const idData = parseInt(await responseCandidatoConvocatoria.json());
+                candidato_convocatoria.id_candidato_convocatoria = idData;
+    
+                // Procesar archivos
                 const archivo = document.getElementsByClassName("Archivos");
                 for (let i = 0; i < archivo.length; i++) {
-                    var formData = new FormData();
-                    console.log(archivo[i].files[0]);
+                    var formData=new FormData();
                     if (archivo[i].files.length > 0 && archivo[i].files[0].type == "application/pdf") {
                         formData.append("archivo", archivo[i].files[0]);
                         baremacion = new BAREMACION(null, candidato_convocatoria, item[i], null, null);
                         formData.append("baremacion", JSON.stringify(baremacion));
                         console.log(JSON.stringify(baremacion));
+                        alert(JSON.stringify(baremacion));
                         formData.append("submit", "hola");
                         fetch("../Manejo-Becas/APIS/apiBaremacion.php", {
                             method: "POST",
                             body: formData,
-                        })
+                        }).then(x=>{
+                            if (x.status==200){
+                                alert("Archivo subido");
+                            }else{
+                                alert("Error");
+                            }
+                        });
                     }
                 }
-                fetch("../Manejo-Becas/APIS/apiCandidatoConvocatoria.php",{
+
+                const pdf=await fetch("../Manejo-Becas/APIS/apiCreaPDF.php",{
                     method: "POST",
-                    body: JSON.stringify(candidato_convocatoria),
+                    body: JSON.stringify(baremacion),
                     headers:{
                         "Content-type": "application/json"
                     }
                 })
-            });
-
-
+            }else {
+                alert("Error en la solicitud de Candidato_Convocatoria");
+            }
+        } catch (error) {
+            console.error("Error:", error);
+            alert("Error en la transacción");
+        }
+               
     })
 })
