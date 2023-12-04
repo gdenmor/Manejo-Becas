@@ -64,6 +64,14 @@
             $resultado->execute();
         }
 
+        public static function DeleteByID_Convocatoria($id_convocatoria){
+            $conexion=CONEXION::AbreConexion();
+
+            $resultado=$conexion->prepare("DELETE from CONVOCATORIA_BAREMABLE where id_convocatoria=:id_convocatoria");
+            $resultado->bindParam(":id_convocatoria",$id_convocatoria,PDO::PARAM_INT);
+            $resultado->execute();
+        }
+
         public static function UpdateByID($id_convocatoria_baremable,$objetoActualizado){
             $conexion=CONEXION::AbreConexion();
             $id_convocatoria=$objetoActualizado->getConvocatoria()->getIdConvocatoria();
@@ -106,6 +114,33 @@
             $resultado->bindParam(":aportaalumno",$aportaalumno,PDO::PARAM_BOOL);
             $resultado->bindParam(":id_convocatoria",$id_convocatoria,PDO::PARAM_INT);
             $resultado->execute();
+        }
+
+        public static function BaremosDeConvocatoria($id_convocatoria){
+            $conexion = CONEXION::AbreConexion();
+            $resultado = $conexion->prepare("SELECT * FROM CONVOCATORIA_BAREMABLE WHERE id_convocatoria=:id_convocatoria");
+            $resultado->bindParam(':id_convocatoria', $id_convocatoria, PDO::PARAM_INT);
+            $resultado->execute();
+
+            $array=[];
+        
+            $Convocatoria_Baremable = null;
+        
+            while ($tuplas=$resultado->fetch(PDO::FETCH_OBJ)) {
+                    $id_convocatoria_baremable=$tuplas->id_convocatoria_baremable;
+                    $id_convocatoria=$tuplas->id_convocatoria;
+                    $convocatoria=BD_CONVOCATORIA::FindByID($id_convocatoria);
+                    $id_baremo=$tuplas->id_baremo;
+                    $baremo=BD_ITEMBAREMABLE::FindByID($id_baremo);
+                    $maximo=$tuplas->maximo;
+                    $requisito=$tuplas->requisito;
+                    $minimo=$tuplas->minimo;
+                    $aportaalumno=$tuplas->aportaalumno;
+                    $Convocatoria_Baremable=new CONVOCATORIA_BAREMABLE($id_convocatoria_baremable,$convocatoria,$baremo,$maximo,$requisito,$minimo,$aportaalumno);
+                    $array[]=$Convocatoria_Baremable;
+            }
+        
+            return $array;
         }
     }
 ?>

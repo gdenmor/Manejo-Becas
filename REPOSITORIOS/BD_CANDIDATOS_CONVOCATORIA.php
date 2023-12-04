@@ -117,7 +117,10 @@
         public static function Insert($objeto){
             $conexion=CONEXION::AbreConexion();
             $fecha_nacimiento=$objeto->getFechaNacimiento();
-            $DNI_tutor_legal=$objeto->getTutorLegal()->getDNI();
+            $DNI_tutor_legal="";
+            if ($objeto->getTutorLegal()!==""){
+                $DNI_tutor_legal=$objeto->getTutorLegal()->getDNI();
+            }
             $apellido1=$objeto->getApellido1();
             $apellido2=$objeto->getApellido2();
             $nombre=$objeto->getNombre();
@@ -131,22 +134,20 @@
             $id_convocatoria=$objeto->getConvocatoria()->getIdConvocatoria();
             
 
-            $resultado=$conexion->prepare("INSERT INTO CANDIDATOS_CONVOCATORIA (id_convocatoria,DNI,fecha_nacimiento,tutor_dni,apellido1,apellido2,nombre,contraseña,curso,tlf,correo,domicilio,rol) values (:id_convocatoria,upper(:DNI),:fecha_nacimiento,upper(:DNI_tutor),upper(:apellido1),upper(:apellido2),upper(:nombre),upper(:contraseña),upper(:curso),upper(:tlf),upper(:correo),upper(:domicilio),upper(:rol))");
+            $resultado=$conexion->prepare("INSERT INTO CANDIDATOS_CONVOCATORIA (id_convocatoria,DNI,fecha_nacimiento,tutor_dni,apellido1,apellido2,nombre,contrasena,curso,tlf,correo,domicilio,rol) values (:id_convocatoria,upper(:DNI),:fecha_nacimiento,upper(:DNI_tutor),upper(:apellido1),upper(:apellido2),upper(:nombre),upper(:contrasena),upper(:curso),upper(:tlf),upper(:correo),upper(:domicilio),upper(:rol))");
+            $resultado->bindParam(":id_convocatoria",$id_convocatoria,PDO::PARAM_INT);
+            $resultado->bindParam(":DNI",$DNI,PDO::PARAM_STR);
+            $resultado->bindParam(":fecha_nacimiento",$fecha_nacimiento,PDO::PARAM_STR);
+            $resultado->bindParam(":DNI_tutor",$DNI_tutor_legal,PDO::PARAM_STR);
             $resultado->bindParam(":apellido1",$apellido1,PDO::PARAM_STR);
             $resultado->bindParam(":apellido2",$apellido2,PDO::PARAM_STR);
             $resultado->bindParam(":nombre",$nombre,PDO::PARAM_STR);
-            $resultado->bindParam(":domicilio",$domicilio,PDO::PARAM_STR);
-            $resultado->bindParam(":tlf",$tlf,PDO::PARAM_STR);
-            $resultado->bindParam(":DNI_tutor",$DNI_tutor_legal,PDO::PARAM_STR);
-            $resultado->bindParam(":contraseña",$contraseña,PDO::PARAM_STR);
+            $resultado->bindParam(":contrasena",$contraseña,PDO::PARAM_STR);
             $resultado->bindParam(":curso",$curso,PDO::PARAM_STR);
+            $resultado->bindParam(":tlf",$tlf,PDO::PARAM_STR);
             $resultado->bindParam(":correo",$correo,PDO::PARAM_STR);
             $resultado->bindParam(":domicilio",$domicilio,PDO::PARAM_STR);
-            $resultado->bindParam(":tlf",$tlf,PDO::PARAM_STR);
-            $resultado->bindParam(":fecha_nacimiento",$fecha_nacimiento,PDO::PARAM_STR);
-            $resultado->bindParam(":DNI",$DNI,PDO::PARAM_STR);
             $resultado->bindParam(":rol",$rol,PDO::PARAM_STR);
-            $resultado->bindParam(":id_convocatoria",$id_convocatoria,PDO::PARAM_INT);
             $resultado->execute();
         }
     }

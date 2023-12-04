@@ -84,17 +84,13 @@
     public static function Insert($objeto)
     {
         $conexion = CONEXION::AbreConexion();
-        $dni=$objeto->getDNI();
-        $id_convocatoria = $objeto->getIdConvocatoria();
         $id_item = $objeto->getItem()->getID_Item();
         $nota = $objeto->getNota();
-        $url=$objeto->getURL();
+        $url = $objeto->getURL();
+        $id_candidato_convocatoria = $objeto->getCandidatoConvocatoria()->getID_Candidatos_Convocatoria();
 
-
-
-        $resultado = $conexion->prepare("INSERT INTO BAREMACION(id_candidato_convocatoria,id_item,nota,url) values (:id_candidato_convocatoria,:id_item,:nota,:url)");
-        $resultado->bindParam(":id_candidato_convocatoria", $id_convocatoria, PDO::PARAM_INT);
-        $resultado->bindParam(":dni", $dni, PDO::PARAM_STR);
+        $resultado = $conexion->prepare("INSERT INTO BAREMACION(id_candidato_convocatoria, id_item, nota, url) VALUES (:id_candidato_convocatoria, :id_item, :nota, :url)");
+        $resultado->bindParam(":id_candidato_convocatoria", $id_candidato_convocatoria, PDO::PARAM_INT);
         $resultado->bindParam(":id_item", $id_item, PDO::PARAM_INT);
         $resultado->bindParam(":nota", $nota, PDO::PARAM_INT);
         $resultado->bindParam(":url", $url, PDO::PARAM_STR);

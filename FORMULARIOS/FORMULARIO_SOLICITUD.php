@@ -1,6 +1,6 @@
 <h1>FORMULARIO SOLICITUD</h1>
 <main id="contenedor-registro">
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <section id="contenido-registro">
             <section id="contenedor-DNI-registro">
                 <article id="lblDNI-registro">
@@ -76,6 +76,39 @@
                     
                 </article>
             </section>
+            <section>
+                <article>
+                    <label>Fecha de Nacimiento</label>
+                </article>
+                <article>
+                    <input type="datetime-local" name="nacimiento">
+                </article>
+            </section>
+            <section>
+                <article>
+                    <label>Curso</label>
+                </article>
+                <article>
+                    <input type="text" name="curso">
+                </article>
+            </section>
+            <section>
+                <article>
+                    <label>Teléfono:</label>
+                </article>
+                <article>
+                    <input type="text" name="tlf">
+                </article>
+            </section>
+            <section>
+                <article>
+                    <label>Rol:</label>
+                </article>
+                <article>
+                    <input type="text" name="rol">
+                </article>
+            </section>
+            
         </section>
         <section id="btns-Login">
             <input type="submit" value="SOLICITAR" name="solicita">

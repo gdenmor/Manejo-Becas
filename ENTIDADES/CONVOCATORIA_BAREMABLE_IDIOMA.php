@@ -1,5 +1,5 @@
 <?php
-    class CONVOCATORIA_BAREMABLE_IDIOMA{
+    class CONVOCATORIA_BAREMABLE_IDIOMA implements \JsonSerializable{
         private $id_convocatoria_baremable_idioma;
         private $convocatoria;
         private $idioma;
@@ -60,6 +60,15 @@
         // Getter para el id del baremo
         public function getIdBaremo() {
             return $this->id_baremo;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 

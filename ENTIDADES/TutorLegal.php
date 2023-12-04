@@ -1,6 +1,6 @@
 <?php
 
-class TutorLegal {
+class TutorLegal implements \JsonSerializable{
     private $DNI;
     private $apellido1;
     private $apellido2;
@@ -75,6 +75,15 @@ class TutorLegal {
     // Setter para el DNI
     public function setDNI($dni) {
         $this->DNI = $dni;
+    }
+
+    public function toJSON(){
+        return json_encode(get_object_vars($this));
+    }
+
+    public function jsonSerialize(){
+        $var=get_object_vars($this);
+        return $var;
     }
 
 }

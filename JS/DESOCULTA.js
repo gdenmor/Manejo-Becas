@@ -1,4 +1,7 @@
 window.addEventListener("load",function(){
+
+    if (window.location.href.includes("admin")) {
+
     const tabla=this.document.getElementById("tabla-baremo");
 
     const filas=tabla.getElementsByTagName("tr");
@@ -23,6 +26,7 @@ window.addEventListener("load",function(){
                 })
             }
         }
+    }
     }
 
 });

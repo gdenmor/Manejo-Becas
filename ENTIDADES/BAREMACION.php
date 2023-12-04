@@ -1,5 +1,5 @@
 <?php
-    class BAREMACION{
+    class BAREMACION implements \JsonSerializable{
         private $id_baremacion;
         private $id_candidato_convocatoria;
         private $item;
@@ -45,7 +45,7 @@
         }
 
         // Getter para el ID de la convocatoria
-        public function getConvocatoria() {
+        public function getCandidatoConvocatoria() {
             return $this->id_candidato_convocatoria;
         }
 
@@ -62,6 +62,15 @@
         // Getter para la URL
         public function getURL() {
             return $this->url;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 

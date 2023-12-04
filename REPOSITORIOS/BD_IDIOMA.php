@@ -27,18 +27,18 @@
             $resultado->bindParam(':id_idioma', $id_idioma, PDO::PARAM_INT);
             $resultado->execute();
         
-            $Item = null;
+            $Idioma = null;
         
             if ($resultado) {
                 $tuplas = $resultado->fetch(PDO::FETCH_OBJ);
         
                 if ($tuplas) {
-                    $nivel=$tuplas->nivel;
-                    $Idioma=new NIVEL_IDIOMA($id_idioma,$nivel);
+                    $nivel=$tuplas->titulo;
+                    $Idioma=new NIVEL_IDIOMA($nivel,$id_idioma);
                 }
             }
         
-            return $Item;
+            return $Idioma;
         }
 
         public static function DeleteByID($id_idioma){

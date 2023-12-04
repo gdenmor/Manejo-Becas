@@ -1,5 +1,5 @@
 <?php
-    class PROYECTO{
+    class PROYECTO implements \JsonSerializable{
         private $codigo_proyecto;
         private $nombre;
         private $fecha_inicio;
@@ -46,6 +46,15 @@
         // Getter para la fecha de fin
         public function getFechaFin() {
             return $this->fecha_fin;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 

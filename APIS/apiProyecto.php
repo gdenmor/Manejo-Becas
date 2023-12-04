@@ -1,14 +1,13 @@
 <?php
     require_once "../HELPERS/AUTOLOAD.php";
     if ($_SERVER["REQUEST_METHOD"]=="GET"){
-        $DNI=$_GET['dni'];
-        if (isset($DNI)){
-            $validador=new VALIDATOR();
-            if ($validador->validaDNI($DNI)){
-                $candidato=BD_CANDIDATO::FindByID($DNI);
-                $cand=$candidato->toJSON();
+        $id=$_GET['id'];
+        if (isset($id)){
+            if ($id!==""){
+                $proyecto=BD_PROYECTO::FindByID($id);
+                $pro=$proyecto->toJSON();
                 http_response_code(200);
-                echo $cand;
+                echo $pro;
             }else{
                 http_response_code(300);
             }
@@ -18,11 +17,10 @@
     }
 
     if ($_SERVER["REQUEST_METHOD"]=="DELETE"){
-        $DNI=$_GET['dni'];
-        if (isset($DNI)){
-            $validador=new VALIDATOR();
-            if ($validador->validaDNI($DNI)){
-                BD_CANDIDATO::DeleteByID($DNI);
+        $id=$_GET['id'];
+        if (isset($id)){
+            if ($id!==""){
+                BD_PROYECTO::DeleteByID($id);
                 http_response_code(200);
             }else{
                 http_response_code(300);

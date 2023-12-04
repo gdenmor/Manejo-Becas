@@ -1,5 +1,5 @@
 <?php
-    class NIVEL_IDIOMA{
+    class NIVEL_IDIOMA implements \JsonSerializable{
         private $id_idioma;
         private $titulo;
 
@@ -22,6 +22,15 @@
         // Getter para el título del idioma
         public function getTitulo() {
             return $this->titulo;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 

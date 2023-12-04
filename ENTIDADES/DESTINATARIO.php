@@ -1,5 +1,5 @@
 <?php
-    class Destinatario {
+    class Destinatario implements \JsonSerializable{
         private $codigo_grupo;
         private $nombre;
     
@@ -22,6 +22,15 @@
         // Getter para el nombre del grupo
         public function getNombre() {
             return $this->nombre;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 

@@ -1,5 +1,5 @@
 <?php
-    class ITEM_BAREMABLE{
+    class ITEM_BAREMABLE implements \JsonSerializable{
         private $id_item;
         private $nombre;
 
@@ -22,6 +22,15 @@
 
         public function setNombre($nombre){
             $this->nombre=$nombre;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 

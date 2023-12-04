@@ -1,5 +1,5 @@
 <?php
-    class CANDIDATOS_CONVOCATORIA{
+    class CANDIDATOS_CONVOCATORIA implements \JsonSerializable{
         private $id_candidatos_convocatoria;
         private $convocatoria;
         private $dni;
@@ -146,6 +146,15 @@
         // Getter para el DNI del candidato
         public function getDNI() {
             return $this->dni;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 ?>

@@ -1,5 +1,5 @@
 <?php
-    class CANDIDATO{
+    class CANDIDATO implements \JsonSerializable{
         private $DNI;
         private $fecha_nacimiento;
         private $tutor_legal;
@@ -123,6 +123,17 @@
             $this->domicilio=$domicilio;
             $this->rol=$rol;
         }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
+        }
+
+        
 
     }
 

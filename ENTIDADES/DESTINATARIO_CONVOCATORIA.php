@@ -1,5 +1,5 @@
 <?php
-    class DESTINATARIO_CONVOCATORIA{
+    class DESTINATARIO_CONVOCATORIA implements \JsonSerializable{
         private $id_destinatario_convocatoria;
         private $convocatoria;
         private $destinatario;
@@ -32,6 +32,15 @@
 
         public function setID_Destinatario_Convocatoria($id_destinatario_convocatoria){
             $this->id_destinatario_convocatoria=$id_destinatario_convocatoria;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 

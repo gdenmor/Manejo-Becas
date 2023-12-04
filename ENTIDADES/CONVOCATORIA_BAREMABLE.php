@@ -1,5 +1,5 @@
 <?php
-    class CONVOCATORIA_BAREMABLE{
+    class CONVOCATORIA_BAREMABLE implements \JsonSerializable{
         private $id_convocatoria_baremable;
         private $convocatoria;
         private $baremo;
@@ -84,6 +84,15 @@
 
         public function setAportaAlumno($aportaalumno) {
             $this->minimo = $aportaalumno;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 

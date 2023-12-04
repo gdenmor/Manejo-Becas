@@ -80,7 +80,6 @@
             $resultado->bindParam(":codigo_grupo",$codigo_grupo,PDO::PARAM_STR);
             
             $resultado->execute();
-            $conexion->commit();
         }
     }
 ?>

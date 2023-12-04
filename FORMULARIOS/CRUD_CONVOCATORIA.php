@@ -27,60 +27,70 @@
 
             }else{
                 $num_errores++;
+                echo "Nombre no válido";
             }
 
             if ($validador->validaNombre($proyecto,100,1)){
 
             }else{
                 $num_errores++;
+                echo "Proyecto no válido";
             }
 
             if ($movilidades>0){
 
             }else{
                 $num_errores++;
+                echo "Movilidades no válidas";
             }
 
             if ($validador->validaNombre($destino,100,1)){
 
             }else{
                 $num_errores++;
+                echo "Destino no válido";
             }
 
             if ($validador->validaFecha($fechainicio)){
 
             }else{
                 $num_errores++;
+                echo "Fcha inicio no válida";
             }
 
             if ($validador->validaFecha($fechafin)&&$fechafin>$fechainicio){
 
             }else{
                 $num_errores++;
+                echo "Fecha fin no válida";
             }
 
             if ($validador->validaFecha($fechainicioPruebas)&&$fechainicioPruebas >= $fechainicio&&$fechainicioPruebas<=$fechafin){
 
             }else{
                 $num_errores++;
+                echo "Fecha inicio pruebas no válida";
             }
 
             if ($validador->validaFecha($fechafinPruebas)&&$fechainicioPruebas<$fechafinPruebas){
 
             }else{
                 $num_errores++;
+                echo "Fecha fin pruebas no válida";
             }
 
             if ($validador->validaFecha($fechalistadoprovisional)&&$fechalistadoprovisional>$fechafinPruebas){
 
             }else{
                 $num_errores++;
+                echo "Fecha listado provisional no válida";
             }
 
             if ($validador->validaFecha($fechalistadodefinitivo)&&$fechalistadodefinitivo>$fechalistadoprovisional){
 
             }else{
                 $num_errores++;
+                echo "Fecha listado definitivo no válido";
             }
 
             $destinatarios=BD_DESTINATARIOS::FindAll();
@@ -96,8 +106,9 @@
 
             }else{
                 $num_errores++;
+                echo "No existen desinatarios";
             }
-
+            
             $maximas = [];
             $requisitos = [];
             $minimas = [];
@@ -106,12 +117,14 @@
             $baremos=BD_ITEMBAREMABLE::FindAll();
             for ($i = 0; $i < count($baremos); $i++) {
                 if (isset($_POST['boton_baremo'.$i])){
-                    $maximas[] = isset($_POST['maxima'.$i]) ? $_POST['maxima'.$i] : 0;
-                    $requisitos[] = isset($_POST['requisito'.$i]) && $_POST['requisito'.$i] == 'Sí';
-                    $minimas[] = isset($_POST['minima'.$i]) ? $_POST['minima'.$i] : 0;
-                    $aportas[] = isset($_POST['aporta'.$i]) && $_POST['aporta'.$i] == 'Sí';
-                    $bar=$baremos[$i];
-                    $baremo[]=$bar;
+                    if ($baremos[$i]->getNombre()!=="Idioma"){
+                        $bar=$baremos[$i];
+                        $maximas[] = $_POST['maxima'.$i];
+                        $requisitos[] = $_POST['requisito'.$i];
+                        $minimas[] = $_POST['minima'.$i];
+                        $aportas[] = $_POST['aporta'.$i];
+                        $baremo[]=$bar;
+                    }
                 }
             }
             
@@ -121,6 +134,7 @@
     
                     }else{
                         $num_errores++;
+                        echo "Nota máxima no válida";
                     }
                 }
     
@@ -129,6 +143,7 @@
     
                     }else{
                         $num_errores++;
+                        echo "Requisito no válido";
                     }
                 }
     
@@ -137,6 +152,7 @@
                         
                     }else{
                         $num_errores++;
+                        echo "Nota mínima no válida";
                     }
                 }
     
@@ -145,6 +161,7 @@
     
                     }else{
                         $num_errores++;
+                        echo "No has puesto si lo aporta o no";
                     }
                 }
             }else{
@@ -152,55 +169,10 @@
             }
 
             if ($num_errores==0){
-                $Proyecto=BD_PROYECTO::FindByNombre($proyecto);
-                $tipo="";
-                $fechaini=new DateTime($fechainicio);
-                $fechaf=new DateTime($fechafin);
-                $diff=$fechaf->diff($fechaini);
-                $dias=$diff->days;
-                if ($dias>=90){
-                    $tipo="Larga";
-                }else{
-                    $tipo="Corta";
-                }
                 
-                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino,$nombre);
-                BD_CONVOCATORIA::Insert($convocatoria);
-
-                $id=BD_CONVOCATORIA::sacarID();
-
-                $convocatoria->setID($id);
-                
-                for ($i=0;$i<count($baremo);$i++){
-                    $baremoelegido=$baremo[$i];
-                    if ($baremoelegido->getNombre()!=="Idioma"){
-                        $convocatoria_baremable=new CONVOCATORIA_BAREMABLE(null,$convocatoria,$baremoelegido,$maximas[$i],$requisitos[$i],$minimas[$i],$aportas[$i]);
-                        BD_CONVOCATORIA_BAREMABLE::Insert($convocatoria_baremable);
-                    }else{
-                        $idiomas = BD_IDIOMA::FindAll();
-                        $notas = [];
-
-                        for ($j = 0; $j < count($idiomas); $j++) {
-                            $idioma = $idiomas[$j];
-                            $nota = isset($_POST['maximaidioma' . $j]) ? $_POST['maximaidioma' . $j] : 0;
-                            $notas[] = $nota;
-
-                            // Puedes validar la nota aquí según tus requisitos
-                            // ...
-
-                            // Guardar la nota en la base de datos
-                            $convocatoria_baremable_idioma = new CONVOCATORIA_BAREMABLE_IDIOMA(null, $convocatoria, $idioma, $baremoelegido, $nota);
-                            BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremable_idioma);
-                        }
-                    }
-
-                }
-
-                for ($i=0;$i<count($desti);$i++){
-                    $destielegido=$desti[$i];
-                    $destinatario_conv=new DESTINATARIO_CONVOCATORIA(null,$convocatoria,$destinatario);
-                    BD_DESTINATARIOS_CONVOCATORIAS::Insert($destinatario_conv);
-                }
+                BD_CONVOCATORIA::Transaccion($proyecto,$fechainicio,$fechafin,$movilidades,$fechainicioPruebas,
+                $fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$destino,$nombre,$baremo,$desti,$maximas,
+                $requisitos,$minimas,$aportas,$destinatario);
             }else{
                 echo $num_errores;
             }

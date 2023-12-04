@@ -1,5 +1,5 @@
 <?php
-    class CONVOCATORIA{
+    class CONVOCATORIA implements \JsonSerializable{
         private $id_convocatoria;
         private $num_movilidades;
         private $tipo;
@@ -154,6 +154,15 @@
         // Getter para el código de proyecto
         public function getProyecto() {
             return $this->Proyecto;
+        }
+
+        public function toJSON(){
+            return json_encode(get_object_vars($this));
+        }
+
+        public function jsonSerialize(){
+            $var=get_object_vars($this);
+            return $var;
         }
     }
 ?>

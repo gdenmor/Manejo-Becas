@@ -1,5 +1,4 @@
 <?php
-require_once "../Manejo-Becas/ENTIDADES/TUTOR_LEGAL.php";
 class BD_CANDIDATO
 {
     public static function FindAll()
