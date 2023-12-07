@@ -27,8 +27,17 @@
     <script src="./JS/ENTIDADES/PROYECTO.js"></script>
     <script src="./JS/ENTIDADES/TUTOR_LEGAL.js"></script>
     <script src="./JS/ENTIDADES/VALIDADOR.js"></script>
+    <link rel="stylesheet" href="./CSS/solicitud.css">
+    <link rel="stylesheet" href="./CSS/header.css">
+    <link rel="stylesheet" href="./CSS/quienes_somos.css">
+    <link rel="stylesheet" href="./CSS/baremacion.css">
+    <script src="./JS/BAREMAR.js"></script>
+    <script src="./JS/SOLICITUD_ALUMNO.js"></script>
 </head>
 <body>
+    <?php
+        require_once "header.php";
+    ?>
     <?php
         require_once "./HELPERS/ENROUTE.php";
     ?>

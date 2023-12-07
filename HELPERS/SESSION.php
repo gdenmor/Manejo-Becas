@@ -9,8 +9,9 @@
         }
     
         public static function Cerrar_Sesion() {
+            session_start();
             session_destroy();
-            header("Location: ?menu=inicio");
+            header("Location: http://localhost/Manejo-Becas/index.php");
         }
     
         public static function iniciaSesion($clave,$valor,$redireccion){
@@ -20,7 +21,7 @@
         }
 
         public static function estaLogueado($clave) {
-            return isset($_SESSION[$clave]) === true;
+            return isset($_SESSION[$clave]);
         }
     
         public static function CreaSesion(){

@@ -15,14 +15,19 @@ if (isset($_GET['menu'])) {
         require_once "../Manejo-Becas/FORMULARIOS/FORMULARIO_SOLICITUD.php";
     }else if ($_GET['menu']=="mostrarConvocatorias"){
         require_once "../Manejo-Becas/FORMULARIOS/MUESTRACONVOCATORIAS.php";
+    }else if ($_GET['menu']=="quien"){
+        require_once "../Manejo-Becas/FORMULARIOS/QUIENES_SOMOS.php";
+    }else if ($_GET['menu']=="baremo"){
+        require_once "../Manejo-Becas/FORMULARIOS/BAREMAR.php";
+    }else if ($_GET['menu']=="versolicitudes"){
+        require_once "../Manejo-Becas/FORMULARIOS/SOLICITUDES_CONVOCATORIA.php";
+    }else if ($_GET['menu']=="versolicitud"){
+        require_once "../Manejo-Becas/FORMULARIOS/BAREMARSOLICITUD.php";
     }else{
         SESSION::Cerrar_Sesion();
     }
-
-
-}else{
-    require_once '../Manejo-Becas/FORMULARIOS/LANDINPAGE.php';
 }
+?>
 
     
 

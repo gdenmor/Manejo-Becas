@@ -115,6 +115,7 @@
             $aportas = [];
             $baremo=[];
             $baremos=BD_ITEMBAREMABLE::FindAll();
+            $idioma=null;
             for ($i = 0; $i < count($baremos); $i++) {
                 if (isset($_POST['boton_baremo'.$i])){
                     if ($baremos[$i]->getNombre()!=="Idioma"){
@@ -124,6 +125,8 @@
                         $minimas[] = $_POST['minima'.$i];
                         $aportas[] = $_POST['aporta'.$i];
                         $baremo[]=$bar;
+                    }else{
+                        $idioma=$baremos[$i];
                     }
                 }
             }
@@ -169,17 +172,16 @@
             }
 
             if ($num_errores==0){
-                
                 BD_CONVOCATORIA::Transaccion($proyecto,$fechainicio,$fechafin,$movilidades,$fechainicioPruebas,
                 $fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$destino,$nombre,$baremo,$desti,$maximas,
-                $requisitos,$minimas,$aportas,$destinatario);
+                $requisitos,$minimas,$aportas,$idioma);
             }else{
-                echo $num_errores;
+                echo '<p style="margin-left: 50%; z-index: 199;">'.$num_errores.'</p>';
             }
 
         }
 
-        if ($actualiza){
+        /*if ($actualiza){
             $id=$_POST['id'];
             $proyecto=$_POST['proyecto'];
             $movilidades=$_POST['movilidades'];
@@ -301,24 +303,16 @@
                 $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino,$nombre);
                 BD_CONVOCATORIA::UpdateByID($id,$convocatoria);
             }
-        }
+        }*/
     }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 
-<body>
-    <main>
+    <main id="crud">
         <h1 id="titulo">CREACIÓN CONVOCATORIA</h1>
-        <h2>Si desea actualizar los baremos no serán actualizables</h2>
+        <h2 id="subt">Si desea actualizar los baremos no serán actualizables</h2>
         <section id="section-general">
             <form method="post">
-                <span id="span-nombre">NOMBRE</span>
+                <span id="span-nombre">Nombre:</span>
                 <input id="txtNombre" type="text" name="nombre">
                 <span id="span-id">ID:</span>
                 <input id="txt-id" type="number" text="id" name="id">
@@ -373,7 +367,7 @@
                 <input id="fecha-provisional" name="fechalistadoprovisional" type="datetime-local"><br>
                 <span id="span-definitivo">Fecha Listado Definitivo:</span>
                 <input id="fecha-definitivo" name="fechalistadodefinitivo" type="datetime-local"><br>
-                <span id="span-baremo">BAREMOS:</span><br>
+                <span id="span-baremo">Baremos:</span><br>
                 <table id="tabla-baremo">
                     <thead>
                         <th>MARCADO</th>
@@ -393,7 +387,7 @@
                                     <td>  <input type="checkbox" name="boton_baremo'.$i.'"> </td>
                                     <td>' . $baremo->getNombre() . '</td>
                                     <td><input name="maxima'.$i.'" type="number"></td>';
-                                    if ($baremo->getNombre()!="Idioma"){
+                                    if ($baremo->getNombre()!=="Idioma"){
                                         echo '<td><select name="requisito'.$i.'"><option>Sí</option><option>No</option></select></td>';
                                         echo '<td><input name="minima'.$i.'" type="number"></td>';
                                         echo '<td><select name="aporta'.$i.'"><option>Sí</option><option>No</option></select></td>';
@@ -418,7 +412,7 @@
                                 $idioma = $idiomas[$i];
                                 echo '<tr>
                                     <td>' . $idiomas[$i]->getTitulo() . '</td>
-                                    <td><input name="maximaidioma'.$i.'" type="number step="any""></td>
+                                    <td><input name="notaidioma'.$i.'" type="number step="any""></td>
                                 </tr>';
                             }
                         }
@@ -426,15 +420,11 @@
                         ?>
                     </tbody>
                 </table>
-                <input name="logout" type="submit" value="CERRAR SESIÓN" id="logout">
-                <section id="botones">
+        </section>
+        <section id="botones">
                     <input id="crea" type="submit" value="CREAR CONVOCATORIA" name="crea">
                     <input id="actualiza" type="submit" value="ACTUALIZAR CONVOCATORIA" name="actualiza">
                     <a href="http://localhost/Manejo-Becas/index.php?menu=mostrarConvocatorias"><input id="mostrar" type="button" value="MOSTRAR CONVOCATORIAS"></a>
-                </section>
-            </form>
         </section>
+        </form>
     </main>
-</body>
-
-</html>

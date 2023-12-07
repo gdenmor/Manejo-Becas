@@ -28,7 +28,7 @@
             return json_encode(get_object_vars($this));
         }
 
-        public function jsonSerialize(){
+        public function jsonSerialize():array{
             $var=get_object_vars($this);
             return $var;
         }

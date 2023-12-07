@@ -90,9 +90,9 @@ class BD_CONVOCATORIA_BAREMABLE_IDIOMA
     public static function Insert($objeto)
     {
         $conexion = CONEXION::AbreConexion();
-        $id_convocatoria =$objeto->getConvocatoria()->getIdConvocatoria();
+        $id_convocatoria =$objeto->getIdConvocatoria()->getIdConvocatoria();
         $id_idioma =$objeto->getIdioma()->getIdIdioma();
-        $id_baremo =$objeto->getBaremo()->getIdBaremo();
+        $id_baremo =$objeto->getIdBaremo()->getID_Item();
         $notaidioma =$objeto->getNota_Idioma();
 
         $resultado = $conexion->prepare("INSERT INTO CONVOCATORIA_BAREMABLES_IDIOMA (id_convocatoria,id_idioma,id_baremo,nota_idioma) values (:id_convocatoria,:id_idioma,:id_baremo,:nota_idioma)");

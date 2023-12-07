@@ -1,0 +1,55 @@
+#contenedor-contenido {
+    width: 50%;
+    margin: auto;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+#tituloSolicitud {
+    margin-left: 47%;
+}
+
+#contenedor-contenido form {
+    margin-top: 20px;
+}
+
+#contenedor-contenido{
+    margin-left: 35%;
+    overflow: auto;
+    height: 60%;
+    margin-top: 5%;
+    height: 30%;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/*input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}*/
+
+#btns-solicitud {
+    text-align: center;
+}
+
+/*input[type="submit"] {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+input[type="submit"]:hover {
+    background-color: #45a049;
+}*/
+#btn{
+    margin-left: 30%;
+}

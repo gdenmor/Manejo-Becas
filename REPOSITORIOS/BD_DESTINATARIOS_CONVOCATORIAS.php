@@ -37,7 +37,7 @@
         
                 if ($tuplas) {
                     $id_convocatoria=$tuplas->id_convocatoria;
-                    $id_destinatario=$tuplas->id_destinatario;
+                    $id_destinatario=$tuplas->codigo_grupo;
                     $convocatoria=BD_CONVOCATORIA::FindByID($id_convocatoria);
                     $Destinatario=BD_DESTINATARIOS::FindByID($id_destinatario);
                     $Destinatario_Convocatoria=new Destinatario_Convocatoria($id_destinatario_convocatoria,$convocatoria,$Destinatario);

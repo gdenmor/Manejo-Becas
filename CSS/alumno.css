@@ -12,4 +12,72 @@
     display: flex;
     flex-direction: column; /* Change to column for vertical alignment */
     align-items: center; /* Add this line to center items horizontally */
+    margin-left: 32%;
+    border: 1px solid black;
+    width: 60%;
+    margin-top: 15%;
+    background-color: #f0f0f0;
+    height: 55%;
+    overflow: auto;
 }
+
+
+#section h1{
+    text-align: center;
+}
+
+.div{
+    text-align: center;
+}
+
+.imagen{
+    width: 5%;
+}
+
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.convocatoria {
+    justify-content: space-between;
+    margin-bottom: 5%;
+    width: 40%;
+    background-color: #b5cada;
+    margin-top: 5%;
+}
+
+.info-convocatoria {
+    flex-grow: 1;
+}
+
+.info-convocatoria h3 {
+    margin-bottom: 5%;
+}
+
+.acciones-convocatoria {
+    display: flex;
+    align-items: center;
+    margin-top: 2%;
+}
+
+.acciones-convocatoria a {
+    text-decoration: none;
+    margin-right: 5%;
+}
+
+.solicitar-beca {
+    background-color: #4caf50;
+    color: #fff;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5%;
+}
+
+.solicitar-beca:hover {
+    background-color: #45a049;
+}
+

@@ -1,11 +1,112 @@
-.baremos{
-    display: flex; 
-    align-items: center;
-}
-.baremos label{
-    margin-right: 0.5%;
+#contenedor-barema{
+    margin-left: 40%;
 }
 
-.pdf{
-    margin-left: 5%;
+#tablabaremar thead tr th{
+    background-color: gray;
+}
+#tablabaremar{
+    width: 60%;
+    margin-top: 20%;
+    overflow: auto;
+}
+
+#tablabaremar tbody tr td{
+    background-color: white;
+    text-align: center;
+}
+
+.acceder{
+    background-color: #4caf50; 
+    color: #fff; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+}
+.acceder:hover{
+    background-color: #4a984d; 
+}
+
+#solicitudes-tabla{
+    margin-left: 30%;
+    width: 64%;
+    margin-top: 12%;
+    overflow: auto;
+}
+
+#solicitudes-tabla thead tr th{
+    background-color: gray;
+}
+
+#solicitudes-tabla tbody tr td{
+    background-color: white;
+    text-align: center;
+}
+#errorSolicitudes{
+    color: red;
+    margin-left: 50%;
+}
+
+.verSolicitud{
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.verSolicitud:hover{
+    background-color: #45a049;
+}
+
+#titulo-con{
+    margin-left: 7%;
+}
+
+.soli{
+    margin-left: 15%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5%;
+}
+
+.soli div{
+    margin-top: 5%;
+}
+
+.soli div input{
+    margin-right: 3%;
+}
+
+#contenedorsol{
+    overflow: auto;
+    height: 40%;
+    border: 1px solid black;
+    width: 50%;
+    margin-left: 25%;
+    background-color: #fff;
+}
+
+#sol{
+    margin-left: 42%;
+    margin-bottom: 5%;
+}
+
+#bt{
+    margin-left: 40%;
+    margin-top: 5%;
+}
+
+
+#bt input{
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
 }

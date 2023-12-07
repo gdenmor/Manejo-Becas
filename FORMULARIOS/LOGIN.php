@@ -51,7 +51,7 @@ if ($mensajeError != "") {
 ?>
 <main id="contenedor-login">
     <form method="post">
-        <section id="contenido-login">
+        <section class="contenido" id="contenido-login">
             <section class="elementos" id="contenedor-dni-login">
                 <article id="lblDNI-login">
                     <label>DNI:</label>

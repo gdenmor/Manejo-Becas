@@ -67,10 +67,11 @@
             return $Candidato_Convocatoria;
         }
 
-        public static function CompruebaHaSolicitado($DNI){
+        public static function CompruebaHaSolicitado($DNI,$id_convocatoria){
             $conexion=CONEXION::AbreConexion();
-            $resultado=$conexion->prepare("SELECT count(*) as solicitudes from CANDIDATOS_CONVOCATORIA where DNI=:DNI");
+            $resultado=$conexion->prepare("SELECT count(*) as solicitudes from CANDIDATOS_CONVOCATORIA where DNI=:DNI and id_convocatoria=:id_convocatoria");
             $resultado->bindParam(":DNI",$DNI,PDO::PARAM_STR);
+            $resultado->bindParam(":id_convocatoria",$id_convocatoria,PDO::PARAM_INT);
             $resultado->execute();
             $num=0;
             while ($tuplas=$resultado->fetch(PDO::FETCH_OBJ)){
@@ -161,6 +162,44 @@
             $resultado->bindParam(":domicilio",$domicilio,PDO::PARAM_STR);
             $resultado->bindParam(":rol",$rol,PDO::PARAM_STR);
             $resultado->execute();
+        }
+
+        public static function VerSolicitudesConvocatoria($id){
+            $id_conv=(int) $id;
+            $conexion=CONEXION::AbreConexion();
+            $resultado=$conexion->prepare("SELECT * from CANDIDATOS_CONVOCATORIA where id_convocatoria=:id_convocatoria");
+            $resultado->bindParam(":id_convocatoria",$id_conv,PDO::PARAM_INT);
+            $resultado->execute();
+    
+            $Solicitudes=null;
+
+            $i=0;
+
+            while ($tuplas=$resultado->fetch(PDO::FETCH_OBJ)) {
+                $id_candidato_convocatoria=$tuplas->id_candidato_convocatoria;
+                $id_convocatoria=$tuplas->id_convocatoria;
+                $DNI=$tuplas->DNI;
+                $fecha_nacimiento=$tuplas->fecha_nacimiento;
+                $tutor_dni=$tuplas->tutor_dni;
+                $tutor_legal=BD_TUTORLEGAL::FindByID($tutor_dni);
+                $apellido1=$tuplas->apellido1;
+                $apellido2=$tuplas->apellido2;
+                $nombre=$tuplas->nombre;
+                $contraseña=$tuplas->contrasena;
+                $curso=$tuplas->curso;
+                $tlf=$tuplas->tlf;
+                $correo=$tuplas->correo;
+                $domicilio=$tuplas->domicilio;
+                $rol=$tuplas->rol;
+                $Candidato_Convocatoria=new CANDIDATOS_CONVOCATORIA($id_candidato_convocatoria,$id_convocatoria,$DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio,$rol);
+                $Solicitudes[]=$Candidato_Convocatoria;
+                $i++;
+            }
+
+            return $Solicitudes;
+
+            
+           
         }
     }
 ?>

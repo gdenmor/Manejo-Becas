@@ -2,6 +2,7 @@
     require_once "../HELPERS/AUTOLOAD.php";
     if ($_SERVER["REQUEST_METHOD"]=="GET"){
         $id=$_GET['id'];
+        $status="";
         if (isset($id)){
             if ($id!==""){
                 $convocatoria=BD_DESTINATARIOS_CONVOCATORIAS::FindByID($id);
@@ -9,11 +10,12 @@
                 http_response_code(200);
                 echo $conv;
             }else{
-                http_response_code(300);
+                $status=http_response_code(300);
             }
         }else{
-            http_response_code(400);
+            $status=http_response_code(400);
         }
+        echo $status;
     }
 
     if ($_SERVER["REQUEST_METHOD"]=="DELETE"){

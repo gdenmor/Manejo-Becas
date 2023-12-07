@@ -98,5 +98,32 @@
         $resultado->bindParam(":url", $url, PDO::PARAM_STR);
         $resultado->execute();
     }
+
+    public static function SacarSolicitud($id_solicitud){
+        $id=(int)$id_solicitud;
+        $conexion=CONEXION::AbreConexion();
+        $resultado=$conexion->prepare("SELECT * from BAREMACION where id_candidato_convocatoria=:id_candidato_convocatoria");
+        $resultado->bindParam(":id_candidato_convocatoria",$id,PDO::PARAM_INT);
+        $resultado->execute();
+
+        $Baremaciones=null;
+
+        $i=0;
+
+        while ($tuplas = $resultado->fetch(PDO::FETCH_OBJ)) {
+            $id_baremacion = $tuplas->id_baremacion;
+            $candidato_convocatoria=BD_CANDIDATOS_CONVOCATORIA::FindByID($id);
+            $id_item = $tuplas->id_item;
+            $item = BD_ITEMBAREMABLE::FindByID($id_item);
+            $nota = $tuplas->nota;
+            $url=$tuplas->url;
+            $Baremacion = new BAREMACION($id_baremacion,$candidato_convocatoria,$item,$nota,$url);
+            $Baremaciones[] = $Baremacion;
+            $i++;
+        }
+
+        return $Baremaciones;
     }
+
+}
 ?>

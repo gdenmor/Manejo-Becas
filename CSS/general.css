@@ -1,6 +1,8 @@
 html{
-    background-color: #CCCCCC;
-    height: 98%;
+    background-image: url("../IMAGENES/797931011_236391858_1706x960.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%;
 }
 body{
     height: 100%;
@@ -12,4 +14,9 @@ body{
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+.cierra-sesion{
+    background-color: #333;
+    border: none;
+    background: none;
 }

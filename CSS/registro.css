@@ -3,6 +3,30 @@
     position: absolute;
 }
 
-#contenido-registro section{
+#contenido-registro{
     margin-bottom: 5%;
+    width: 50%;
+    margin-left: auto;
+    display: grid;
+    justify-content: center;
+    margin-top: 5%;
+    margin-left: 31%;
+}
+
+#contenido-registro section{
+    display: flex;
+}
+
+#lblcurso-registro section #txtcurso-registro{
+    margin-top: 2%;
+}
+.section{
+    gap:5%;
+}
+
+#form-registro{
+    background-color:#ebebe7;
+    width: 50%;
+    border: 3px solid black;
+    margin-left: 35%;
 }

@@ -13,7 +13,7 @@
             while ($tuplas=$resultado->fetch(PDO::FETCH_OBJ)) {
                 $id_idioma=$tuplas->id_idioma;
                 $nivel=$tuplas->titulo;
-                $Idioma=new NIVEL_IDIOMA($nivel,$id_idioma,);
+                $Idioma=new NIVEL_IDIOMA($nivel,$id_idioma);
                 $Idiomas[]=$Idioma;
                 $i++;
             }

@@ -149,10 +149,44 @@ class BD_CONVOCATORIA
         $resultado->execute();
     }
 
-    public static function BuscaConvocatoriasActivas()
+    public static function MostrarConvocatoriasPasadasFechAportacion(){
+        $conexion = CONEXION::AbreConexion();
+        $resultado=$conexion->prepare("SELECT * from CONVOCATORIAS where sysdate()>fechaInicioPruebas");
+        $resultado->execute();
+
+        $Convocatorias=null;
+        $i=0;
+
+        while ($tuplas = $resultado->fetch(PDO::FETCH_OBJ)) {
+            $id_convocatoria = $tuplas->id_convocatoria;
+            $num_movilidades = $tuplas->num_movilidades;
+            $tipo = $tuplas->tipo;
+            $fecha_inicio = $tuplas->fecha_inicio;
+            $fecha_fin = $tuplas->fecha_fin;
+            $fechainicioPruebas = $tuplas->fechaInicioPruebas;
+            $fechafinPruebas = $tuplas->fechaFinPruebas;
+            $fechaListadoProvisional = $tuplas->fechaListadoProvisional;
+            $fechaListadoDefinitivo = $tuplas->fechaListadoDefinitivo;
+            $codigo_proyecto = $tuplas->codigo_proyecto;
+            $destino = $tuplas->pais_destino;
+            $nombre = $tuplas->nombre;
+            $Proyecto = BD_PROYECTO::FindByID($codigo_proyecto);
+            $Convocatoria = new CONVOCATORIA($id_convocatoria, $num_movilidades, $tipo, $fecha_inicio, $fecha_fin, $fechainicioPruebas, $fechafinPruebas, $fechaListadoProvisional, $fechaListadoDefinitivo, $Proyecto, $destino, $nombre);
+            $Convocatorias[] = $Convocatoria;
+            $i++;
+        }
+
+        return $Convocatorias;
+
+    }
+
+    public static function BuscaConvocatoriasActivas($DNI)
     {
         $conexion = CONEXION::AbreConexion();
-        $resultado = $conexion->prepare("SELECT * FROM CONVOCATORIAS WHERE fecha_inicio<=sysdate() and fecha_fin>=sysdate()");
+        $resultado = $conexion->prepare("select c.* from CONVOCATORIAS c
+        inner join DESTINATARIOS_CONVOCATORIAS dc on dc.id_convocatoria=c.id_convocatoria
+        inner join CANDIDATOS ca on ca.curso=dc.id_destinatario_convocatoria
+        where ca.DNI='33680662Z' and  c.fecha_inicio<=sysdate() and c.fecha_fin>=sysdate()");
         $resultado->execute();
 
         $Convocatorias = null;
@@ -221,10 +255,11 @@ class BD_CONVOCATORIA
         $requisitos,
         $minimas,
         $aportas,
-        $destinatario
-    ) {
+        $idioma
+    ){
         try{
             $conexion=CONEXION::AbreConexion();
+            echo '<p style="margin-left: 50%;">PEPE</p>';
             $conexion->beginTransaction();
             $Proyecto = BD_PROYECTO::FindByNombre($proyecto);
             $tipo = "";
@@ -250,30 +285,41 @@ class BD_CONVOCATORIA
                 if ($baremoelegido->getNombre() !== "Idioma") {
                     $convocatoria_baremable = new CONVOCATORIA_BAREMABLE(null, $convocatoria, $baremoelegido, $maximas[$i], $requisitos[$i], $minimas[$i], $aportas[$i]);
                     BD_CONVOCATORIA_BAREMABLE::Insert($convocatoria_baremable);
-                } else {
-                    $idiomas = BD_IDIOMA::FindAll();
-                    $notas = [];
-
-                    for ($j = 0; $j < count($idiomas); $j++) {
-                        $idioma = $idiomas[$j];
-                        $nota = isset($_POST['maximaidioma' . $j]) ? $_POST['maximaidioma' . $j] : 0;
-                        $notas[] = $nota;
-                        $convocatoria_baremable_idioma = new CONVOCATORIA_BAREMABLE_IDIOMA(null, $convocatoria, $idioma, $baremoelegido, $nota);
-                        BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremable_idioma);
-                    }
                 }
             }
 
             for ($i = 0; $i < count($desti); $i++) {
                 $destielegido = $desti[$i];
-                $destinatario_conv = new DESTINATARIO_CONVOCATORIA(null, $convocatoria, $destinatario);
+                $destinatario_conv = new DESTINATARIO_CONVOCATORIA(null, $convocatoria, $destielegido);
                 BD_DESTINATARIOS_CONVOCATORIAS::Insert($destinatario_conv);
             }
-            $conexion->commit();
-            echo "Convocatoria insertada correctamente";
+
+            if ($idioma!=null){
+                $errores=0;
+                $niveles=BD_IDIOMA::FindAll();
+                for ($i=0;$i<count($niveles);$i++){
+                    if (isset($_POST['notaidioma'.$i])&&$_POST['notaidioma'.$i]>0){
+                        $nota= (int)$_POST['notaidioma'.$i];
+                        $convocatoria_baremo_idioma=new CONVOCATORIA_BAREMABLE_IDIOMA(null,$convocatoria,$niveles[$i],$idioma,$nota);
+                        BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremo_idioma);
+                    }else{
+                        $errores++;
+                    }
+                }
+
+                if ($errores!==0){
+                    echo "Error";
+                    $conexion->rollBack();
+                }else{
+                    echo "<p>Convocatoria insertada correctamente</p>";
+                    $conexion->commit();
+                }
+            }
         }catch (Exception $e){
             $conexion->rollBack();
             echo "Error: " . $e->getMessage();
         }
     }
+
+    
 }
