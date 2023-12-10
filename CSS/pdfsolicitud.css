@@ -1,0 +1,59 @@
+#titulo,#titsolicita{
+    text-align: center;
+}
+#solicitante{
+    border: 1px solid black; 
+    width: 40%; 
+    margin-left: 29%;
+}
+#titexpone{
+    text-align: center;
+}
+#texexpone,#txtSolicita{
+    margin-left: 29%; 
+    width: 40%;
+}
+#expuestotit{
+    margin-left: 34%;
+}
+#fecha{
+    margin-left: 32%;
+}
+#firma{
+    display: flex; 
+    justify-content: center; 
+    margin-top: 5%;
+    margin-left: 20%;
+}
+#firma #rLegal{
+    margin-left: 10%;
+}
+#firma #menor{
+    margin-left: 10%;
+}
+#footer{
+    position:fixed;
+}
+#footer #divfooter{
+    margin-left: 28.7%;
+}
+#lista{
+    list-style-type: none;
+}
+#direc{
+    text-align: center; 
+    font-size: large;
+}
+div #destino{
+    border: 1px solid black; 
+    width: 8%;
+}
+div #secretaria{
+    border: 1px solid black; 
+    width: 8%;
+}
+#prop{
+    display: flex; 
+    margin-left: 30%;
+}
+

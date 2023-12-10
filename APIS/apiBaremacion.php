@@ -82,9 +82,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Crear instancias de las clases correspondientes
     $item = new ITEM_BAREMABLE($item_id, $item_nombre);
     $proyecto = new PROYECTO($proyecto_codigo, $proyecto_nombre, $proyecto_fecha_inicio, $proyecto_fecha_fin);
-    $convocatoria = new CONVOCATORIA($convocatoria_id, $convocatoria_num_movilidades, $convocatoria_tipo, $convocatoria_fecha_inicio, $convocatoria_fecha_fin, $convocatoria_fecha_inicio_pruebas, $convocatoria_fecha_fin_pruebas, $convocatoria_fecha_listado_provisional, $convocatoria_fecha_listado_definitivo, $proyecto, $convocatoria_pais_destino, $convocatoria_nombre);
+    $convocatoria = new CONVOCATORIA($convocatoria_id, $convocatoria_num_movilidades, $convocatoria_tipo, $convocatoria_fecha_inicio, $convocatoria_fecha_fin, $convocatoria_fecha_inicio_pruebas, $convocatoria_fecha_fin_pruebas, $convocatoria_fecha_listado_provisional, $convocatoria_fecha_listado_definitivo, $proyecto, $convocatoria_pais_destino, $convocatoria_nombre,null,null);
 
-    $candidato_convocatoria = new CANDIDATOS_CONVOCATORIA($barema->convocatoria->id_candidato_convocatoria, $convocatoria, $candidato_DNI, $candidato_fecha_nacimiento, $candidato_tutor_legal, $candidato_apellido1, $candidato_apellido2, $candidato_nombre, $candidato_contrasena, $candidato_curso, $candidato_tlf, $candidato_correo, $candidato_domicilio, $candidato_rol);
+    $candidato_convocatoria = new CANDIDATOS_CONVOCATORIA($barema->convocatoria->id_candidato_convocatoria, $convocatoria, $candidato_DNI, $candidato_fecha_nacimiento, $candidato_tutor_legal, $candidato_apellido1, $candidato_apellido2, $candidato_nombre, $candidato_contrasena, $candidato_curso, $candidato_tlf, $candidato_correo, $candidato_domicilio, $candidato_rol,null);
 
     $baremaSQL = new BAREMACION($barema->id_baremacion, $candidato_convocatoria, $item, null, $ruta);
 

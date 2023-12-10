@@ -12,6 +12,8 @@
         private $Proyecto;
         private $pais_destino;
         private $nombre;
+        private $listadoProvisional;
+        private $listadoDefinitivo;
 
         // Constructor
         public function __construct(
@@ -26,7 +28,9 @@
             $fechaListadoDefinitivo,
             $Proyecto,
             $pais_destino,
-            $nombre
+            $nombre,
+            $listadoDefinitivo,
+            $listadoProvisional
             ) {
             $this->id_convocatoria=$id_convocatoria;
             $this->num_movilidades = $num_movilidades;
@@ -40,8 +44,25 @@
             $this->Proyecto = $Proyecto;
             $this->pais_destino=$pais_destino;
             $this->nombre=$nombre;
+            $this->listadoDefinitivo=$listadoDefinitivo;
+            $this->listadoProvisional=$listadoProvisional;
         }
 
+        public function getProvisional(){
+            return $this->listadoProvisional;
+        }
+
+        public function setProvisional($provisional){
+            $this->listadoProvisional=$provisional;
+        }
+
+        public function getDefinitivo(){
+            return $this->listadoDefinitivo;
+        }
+
+        public function setDefinitivo($definitivo){
+            $this->listadoDefinitivo=$definitivo;
+        }
         public function getPais(){
             return $this->pais_destino;
         }

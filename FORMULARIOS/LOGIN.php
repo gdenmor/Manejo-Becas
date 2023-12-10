@@ -34,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         SESSION::iniciaSesion('USER',$User,"http://localhost/Manejo-Becas/index.php?menu=admin");
                     }
                 }
+            }else{
+                $mensajeError="El usuario no existe";
             }
         } else {
             $mensajeError = "El usuario no existe";
@@ -71,17 +73,17 @@ if ($mensajeError != "") {
             <section id="linkForgotPassword-login">
                 <a href="?menu=olvida_contraseña">¿Has olvidado tu contraseña?</a>
             </section>
+            <section id="mensaje-error-login">
+            <?php
+            if ($mensajeError != "") {
+                echo '<p id="error">'.$mensajeError.'</p>';
+            }
+            ?>
+            </section>
             <section id="btns-Login">
                 <input type="submit" value="REGISTRARSE" name="registro">
                 <input type="submit" value="INICIAR SESIÓN" name="login">
             </section>
-        </section>
-        <section id="mensaje-error-login">
-            <?php
-            if ($mensajeError != "") {
-                echo $mensajeError;
-            }
-            ?>
         </section>
     </form>
 </main>

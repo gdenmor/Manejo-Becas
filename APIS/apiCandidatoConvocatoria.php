@@ -42,10 +42,10 @@
             $candidato_convocatoria->convocatoria->proyecto->fecha_fin);
             $convocatoria=new CONVOCATORIA($candidato_convocatoria->convocatoria->id_convocatoria,$candidato_convocatoria->convocatoria->num_movilidades,
             $candidato_convocatoria->convocatoria->tipo,$candidato_convocatoria->convocatoria->fecha_inicio,$candidato_convocatoria->convocatoria->fecha_fin,$candidato_convocatoria->convocatoria->fechainicioPruebas,
-            $candidato_convocatoria->convocatoria->fechafinPruebas,$candidato_convocatoria->convocatoria->fechaListadoProvisional,$candidato_convocatoria->convocatoria->fechaListadoDefinitivo,$proyecto,$candidato_convocatoria->convocatoria->pais_destino,$candidato_convocatoria->convocatoria->nombre);
+            $candidato_convocatoria->convocatoria->fechafinPruebas,$candidato_convocatoria->convocatoria->fechaListadoProvisional,$candidato_convocatoria->convocatoria->fechaListadoDefinitivo,$proyecto,$candidato_convocatoria->convocatoria->pais_destino,$candidato_convocatoria->convocatoria->nombre,null,null);
             $can_conv=new CANDIDATOS_CONVOCATORIA(null,$convocatoria,$candidato_convocatoria->DNI,$candidato_convocatoria->fecha_nacimiento,
             $candidato_convocatoria->tutor_legal,$candidato_convocatoria->apellido1,$candidato_convocatoria->apellido2,$candidato_convocatoria->nombre,$candidato_convocatoria->contrasena,
-            $candidato_convocatoria->curso->codigo_grupo,$candidato_convocatoria->tlf,$candidato_convocatoria->correo,$candidato_convocatoria->domicilio,$candidato_convocatoria->rol);
+            $candidato_convocatoria->curso->codigo_grupo,$candidato_convocatoria->tlf,$candidato_convocatoria->correo,$candidato_convocatoria->domicilio,$candidato_convocatoria->rol,null);
             BD_CANDIDATOS_CONVOCATORIA::Insert($can_conv);
             http_response_code(200);
             $id=BD_CONVOCATORIA::sacarID();

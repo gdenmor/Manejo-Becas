@@ -22,6 +22,7 @@
     display: flex;
     margin-top: 10%;
     margin-left: 20%;
+    gap: 6%;
 }
 
 #linkForgotPassword-login{
@@ -32,16 +33,12 @@
 #btns-Login{
     display: flex;
     justify-content: center;
-    gap: 13%;
-    margin-top: 5%;
+    margin-top: 10%;
+    gap: 10%;
 }
 
 #contenedor-dni-login{
     gap: 25%;
-}
-
-#contenedor-contraseña-login{
-    gap: 5%;
 }
 
 #btns-Login input[type="submit"] {
@@ -63,4 +60,14 @@
 
 #lblContraseña-login{
     margin-right: 2%;
+}
+
+#txtDNI-login{
+    margin-left: 4%;
+}
+#error{
+    color: red;
+    position: fixed;
+    margin-left: 6%;
+    margin-top: 2%;
 }

@@ -4,10 +4,13 @@
         $id=$_GET['id'];
         if (isset($id)){
             if ($id!==""){
-                $convocatoria=BD_CONVOCATORIA_BAREMABLE_IDIOMA::FindByID($id);
-                $conv=$convocatoria->toJSON();
+                $array=[];
+                $convocatoria=BD_CONVOCATORIA_BAREMABLE_IDIOMA::FindByConvocatoria($id);
+                for ($i=0;$i<count($convocatoria);$i++){
+                    $array[]=$convocatoria[$i];
+                }
                 http_response_code(200);
-                echo $conv;
+                print_r (json_encode($array));
             }else{
                 http_response_code(300);
             }

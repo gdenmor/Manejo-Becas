@@ -3,6 +3,7 @@ html{
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%;
+    flex-grow: 1;
 }
 body{
     height: 100%;

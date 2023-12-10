@@ -18,6 +18,11 @@
             $correo=$_POST['correo'];
             $domicilio=$_POST['domicilio'];
             $password="";
+            $cursoSeleccionado = isset($_POST['curso']) ? $_POST['curso'] : "";
+
+            if ($cursoSeleccionado==""){
+                $num_errores++;
+            }
 
             //llamamos al objeto que se va a encargar de validar los Datos
             $validador=new VALIDATOR();
@@ -64,7 +69,8 @@
             }
 
             if ($num_errores==0){
-                $candidato=new CANDIDATO($DNI,null,null,$apellido1,$apellido2,$nombre,$contraseña,null,null,$correo,$domicilio,"ALUMNO");
+                $curso=BD_DESTINATARIOS::FindByID($cursoSeleccionado);
+                $candidato=new CANDIDATO($DNI,null,null,$apellido1,$apellido2,$nombre,$contraseña,$curso,null,$correo,$domicilio,"ALUMNO");
                 BD_CANDIDATO::Insert($candidato);
                 header("Location: http://localhost/Manejo-Becas/index.php?menu=inicio");
             }   
@@ -72,9 +78,9 @@
     }
 ?>
 <main id="contenedor-registro">
+    <h1 style="margin-left: 65%;">REGISTRO</h1>
     <form id="form-registro" method="post">
         <section class="section" id="contenido-registro">
-            <h1>REGISTRO</h1>
             <section class="section" id="contenedor-DNI-registro">
                 <article id="lblDNI-registro">
                     <label>DNI</label>
@@ -175,7 +181,7 @@
             </section>
             <section class="section" id="contenedor-curso-registro">
                 <article id="lblcurso-registro">
-                    <label>DOMICILIO:</label><br>
+                    <label>DESTINATARIO:</label><br>
                 </article>
                 <article id="txtcurso-registro">
                     <table>
@@ -189,7 +195,7 @@
                                 $cursos=BD_DESTINATARIOS::FindAll();
                                 for ($i=0;$i<count($cursos);$i++){
                                     echo '<tr>
-                                            <td><input type="radio" name="curso">
+                                            <td><input type="radio" name="curso" value="'.$cursos[$i]->getCodigoGrupo().'">
                                             <td>'.$cursos[$i]->getNombre().'</td>
                                             <td>'.$cursos[$i]->getCodigoGrupo().'</td>
                                           </tr>';
@@ -206,9 +212,9 @@
                     ?>
                 </article>
             </section>
-            <section id="btns-Login">
-                <input type="submit" value="REGISTRARSE" name="registro">
-            </section>
+        </section>
+        <section id="btns-Registro">
+            <input type="submit" value="REGISTRARSE" name="registro">
         </section>
     </form>
 </main>

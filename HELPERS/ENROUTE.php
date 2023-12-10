@@ -23,6 +23,16 @@ if (isset($_GET['menu'])) {
         require_once "../Manejo-Becas/FORMULARIOS/SOLICITUDES_CONVOCATORIA.php";
     }else if ($_GET['menu']=="versolicitud"){
         require_once "../Manejo-Becas/FORMULARIOS/BAREMARSOLICITUD.php";
+    }else if ($_GET['menu']=="veralumno"){
+        require_once "../Manejo-Becas/FORMULARIOS/VER_SOLICITUDES_ALUMNO.php";
+    }else if ($_GET['menu']=="actualiza"){
+        require_once "../Manejo-Becas/FORMULARIOS/ACTUALIZARCONVOCATORIA.php";
+    }else if ($_GET['menu']=="solicitudalu"){
+        require_once "../Manejo-Becas/FORMULARIOS/SOL.php";
+    }else if ($_GET['menu']=="verlisp"){
+        require_once "../Manejo-Becas/FORMULARIOS/LISTADOPROV.php";
+    }else if ($_GET['menu']=="verlisf"){
+        require_once "../Manejo-Becas/FORMULARIOS/LISTADODEF.php";
     }else{
         SESSION::Cerrar_Sesion();
     }

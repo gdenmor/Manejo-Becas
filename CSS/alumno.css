@@ -4,15 +4,14 @@
 }
 
 #div {
-    display: flex;
-    align-items: center; /* Add this line to center items vertically */
+    margin-top: 5%;
+    margin-left: 31%;
 }
 
 #section {
     display: flex;
     flex-direction: column; /* Change to column for vertical alignment */
-    align-items: center; /* Add this line to center items horizontally */
-    margin-left: 32%;
+    margin-left: 76%;
     border: 1px solid black;
     width: 60%;
     margin-top: 15%;
@@ -79,5 +78,8 @@ body {
 
 .solicitar-beca:hover {
     background-color: #45a049;
+}
+#mainalumno{
+    width: 59%;
 }
 

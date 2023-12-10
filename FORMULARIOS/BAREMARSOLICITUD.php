@@ -5,29 +5,24 @@
         $baremosSolicitud=[];
         $idioma=null;
         for ($i=0;$i<count($baremos);$i++){
-            if (isset($_POST['nota'.$i])&& $_POST['nota' . $i] >= 0&&$baremos[$i]->getItem()->getNombre()!=="Idioma"){
+            if (isset($_POST['nota'.$i])&& $_POST['nota' . $i] >= 0){
                 $baremos[$i]->setNota($_POST['nota' .$i]);
                 $baremosSolicitud[]=$baremos[$i];
-            }else if (isset($_POST['nota'.$i])&& $_POST['nota' . $i] >= 0&&$baremos[$i]->getItem()->getNombre()=="Idioma"){            
-                $baremos[$i]->setNota($_POST['nota'.$i]);
-                $idioma=$baremos[$i];
             }else{
                 $num_errores++;
             }
         }
 
         if ($num_errores==0){
+            $id_convocatoria=$baremos[0]->getCandidatoConvocatoria()->getConvocatoria()->getIdConvocatoria();
             for ($i=0;$i<count($baremosSolicitud);$i++){
                 $baremo=$baremosSolicitud[$i];
                 $nota=$baremo->getNota();
                 BD_BAREMACION::UpdateByID($baremo->getID_Baremacion(),$baremo);
+                header('Location: http://localhost/Manejo-Becas/index.php?menu=versolicitudes&idConvocatoria='.$id_convocatoria.'');
             }
-
-            if ($idioma !== null){
-                $notaIdioma = $idioma->getNota();
-            }
-
-            
+        }else{
+            echo $num_errores;
         }
     }
 
@@ -44,7 +39,7 @@
                     $nombre = basename($baremar[$i]->getURL());
                     echo '<div class="soli">';
                     echo "<label>" . $baremar[$i]->getCandidatoConvocatoria()->getDNI() . "</label>";
-                    echo '<input name="nota'.$i.'" type="number">';
+                    echo '<input name="nota'.$i.'" type="number" value="'.$baremar[$i]->getNota().'">';
                     echo '<iframe src="../Manejo-Becas/APORTACIONES/' . $nombre . '"></iframe>';
                     echo "</div>";
                 }

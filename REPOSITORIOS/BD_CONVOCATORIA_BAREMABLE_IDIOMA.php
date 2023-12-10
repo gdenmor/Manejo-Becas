@@ -58,6 +58,32 @@ class BD_CONVOCATORIA_BAREMABLE_IDIOMA
         return $Convocatoria_Baremable;
     }
 
+    public static function FindByConvocatoria($id_convocatoria)
+    {
+        $conexion = CONEXION::AbreConexion();
+        $resultado = $conexion->prepare("SELECT * FROM CONVOCATORIA_BAREMABLES_IDIOMA WHERE id_convocatoria=:id_convocatoria");
+        $resultado->bindParam(':id_convocatoria', $id_convocatoria, PDO::PARAM_INT);
+        $resultado->execute();
+
+        $Convocatoria_Baremable = null;
+        $array=null;
+
+        while ($tuplas = $resultado->fetch(PDO::FETCH_OBJ)) {
+                $id_convocatoria_baremable_idioma = $tuplas->id_convocatoria_baremable_idioma;
+                $id_convocatoria = $tuplas->id_convocatoria;
+                $convocatoria = BD_CONVOCATORIA::FindByID($id_convocatoria);
+                $id_idioma = $tuplas->id_idioma;
+                $idioma = BD_IDIOMA::FindByID($id_idioma);
+                $id_baremo = $tuplas->id_baremo;
+                $baremo = BD_ITEMBAREMABLE::FindByID($id_baremo);
+                $notaidioma = $tuplas->nota_idioma;
+                $Convocatoria_Baremable = new CONVOCATORIA_BAREMABLE_IDIOMA($id_convocatoria_baremable_idioma, $convocatoria, $idioma, $baremo, $notaidioma);
+                $array[]=$Convocatoria_Baremable;
+            }
+
+        return $array;
+    }
+
     public static function DeleteByID($id_convocatoria_baremable_idioma)
     {
         $conexion = CONEXION::AbreConexion();
@@ -98,7 +124,7 @@ class BD_CONVOCATORIA_BAREMABLE_IDIOMA
         $resultado = $conexion->prepare("INSERT INTO CONVOCATORIA_BAREMABLES_IDIOMA (id_convocatoria,id_idioma,id_baremo,nota_idioma) values (:id_convocatoria,:id_idioma,:id_baremo,:nota_idioma)");
         $resultado->bindParam(":id_convocatoria", $id_convocatoria, PDO::PARAM_INT);
         $resultado->bindParam(":id_idioma", $id_idioma, PDO::PARAM_INT);
-        $resultado->bindParam(":id_baremo", $id_baremo, PDO::PARAM_BOOL);
+        $resultado->bindParam(":id_baremo", $id_baremo, PDO::PARAM_INT);
         $resultado->bindParam(":nota_idioma", $notaidioma, PDO::PARAM_INT);
         $resultado->execute();
     }

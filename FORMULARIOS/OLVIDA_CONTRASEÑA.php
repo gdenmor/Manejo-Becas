@@ -1,4 +1,5 @@
 <?php
+    $mensajeError="";
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
         $cambia_contraseña=isset($_POST['cambia_contraseña'])?$_POST['cambia_contraseña']:"";
         $num_errores=0;
@@ -46,7 +47,7 @@
                     }
                     }
                 }else{
-                    echo $num_errores;
+                    $mensajeError="Usuario no existente";
                 }
             } else {
                 $mensajeError = "El usuario no existe";
@@ -56,37 +57,46 @@
 ?>
 <main id="contenedor-cambia-contraseña">
     <form method="post">
-        <section id="volver-cambia-contraseña">
-            <img src="../Manejo-Becas/IMAGENES/volver.png">
-        </section>
-        <section id="contenido-cambia-contraseña">
-            <section id="contenedor-dni-cambia-contraseña">
-                <article id="lblDNI-cambia-contraseña">
-                    <label>DNI</label>
-                </article>
-                <article id="txtDNI-cambia-contraseña">
-                    <input type="text" name="DNI">
-                </article>
+        <section id="contenido">
+            <section id="volver-cambia-contraseña">
+                <a href="?menu=inicio"><img src="../Manejo-Becas/IMAGENES/volver.png"></a>
             </section>
-            <section id="contenedor-contraseña-cambia-contraseña">
-                <article id="lblContraseña-cambia-contraseña">
-                    <label>CONTRASEÑA</label>
-                </article>
-                <article id="txtContraseña-cambia-contraseña">
-                    <input type="text" name="password" placeholder="Introduzca la contraseña nueva...">
-                </article>
+            <section id="contenido-cambia-contraseña">
+                <section id="contenedor-dni-cambia-contraseña">
+                    <article id="lblDNI-cambia-contraseña">
+                        <label>DNI</label>
+                    </article>
+                    <article id="txtDNI-cambia-contraseña">
+                        <input type="text" name="DNI">
+                    </article>
+                </section>
+                <section id="contenedor-contraseña-cambia-contraseña">
+                    <article id="lblContraseña-cambia-contraseña">
+                        <label>CONTRASEÑA</label>
+                    </article>
+                    <article id="txtContraseña-cambia-contraseña">
+                        <input type="text" name="password" placeholder="Introduzca la contraseña nueva...">
+                    </article>
+                </section>
+                <section id="contenedor-contraseña-cambia-contraseña">
+                    <article id="lblContraseña-cambia-contraseña">
+                        <label> REPITE CONTRASEÑA</label>
+                    </article>
+                    <article id="txtContraseña-cambia-contraseña">
+                        <input type="text" name="password-repeat" placeholder="Repita la contraseña nueva...">
+                    </article>
+                </section>
+                <section>
+                    <?php
+                        if ($mensajeError!==""){
+                            echo '<p style="color:red;">'.$mensajeError. '</p>';
+                        }
+                    ?>
+                </section>
             </section>
-            <section id="contenedor-contraseña-cambia-contraseña">
-                <article id="lblContraseña-cambia-contraseña">
-                    <label> REPITE CONTRASEÑA</label>
-                </article>
-                <article id="txtContraseña-cambia-contraseña">
-                    <input type="text" name="password-repeat" placeholder="Repita la contraseña nueva...">
-                </article>
+            <section id="btns-cambia-contraseña">
+                <input type="submit" value="CAMBIAR CONTRASEÑA" name="cambia_contraseña">
             </section>
-        </section>
-        <section id="btns-cambia-contraseña">
-            <input type="submit" value="CAMBIAR CONTRASEÑA" name="cambia_contraseña">
         </section>
     </form>
 </main>

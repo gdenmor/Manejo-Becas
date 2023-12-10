@@ -54,13 +54,13 @@ class BD_CANDIDATO
                 $apellido1 = $tuplas->apellido1;
                 $apellido2 = $tuplas->apellido2;
                 $nombre = $tuplas->nombre;
-                $contraseña = $tuplas->contrasena;
+                $contrasena = $tuplas->contrasena;
                 $curso = $tuplas->curso;
                 $tlf = $tuplas->tlf;
                 $correo = $tuplas->correo;
                 $domicilio = $tuplas->domicilio;
                 $rol = $tuplas->rol;
-                $Candidato = new CANDIDATO($DNI, $fecha_nacimiento, $tutor_legal, $apellido1, $apellido2, $nombre, $contraseña, $curso, $tlf, $correo, $domicilio, $rol);
+                $Candidato = new CANDIDATO($DNI, $fecha_nacimiento, $tutor_legal, $apellido1, $apellido2, $nombre, $contrasena, $curso, $tlf, $correo, $domicilio, $rol);
             }
         }
 
@@ -130,7 +130,7 @@ class BD_CANDIDATO
             $apellido2 = $objeto->getApellido2();
             $nombre = $objeto->getNombre();
             $contraseña = $objeto->getContraseña();
-            $curso = $objeto->getCurso();
+            $curso = $objeto->getCurso()->getCodigoGrupo();
             $tlf = $objeto->getTlf();
             $correo = $objeto->getCorreo();
             $domicilio = $objeto->getDomicilio();

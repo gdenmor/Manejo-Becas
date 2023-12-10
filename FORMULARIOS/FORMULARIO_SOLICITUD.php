@@ -2,6 +2,9 @@
     <h1 id="tituloSolicitud">FORMULARIO SOLICITUD</h1>
     <section id="contenedor-contenido">
         <form method="post" enctype="multipart/form-data">
+            <section id="volver-cambia-contraseña">
+                <a href="?menu=inicio"><img src="../Manejo-Becas/IMAGENES/volver.png"></a>
+            </section>
             <section id="contenido-solicitud">
                 <section class="section" id="contenedor-DNI-solicitud">
                     <article id="lblDNI-solicitud">

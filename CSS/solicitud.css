@@ -1,9 +1,4 @@
-#contenedor-contenido {
-    width: 50%;
-    margin: auto;
-    padding: 20px;
-    background-color: #f4f4f4;
-}
+
 
 #tituloSolicitud {
     margin-left: 47%;
@@ -14,11 +9,12 @@
 }
 
 #contenedor-contenido{
-    margin-left: 35%;
+    margin-left: 33%;
     overflow: auto;
-    height: 60%;
     margin-top: 5%;
     height: 30%;
+    width: 50%;
+    background-color: #f4f4f4;
 }
 
 label {
@@ -51,5 +47,141 @@ input[type="submit"]:hover {
     background-color: #45a049;
 }*/
 #btn{
-    margin-left: 30%;
+    margin-top: 5%;  
 }
+
+#btn input,.p,.f{
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5%;
+}
+
+#btn input:hover,.p:hover{
+    background-color: #45a049;
+}
+
+.div{
+    margin-top: 5%;
+}
+
+
+.solalumno{
+    margin-left: 5%;
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 10px;
+    margin-top: 2%;
+}
+
+.solalumno:hover{
+    background-color: #45a049;
+}
+#divcont{
+    background-color: #f4f4f4;
+    width: 41%;
+    margin-left: 44%;
+    margin-top: 5%;
+}
+
+#mainsolss{
+    margin-left: 20%;
+    height: 100%;
+}
+
+#sols iframe{
+    width: 100%;
+    height: 100%;
+}
+
+#sols{
+    height: 100%;
+    width: 100%;
+}
+
+
+
+/* Estilos para las secciones del formulario */
+.section {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+/* Estilos para las etiquetas del formulario */
+#contenedor-DNI-solicitud label,
+#contenedor-nombre-solicitud label,
+#contenedor-apellido1-solicitud label,
+#contenedor-apellido2-solicitud label,
+#contenedor-contraseña-solicitud label,
+#contenedor-correo-solicitud label,
+#contenedor-domicilio-solicitud label {
+    width: 150px;
+    padding-right: 10px;
+    text-align: right;
+}
+
+/* Estilos para los campos de entrada del formulario */
+#contenedor-DNI-solicitud input,
+#contenedor-nombre-solicitud input,
+#contenedor-apellido1-solicitud input,
+#contenedor-apellido2-solicitud input,
+#contenedor-contraseña-solicitud input,
+#contenedor-correo-solicitud input,
+#contenedor-domicilio-solicitud input,
+#nacimiento input,
+#curso input,
+#tlf input,
+#rol input {
+    width: 100%;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+/* Estilos para la tabla */
+table {
+    margin-top: 5%;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #ddd;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* Estilos para el botón de solicitud */
+#btn {
+    text-align: center;
+    margin-top: 20px;
+}
+
+#de{
+    margin-left: 45%;
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 5%;
+}
+
+#fi{
+    margin-left: 50%;
+    background-color: #4caf50;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    margin-top: 5%;
+}
+
+

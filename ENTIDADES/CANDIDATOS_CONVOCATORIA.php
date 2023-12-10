@@ -14,6 +14,7 @@
         private $correo;
         private $domicilio;
         private $rol;
+        private $solicitud;
 
         public function getID_Candidatos_Convocatoria(){
             return $this->id_candidatos_convocatoria;
@@ -21,6 +22,14 @@
 
         public function setID_Candidatos_Convocatoria($id_candidatos_convocatoria){
             $this->id_candidatos_convocatoria=$id_candidatos_convocatoria;
+        }
+
+        public function getSolicitud(){
+            return $this->solicitud;
+        }
+
+        public function setSolicitud($solicitud){
+            $this->solicitud=$solicitud;
         }
 
         public function getFechaNacimiento(){
@@ -111,7 +120,7 @@
             $this->rol=$rol;
         }
 
-        public function __construct($idcandidatos_convocatoria,$convocatoria,$DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio,$rol){
+        public function __construct($idcandidatos_convocatoria,$convocatoria,$DNI,$fecha_nacimiento,$tutor_legal,$apellido1,$apellido2,$nombre,$contraseña,$curso,$tlf,$correo,$domicilio,$rol,$solicitud){
             $this->id_candidatos_convocatoria=$idcandidatos_convocatoria;
             $this->convocatoria=$convocatoria;
             $this->dni=$DNI;
@@ -126,6 +135,7 @@
             $this->correo=$correo;
             $this->domicilio=$domicilio;
             $this->rol=$rol;
+            $this->solicitud=$solicitud;
         }
 
         // Setter para el ID de la convocatoria

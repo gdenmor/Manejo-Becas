@@ -24,10 +24,8 @@
                         <form method="post">
                             <li><a><?php echo $usuario->getNombre()?></a></li>
                             <li class="active"><a>BIENVENID@</a</li>
-                            <li><a href="?menu=quien">¿QUIENES SOMOS?</a></li>
-                            <li><a>¿QUÉ HACEMOS?</a></li>
                             <li><a href="?menu=alumno&DNI=<?php echo $usuario->getDNI()?>">CONVOCATORIAS DISPONIBLES</a></li>
-                            <li><a>VER SOLICITUDES</a></li>
+                            <li><a href="?menu=veralumno">VER SOLICITUDES</a></li>
                             <li><a><input class="cierra-sesion" type="submit" value="CERRAR SESIÓN" name="logout"></a></li>
                         </form>
                     </ul>
@@ -42,9 +40,8 @@
                         <form method="post">
                             <li><a><?php echo $usuario->getNombre()?></a></li>
                             <li class="active"><a>BIENVENID@</a</li>
-                            <li><a href="?menu=quien">¿QUIENES SOMOS?</a></li>
-                            <li><a>¿QUÉ HACEMOS?</a></li>
-                            <li><a href="?menu=admin">CREAR Y ACTUALIZAR CONVOCATORIA</a></li>
+                            <li><a href="?menu=admin">CREAR CONVOCATORIA</a></li>
+                            <li><a href="?menu=actualizaconvocatoria">ACTUALIZAR CONVOCATORIA</a></li>
                             <li><a href="?menu=mostrarConvocatorias">MOSTRAR Y BORRAR CONVOCATORIA</a></li>
                             <li><a href="?menu=baremo">EVALUAR SOLICITUDES</a></li>
                             <li><a><input class="cierra-sesion" type="submit" value="CERRAR SESIÓN" name="logout"></a></li>
@@ -65,9 +62,6 @@
                 <nav>
                     <ul>
                         <li class="active"><a>BIENVENID@</a</li>
-                        <li><a>¿QUIENES SOMOS?</a></li>
-                        <li><a>¿QUÉ HACEMOS?</a></li>
-                        <li><a>¿DÓNDE ESTAMOS?</a></li>
                         <li><a href="?menu=inicio">LOGIN</a></li>
                     </ul>
                 </nav>

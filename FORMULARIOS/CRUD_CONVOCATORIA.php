@@ -181,7 +181,7 @@
 
         }
 
-        /*if ($actualiza){
+        if ($actualiza){
             $id=$_POST['id'];
             $proyecto=$_POST['proyecto'];
             $movilidades=$_POST['movilidades'];
@@ -274,7 +274,7 @@
             $baremo=[];
             $baremos=BD_ITEMBAREMABLE::FindAll();
             for ($i = 0; $i<count($baremos); $i++) {
-                if (isset($_POST['boton_baremo' . $i])) {
+                if (isset($_POST['boton_baremo' . $i])&&$baremos[$i]->getNombre()!=="Idioma") {
                     $bar=$baremos[$i];
                     $baremo[]=$bar;
                 }
@@ -300,16 +300,17 @@
                     $tipo="Corta";
                 }
                 
-                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino,$nombre);
+                $convocatoria=new CONVOCATORIA(null,$movilidades,$tipo,$fechainicio,$fechafin,$fechainicioPruebas,$fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$Proyecto,$destino,$nombre,null,null);
                 BD_CONVOCATORIA::UpdateByID($id,$convocatoria);
+
+
             }
-        }*/
+        }
     }
 ?>
 
     <main id="crud">
         <h1 id="titulo">CREACIÓN CONVOCATORIA</h1>
-        <h2 id="subt">Si desea actualizar los baremos no serán actualizables</h2>
         <section id="section-general">
             <form method="post">
                 <span id="span-nombre">Nombre:</span>
@@ -422,9 +423,7 @@
                 </table>
         </section>
         <section id="botones">
-                    <input id="crea" type="submit" value="CREAR CONVOCATORIA" name="crea">
-                    <input id="actualiza" type="submit" value="ACTUALIZAR CONVOCATORIA" name="actualiza">
-                    <a href="http://localhost/Manejo-Becas/index.php?menu=mostrarConvocatorias"><input id="mostrar" type="button" value="MOSTRAR CONVOCATORIAS"></a>
+            <input id="crea" type="submit" value="CREAR CONVOCATORIA" name="crea">
         </section>
         </form>
     </main>

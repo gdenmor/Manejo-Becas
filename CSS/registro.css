@@ -1,32 +1,115 @@
 .error{
     color: red;
-    position: absolute;
 }
 
 #contenido-registro{
     margin-bottom: 5%;
-    width: 50%;
-    margin-left: auto;
+    width: 100%;
     display: grid;
     justify-content: center;
     margin-top: 5%;
-    margin-left: 31%;
+    margin-left: 5%;
+    background-color:#ebebe7;
+    border: 3px solid black;
+    overflow: auto;
 }
 
 #contenido-registro section{
     display: flex;
+    margin-bottom: 5%;
+    max-width: 100%;
 }
 
 #lblcurso-registro section #txtcurso-registro{
     margin-top: 2%;
 }
 .section{
-    gap:5%;
+    display: flex;
+    margin-bottom: 3%;
+    margin-left: 5%;
+    gap: 5%;
 }
 
 #form-registro{
-    background-color:#ebebe7;
+    width: 70%;
+    margin-left: 41%;
+    max-width: 70%;
+}
+
+#contenedor-registro{
+    width: 55%;
+    margin-left: 20%;
+}
+#btns-Login input{
+    margin-left: 10%;
+}
+#btns-Registro{
+    display: flex;
+    justify-content: center;
+    margin-top: 3%;
+}
+#btns-Registro input{
+    background-color: #4caf50; 
+    color: #fff; 
+    padding: 10px 20px; 
+    border: none; 
+    border-radius: 5px; 
+}
+#btns-Registro input:hover{
+    background-color: #45a049; 
+}
+
+
+#contenedor-cambia-contraseña {
     width: 50%;
+    margin: 15% auto;
+    background-color: #ebebe7;
     border: 3px solid black;
+    padding: 20px;
     margin-left: 35%;
+}
+
+#contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#volver-cambia-contraseña img {
+    position: absolute;
+    left: 21%;
+    top: 1%;
+}
+
+#contenido-cambia-contraseña {
+    width: 60%;
+}
+
+#contenedor-dni-cambia-contraseña,
+#contenedor-contraseña-cambia-contraseña {
+    margin-bottom: 15px;
+}
+
+#contenedor-dni-cambia-contraseña input,
+#contenedor-contraseña-cambia-contraseña input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+#lblDNI-cambia-contraseña,
+#lblContraseña-cambia-contraseña {
+    margin-bottom: 5px;
+}
+
+#btns-cambia-contraseña input {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+}
+
+#btns-cambia-contraseña input:hover {
+    background-color: #45a049;
 }

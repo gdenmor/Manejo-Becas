@@ -33,6 +33,8 @@
     <link rel="stylesheet" href="./CSS/baremacion.css">
     <script src="./JS/BAREMAR.js"></script>
     <script src="./JS/SOLICITUD_ALUMNO.js"></script>
+    <script src="./JS/VER_SOLICITUD.js"></script>
+    <script src="./JS/LISTADO.js"></script>
 </head>
 <body>
     <?php

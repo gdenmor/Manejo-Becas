@@ -1,21 +1,28 @@
 <?php
     use Dompdf\Dompdf;
+    require_once "../vendor/autoload.php";
     require_once "../HELPERS/AUTOLOAD.php";
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
+        ob_clean();
         $cuerpo=file_get_contents("php://input");
-        $barema = json_decode($cuerpo);
-        $candidato_DNI = $barema->convocatoria->DNI;
-        $candidato_fecha_nacimiento = $barema->convocatoria->fecha_nacimiento;
-        $candidato_tutor_legal = $barema->convocatoria->tutor_legal;
-        $candidato_apellido1 = $barema->convocatoria->apellido1;
-            $candidato_apellido2 = $barema->convocatoria->apellido2;
-            $candidato_nombre = $barema->convocatoria->nombre;
-            $candidato_contrasena = $barema->convocatoria->contrasena;
-            $candidato_curso = $barema->convocatoria->curso;
-            $candidato_tlf = $barema->convocatoria->tlf;
-            $candidato_correo = $barema->convocatoria->correo;
-            $candidato_domicilio = $barema->convocatoria->domicilio;
-            $candidato_rol = $barema->convocatoria->rol;
+        $candidato_convocatoria = json_decode($cuerpo);
+        $candidato_DNI = $candidato_convocatoria->DNI;
+        $candidato_fecha_nacimiento = "(No tiene ninguna introducida)";
+        if ($candidato_fecha_nacimiento!=="(No tiene ninguna introducida"){
+            $candidato_fecha_nacimiento=$candidato_convocatoria->fecha_nacimiento;
+        }
+        $candidato_tutor_legal = "(No tiene tutor legal)";
+        if ($candidato_tutor_legal!=="(No tiene tutor legal"){
+            $candidato_tutor_legal=$candidato_convocatoria->tutor_legal;
+        }
+        $candidato_apellido1 = $candidato_convocatoria->apellido1;
+        $candidato_apellido2 = $candidato_convocatoria->apellido2;
+        $candidato_nombre = $candidato_convocatoria->nombre;
+        $candidato_curso = $candidato_convocatoria->curso;
+        $candidato_tlf = $candidato_convocatoria->tlf;
+        $candidato_correo = $candidato_convocatoria->correo;
+        $candidato_domicilio = $candidato_convocatoria->domicilio;
+        $fechaActual=new DateTime();
         $html='<!DOCTYPE html>
         <html lang="en">
         <head>
@@ -23,56 +30,60 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
+            <link rel="stylesheet" href="../Manejo-Becas/CSS/pdfsolicitud.css"
         </head>
         <body>
             <div>
-                <strong><p style="text-align: center;"> SOLICITUD DE INSCRIPCIÓN EN EL PROYECTO ERASMUS+</p></strong>
-                <div style="border: 1px solid black; width: 40%; margin-left: 29%;">
-                    El/La solicitante, D./Dª'.$candidato_nombre.',
+                <strong><p id="titulo"> SOLICITUD DE INSCRIPCIÓN EN EL PROYECTO ERASMUS+</p></strong>
+                <div id="solicitante">
+                    El/La solicitante, D./Dª '.$candidato_nombre.',
                     con DNI '.$candidato_DNI.', domiciliado en '.$candidato_domicilio.',
-                    teléfono de contacto'. $candidato_tlf.',correo 
-                    electrónico' . $candidato_correo.'.
+                    teléfono de contacto '. $candidato_tlf.',correo 
+                    electrónico ' . $candidato_correo.'.
                     En caso de ser menor de edad,
-                    D.____________________________________________, 
-                    representante legal, con DNI'.$candidato_tutor_legal.', 
-                    domiciliado en ______________________________________
-                    y teléfono de contacto __________________________.
+                    D.___________________________, 
+                    representante legal, con DNI '.$candidato_tutor_legal.', 
+                    domiciliado en _________________________
+                    y teléfono de contacto ________________.
                 </div>
-                <h2 style="text-align: center;">EXPONE/N:</h2>
-                <div style="margin-left: 29%; width: 40%; ">Que está matriculado/a en el IES Las Fuentezuelas en 2º del ciclo formativo de
-                    Grado Medio de__________________________________________________________,
+                <h2 id="titexpone">EXPONE/N:</h2>
+                <div id="texexpone">Que está matriculado/a en el IES Las Fuentezuelas en 2º del ciclo formativo de
+                    Grado Medio de_________________________,
                     que son ciertos los datos que figuran en esta instancia, que cumple los requisitos para
                     obtener la condición de beneficiario establecidos en las bases de la convocatoria del
                     programa de movilidad de prácticas Erasmus+ del IES Las Fuentezuelas del curso
                     académico 2021/22 y que la documentación presentada es copia fiel del original.
                     </div>
-                <p style="margin-left: 34%;"> Por lo expuesto,</p>
-                <h3 style="text-align: center;">SOLICITA/N</h3>
-                <div style="margin-left: 29%; width: 40%;">Participar en la selección de alumnado de ciclos formativos de Grado Medio en el
+                <p id="expuestotit"> Por lo expuesto,</p>
+                <h3 id="titsolicita">SOLICITA/N</h3>
+                <div id="txtSolicita">Participar en la selección de alumnado de ciclos formativos de Grado Medio en el
                     programa de movilidad de prácticas Erasmus+ del IES Las Fuentezuelas,
                     con número de proyecto: 2023-1-ES01-KA121-VET-000118437, y que le sea concedida
                     una ayuda para la realización de prácticas en empresas de otros países de la Unión
                     Europea.
                 </div>
-                <p style="margin-left: 32%;">En Jaén, a ________ de _____________________ de __________</p>
-                <div style="display: flex; justify-content: center; margin-top: 5%">
+                <p id="fecha">En Jaén, a '.date("d", $fechaactual) .' de '.date("m", $fechaactual).' de '.date("y", $fechaactual).'</p>
+                <div id="firma">
                     <div>FDO. El solicitante</div>
-                    <div style="margin-left: 10%;">FDO.:RLegal</div>
-                    <div style="margin-left: 10%;"><i>Si es menor de edad</i></div>
+                    <div id="rLegal">FDO.:RLegal</div>
+                    <div id="menor"><i>Si es menor de edad</i></div>
                 </div>
-                <div style="margin-left: 28.7%;">
+                <footer id="footer">
+                <div id="divfooter">
                     <p>Documentación que se adjunta</p>
-                    <ul style="list-style-type: none;">
+                    <ul id="lista">
                         <li>Fotocopia del DNI del solicitante y de los padres si es menor de edad.</li>
                         <li>El certificado de idiomas, en caso de poseerlo</li>
                         <li>El documento de autorización de representación si es menor.</li>
                     </ul>
                 </div>
-                <p style="text-align: center; font-size: large;">SRA.DIRECTORA DEL IES LAS FUENTEZUELAS</p>
-                <div style="display: flex; margin-left: 30%;">
-                    <div style="border: 1px solid black; width: 8%;">Destino del documento</div>
-                    <div style="border: 1px solid black; width: 53%;">Entregar en Secretaria</div>
+                
+                <p id="direc">SRA.DIRECTORA DEL IES LAS FUENTEZUELAS</p>
+                <div id="prop">
+                    <div id="destino">Destino del documento</div>
+                    <div id="secretaria">Entregar en Secretaria</div>
                 </div>
+                </footer>
             </div>
         </body>
         </html>';
@@ -93,6 +104,19 @@
 
             # Enviamos el fichero PDF al navegador.
             $mipdf->stream($filename);
+            
+            $proyecto=new PROYECTO($candidato_convocatoria->convocatoria->proyecto->codigo_proyecto,
+            $candidato_convocatoria->convocatoria->proyecto->nombre,$candidato_convocatoria->convocatoria->proyecto->fecha_inicio,
+            $candidato_convocatoria->convocatoria->proyecto->fecha_fin);
+            $convocatoria=new CONVOCATORIA($candidato_convocatoria->convocatoria->id_convocatoria,$candidato_convocatoria->convocatoria->num_movilidades,
+            $candidato_convocatoria->convocatoria->tipo,$candidato_convocatoria->convocatoria->fecha_inicio,$candidato_convocatoria->convocatoria->fecha_fin,$candidato_convocatoria->convocatoria->fechainicioPruebas,
+            $candidato_convocatoria->convocatoria->fechafinPruebas,$candidato_convocatoria->convocatoria->fechaListadoProvisional,$candidato_convocatoria->convocatoria->fechaListadoDefinitivo,$proyecto,$candidato_convocatoria->convocatoria->pais_destino,$candidato_convocatoria->convocatoria->nombre,null,null);
+            $can_conv=new CANDIDATOS_CONVOCATORIA($candidato_convocatoria->id_candidato_convocatoria,$convocatoria,$candidato_convocatoria->DNI,$candidato_convocatoria->fecha_nacimiento,
+            $candidato_convocatoria->tutor_legal,$candidato_convocatoria->apellido1,$candidato_convocatoria->apellido2,$candidato_convocatoria->nombre,$candidato_convocatoria->contrasena,
+            $candidato_convocatoria->curso->codigo_grupo,$candidato_convocatoria->tlf,$candidato_convocatoria->correo,$candidato_convocatoria->domicilio,$candidato_convocatoria->rol,$filename);
+            http_response_code(200);
+
+            BD_CANDIDATOS_CONVOCATORIA::UpdateByID($can_conv->getID_Candidatos_Convocatoria(),$can_conv);
 
     }
 ?>

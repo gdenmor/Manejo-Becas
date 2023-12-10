@@ -1,0 +1,11 @@
+#def{
+    width: 100%;
+}
+#def thead tr th{
+    background-color: gray;
+    text-align: center;
+}
+#def tbody tr td{
+    background-color: white;
+    text-align: center;
+}

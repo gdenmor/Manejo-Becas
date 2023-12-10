@@ -22,6 +22,7 @@ window.addEventListener("load", async function () {
         const item = [];
         var i = 0;
 
+
         const fetchcandidato = await fetch("../Manejo-Becas/APIS/apiCandidato.php?dni=" + dni, {
             headers: {
                 "Content-type": "application/json"
@@ -31,7 +32,7 @@ window.addEventListener("load", async function () {
 
         const jsonCandidato = await fetchcandidato.json();
         const candidato = new CANDIDATO(jsonCandidato.DNI, jsonCandidato.fecha_nacimiento, jsonCandidato.tutor_legal, jsonCandidato.apellido1, jsonCandidato.apellido2, jsonCandidato.nombre, jsonCandidato.contraseña, jsonCandidato.curso, jsonCandidato.tlf, jsonCandidato.correo, jsonCandidato.domicilio, jsonCandidato.rol);
-        const cursoApi = await this.fetch("../Manejo-Becas/APIS/apiDestinatarioConvocatoria.php?id=" + candidato.curso, {
+        const cursoApi = await this.fetch("../Manejo-Becas/APIS/apiDestinatarioConvocatoria.php?id="+candidato.curso, {
             headers: {
                 "Content-type": "application/json"
             }
@@ -53,6 +54,12 @@ window.addEventListener("load", async function () {
             }
         })
         const jsonConvocatoriaBaremable = await apiConvocatoriaBaremable.json();
+        const apiConvocatoriaBaremableIdioma = await fetch("../Manejo-Becas/APIS/apiConvocatoriaBaremableIdioma.php?id=" + idConvocatoria, {
+            headers: {
+                "Content-type": "application/json"
+            }
+        })
+        const jsonConvocatoriaBaremableIdioma = await apiConvocatoriaBaremableIdioma.json();
         var tabla = this.document.createElement("table");
         var tbody = this.document.createElement("tbody");
         var thead = this.document.createElement("thead");
@@ -87,7 +94,7 @@ window.addEventListener("load", async function () {
                         // Mostrar el iframe y establecer la URL
                         iframe.style.display = "block";
                         iframe.src = urlArchivo;
-                        contenido_registro.appendChild(iframe);
+                        td2.appendChild(iframe);
                     } else {
                         // Ocultar el iframe si no hay archivo seleccionado
                         iframe.style.display = "none";
@@ -101,8 +108,41 @@ window.addEventListener("load", async function () {
             item[i] = new ITEM_BAREMABLE(element.baremo.id_item, element.baremo.nombre);
             i++;
         });
+            var tr=this.document.createElement("tr");
+            var td=this.document.createElement("td");
+            var td1=this.document.createElement("td");
+            td.innerHTML=jsonConvocatoriaBaremableIdioma[0].id_baremo.nombre;
+            var file=this.document.createElement("input");
+            file.setAttribute("type","file");
+            file.classList.add("Archivos");
+            td1.appendChild(file);
+            file.addEventListener("change", function () {
+                const archivoSeleccionado = file.files[0];
+
+                if (archivoSeleccionado) {
+                    var iframe1 = document.createElement("iframe");
+                    // Obtener la URL del archivo seleccionado
+                    const urlArchivo = URL.createObjectURL(archivoSeleccionado);
+
+                    // Mostrar el iframe y establecer la URL
+                    iframe1.style.display = "block";
+                    iframe1.src = urlArchivo;
+                    td1.appendChild(iframe1);
+                } else {
+                    // Ocultar el iframe si no hay archivo seleccionado
+                    iframe1.style.display = "none";
+                    iframe1.src = "";
+                }
+            });
+            tr.appendChild(td);
+            tr.appendChild(td1);
+            tbody.appendChild(tr);
         tabla.appendChild(tbody);
         contenido_registro.appendChild(tabla);
+        item[item.length]=jsonConvocatoriaBaremableIdioma[0].id_baremo;
+        tabla.style.marginTop="5%";
+        contenido_registro.insertBefore(tabla,this.document.getElementById("btn"));
+        //contenido_registro.insertBefore(iframe,this.document.getElementById("btn"));
 
         solicitar.addEventListener("click", async function (ev) {
             ev.preventDefault();
@@ -140,8 +180,6 @@ window.addEventListener("load", async function () {
                     rol.value
                 );
 
-                debugger;
-
                 // Enviar solicitud de Candidato_Convocatoria
                 const responseCandidatoConvocatoria = await fetch("../Manejo-Becas/APIS/apiCandidatoConvocatoria.php", {
                     method: "POST",
@@ -159,7 +197,7 @@ window.addEventListener("load", async function () {
                         var formData = new FormData();
                         if (archivo[i].files.length > 0 && archivo[i].files[0].type == "application/pdf") {
                             formData.append("archivo", archivo[i].files[0]);
-                            baremacion = new BAREMACION(null, candidato_convocatoria, item[i], null, null);
+                            var baremacion = new BAREMACION(null, candidato_convocatoria, item[i], null, null);
                             formData.append("baremacion", JSON.stringify(baremacion));
                             console.log(JSON.stringify(baremacion));
                             alert(JSON.stringify(baremacion));
@@ -179,7 +217,7 @@ window.addEventListener("load", async function () {
 
                     const pdf = await fetch("../Manejo-Becas/APIS/apiCreaPDF.php", {
                         method: "POST",
-                        body: JSON.stringify(baremacion),
+                        body: JSON.stringify(candidato_convocatoria),
                         headers: {
                             "Content-type": "application/json"
                         }

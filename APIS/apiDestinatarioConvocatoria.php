@@ -1,21 +1,19 @@
 <?php
     require_once "../HELPERS/AUTOLOAD.php";
-    if ($_SERVER["REQUEST_METHOD"]=="GET"){
+    if ($_SERVER["REQUEST_METHOD"]==="GET"){
         $id=$_GET['id'];
-        $status="";
         if (isset($id)){
             if ($id!==""){
-                $convocatoria=BD_DESTINATARIOS_CONVOCATORIAS::FindByID($id);
+                $convocatoria=BD_DESTINATARIOS_CONVOCATORIAS::FindByCurso($id);
                 $conv=$convocatoria->toJSON();
                 http_response_code(200);
                 echo $conv;
             }else{
-                $status=http_response_code(300);
+                http_response_code(300);
             }
         }else{
-            $status=http_response_code(400);
+            http_response_code(400);
         }
-        echo $status;
     }
 
     if ($_SERVER["REQUEST_METHOD"]=="DELETE"){

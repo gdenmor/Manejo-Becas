@@ -8,15 +8,17 @@
                     $convoelegidaid=$convocatorias[$i]->getIdConvocatoria();
                     $actual=new DateTime();
                     if ($convocatorias[$i]->getFechaInicio()<$actual){
-                        BD_CONVOCATORIA::DeleteByID($convoelegidaid);
-                        echo "<script>window.location.reload();</script>";
+                        $fechaActual=new DateTime();
+                        if ($convocatorias[$i]->getFechaFin()<$fechaActual){
+                            BD_CONVOCATORIA::DeleteByID($convoelegidaid);
+                            echo "<script>window.location.reload();</script>";
+                        }else{
+                            echo "Esta convocatoria al no estar finalizada no se puede borrar";
+                        }
                     }
                 }
             }
         }
-
-
-
     }
 
 ?>
@@ -44,7 +46,7 @@
                         </tr>';
                     }
                 }else{
-                    echo "No hay datos";
+                    echo "No existen convocatorias";
                 }
             ?>
             </form>
