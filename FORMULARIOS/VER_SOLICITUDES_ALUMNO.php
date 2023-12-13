@@ -17,7 +17,7 @@
             echo '</div>';
         }
     }else{
-        echo "No hay solicitudes";
+        echo '<span class="error" style="margin-left: 35%;">No hay solicitudes</span>';
     }
     ?>
 </section>

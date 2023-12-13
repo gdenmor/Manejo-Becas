@@ -3,7 +3,7 @@
     require_once "../vendor/autoload.php";
     require_once "../HELPERS/AUTOLOAD.php";
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
-        ob_clean();
+        $conexion=CONEXION::AbreConexion();
         $cuerpo=file_get_contents("php://input");
         $candidato_convocatoria = json_decode($cuerpo);
         $candidato_DNI = $candidato_convocatoria->DNI;
@@ -117,6 +117,7 @@
             http_response_code(200);
 
             BD_CANDIDATOS_CONVOCATORIA::UpdateByID($can_conv->getID_Candidatos_Convocatoria(),$can_conv);
+            $conexion->commit();
 
     }
 ?>

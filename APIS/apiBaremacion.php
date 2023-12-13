@@ -32,6 +32,7 @@
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtener el cuerpo de la solicitud
+    $conexion=CONEXION::AbreConexion();
     $cuerpo = file_get_contents("php://input");
 
     // Obtener el nombre del archivo y la ubicación temporal
@@ -89,14 +90,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $baremaSQL = new BAREMACION($barema->id_baremacion, $candidato_convocatoria, $item, null, $ruta);
 
     // Insertar en la base de datos
-    BD_BAREMACION::Insert($baremaSQL);
+    try{
+        BD_BAREMACION::Insert($baremaSQL);
 
-    // Mover el archivo subido a la ubicación deseada
-    if (move_uploaded_file($temporal, $ruta)) {
-        http_response_code(200);
-    } else {
-        http_response_code(400);
+        // Mover el archivo subido a la ubicación deseada
+        if (move_uploaded_file($temporal, $ruta)) {
+            http_response_code(200);
+            $conexion->commit();
+        } else {
+            http_response_code(400);
+            $conexion->commit();
+        }
+    }catch (Exception $e){
+        echo $e->getMessage();
     }
+    
 }
 
 if ($_SERVER["REQUEST_METHOD"]=="PUT"){

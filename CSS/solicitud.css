@@ -9,12 +9,13 @@
 }
 
 #contenedor-contenido{
-    margin-left: 33%;
+    margin-left: 38%;
     overflow: auto;
-    margin-top: 5%;
     height: 30%;
     width: 50%;
     background-color: #f4f4f4;
+    max-height: 60vh;
+    margin-top: 5%;
 }
 
 label {
@@ -50,7 +51,7 @@ input[type="submit"]:hover {
     margin-top: 5%;  
 }
 
-#btn input,.p,.f{
+.p,.f{
     background-color: #4caf50;
     color: white;
     padding: 8px 15px;
@@ -59,7 +60,7 @@ input[type="submit"]:hover {
     margin-left: 5%;
 }
 
-#btn input:hover,.p:hover{
+.p:hover{
     background-color: #45a049;
 }
 
@@ -110,6 +111,7 @@ input[type="submit"]:hover {
 .section {
     display: flex;
     margin-bottom: 10px;
+    margin-top: 5%;
 }
 
 /* Estilos para las etiquetas del formulario */
@@ -162,6 +164,8 @@ th, td {
 #btn {
     text-align: center;
     margin-top: 20px;
+    margin-left: 22%;
+    margin-top: 2%;
 }
 
 #de{
@@ -183,5 +187,29 @@ th, td {
     border-radius: 5px;
     margin-top: 5%;
 }
+
+#volver-solicitud{
+    position: absolute;
+    top: 1%;
+    left: 21%;
+}
+
+#volver-solicitud img{
+    width: 50%;
+}
+
+#btn input{
+    background-color: #f4f4f4;
+    color:black;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    margin-left: 5%;
+}
+
+#btn input:hover{
+    background-color: #ddd;
+}
+
 
 

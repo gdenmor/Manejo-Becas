@@ -1,59 +1,59 @@
-#titulo,#titsolicita{
+#titulo {
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+#solicitante,
+#texexpone,
+#txtSolicita,
+#firma {
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+
+#fecha {
+    text-align: right;
+    font-style: italic;
+    margin-bottom: 20px;
+}
+
+#firma div {
+    width: 33%;
+    display: inline-block;
     text-align: center;
 }
-#solicitante{
-    border: 1px solid black; 
-    width: 40%; 
-    margin-left: 29%;
+
+#footer {
+    page-break-after: always;
+    margin-top: 30px;
 }
-#titexpone{
+
+#divfooter {
     text-align: center;
+    margin-top: 20px;
 }
-#texexpone,#txtSolicita{
-    margin-left: 29%; 
-    width: 40%;
-}
-#expuestotit{
-    margin-left: 34%;
-}
-#fecha{
-    margin-left: 32%;
-}
-#firma{
-    display: flex; 
-    justify-content: center; 
-    margin-top: 5%;
-    margin-left: 20%;
-}
-#firma #rLegal{
-    margin-left: 10%;
-}
-#firma #menor{
-    margin-left: 10%;
-}
-#footer{
-    position:fixed;
-}
-#footer #divfooter{
-    margin-left: 28.7%;
-}
-#lista{
+
+#lista {
     list-style-type: none;
+    padding: 0;
 }
-#direc{
-    text-align: center; 
-    font-size: large;
+
+#lista li {
+    margin-bottom: 8px;
 }
-div #destino{
-    border: 1px solid black; 
-    width: 8%;
+
+#direc {
+    text-align: center;
+    font-weight: bold;
+    font-style: italic;
+    margin-bottom: 15px;
 }
-div #secretaria{
-    border: 1px solid black; 
-    width: 8%;
-}
-#prop{
-    display: flex; 
-    margin-left: 30%;
+
+#prop {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
 }
 

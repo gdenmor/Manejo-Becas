@@ -269,7 +269,6 @@ class BD_CONVOCATORIA
     ){
         try{
             $conexion=CONEXION::AbreConexion();
-            echo '<p style="margin-left: 50%;">PEPE</p>';
             $conexion->beginTransaction();
             $Proyecto = BD_PROYECTO::FindByNombre($proyecto);
             $tipo = "";
@@ -310,15 +309,25 @@ class BD_CONVOCATORIA
                 for ($i=0;$i<count($niveles);$i++){
                     if (isset($_POST['notaidioma'.$i])&&$_POST['notaidioma'.$i]>0){
                         $nota= (int)$_POST['notaidioma'.$i];
-                        $convocatoria_baremo_idioma=new CONVOCATORIA_BAREMABLE_IDIOMA(null,$convocatoria,$niveles[$i],$idioma,$nota);
-                        BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremo_idioma);
+                        $notaAnterior=(int)$_POST['notaidioma'.$i-1];
+                        if ($i==0){
+                            $convocatoria_baremo_idioma=new CONVOCATORIA_BAREMABLE_IDIOMA(null,$convocatoria,$niveles[$i],$idioma,$nota);
+                            BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremo_idioma);
+                        }else{
+                            if ($nota>=$notaAnterior){
+                                $convocatoria_baremo_idioma=new CONVOCATORIA_BAREMABLE_IDIOMA(null,$convocatoria,$niveles[$i],$idioma,$nota);
+                                BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremo_idioma);
+                            }else{
+                                $errores++;
+                            }
+                        }
                     }else{
                         $errores++;
                     }
                 }
 
                 if ($errores!==0){
-                    echo "Error";
+                    echo "Error en el idioma";
                     $conexion->rollBack();
                 }else{
                     echo "<p>Convocatoria insertada correctamente</p>";

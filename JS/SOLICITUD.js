@@ -5,13 +5,13 @@ window.addEventListener("load", async function () {
         var dni = parametros.get("dni");
         var idConvocatoria = parametros.get("idConvocatoria");
 
-
         //sacamos los datos introducidos
         const DNI = document.getElementsByName("DNI")[0];
         const nombre = document.getElementsByName("nombre")[0];
         const apellido1 = document.getElementsByName("apellido1")[0];
         const apellido2 = document.getElementsByName("apellido2")[0];
         const contraseña = document.getElementsByName("contraseña")[0];
+        contraseña.style.disabled=true;
         const correo = document.getElementsByName("correo")[0];
         const domicilio = document.getElementsByName("domicilio")[0];
         const rol = this.document.getElementsByName("rol")[0];
@@ -20,8 +20,22 @@ window.addEventListener("load", async function () {
         const curso = this.document.getElementsByName("curso")[0];
         const contenido_registro = this.document.getElementById("contenedor-contenido");
         const item = [];
-        var i = 0;
+        debugger;
+        var errorDNI=document.getElementById("errorDNI");
+        errorDNI.firstElementChild.innerHTML="";
+        var errorNombre=document.getElementById("errorNombre");
+        errorNombre.firstElementChild.innerHTML="";
+        var errorApellido1=document.getElementById("errorApellido1");
+        var errorContraseña=document.getElementById("errorContraseña");
+        var errorCorreo=document.getElementById("errorCorreo");
+        var errorDomicilio=document.getElementById("errorDomicilio");
+        var errorCurso=document.getElementById("errorCurso");
+        var errorTlf=document.getElementById("errorTlf");
 
+
+
+        
+        var i = 0;
 
         const fetchcandidato = await fetch("../Manejo-Becas/APIS/apiCandidato.php?dni=" + dni, {
             headers: {
@@ -92,7 +106,7 @@ window.addEventListener("load", async function () {
                         const urlArchivo = URL.createObjectURL(archivoSeleccionado);
 
                         // Mostrar el iframe y establecer la URL
-                        iframe.style.display = "block";
+                        iframe.style.display = "flex";
                         iframe.src = urlArchivo;
                         td2.appendChild(iframe);
                     } else {
@@ -101,6 +115,7 @@ window.addEventListener("load", async function () {
                         iframe.src = "";
                     }
                 });
+                td2.style.display="flex";
             }
             fila.appendChild(td);
             fila.appendChild(td2);
@@ -116,6 +131,7 @@ window.addEventListener("load", async function () {
             file.setAttribute("type","file");
             file.classList.add("Archivos");
             td1.appendChild(file);
+            td1.style.display="flex"
             file.addEventListener("change", function () {
                 const archivoSeleccionado = file.files[0];
 
@@ -125,7 +141,7 @@ window.addEventListener("load", async function () {
                     const urlArchivo = URL.createObjectURL(archivoSeleccionado);
 
                     // Mostrar el iframe y establecer la URL
-                    iframe1.style.display = "block";
+                    iframe1.style.display = "flex";
                     iframe1.src = urlArchivo;
                     td1.appendChild(iframe1);
                 } else {
@@ -141,92 +157,146 @@ window.addEventListener("load", async function () {
         contenido_registro.appendChild(tabla);
         item[item.length]=jsonConvocatoriaBaremableIdioma[0].id_baremo;
         tabla.style.marginTop="5%";
-        contenido_registro.insertBefore(tabla,this.document.getElementById("btn"));
-        //contenido_registro.insertBefore(iframe,this.document.getElementById("btn"));
 
         solicitar.addEventListener("click", async function (ev) {
             ev.preventDefault();
             try {
-                // Obtener convocatoria
-                const responseConvocatoria = await fetch('../Manejo-Becas/APIS/apiConvocatoria.php?id=' + idConvocatoria, {
-                    headers: {
-                        "Content-type": "application/json"
-                    }
-                });
-                const convocatoriaData = await responseConvocatoria.json();
-                const convocatoria = new CONVOCATORIA(idConvocatoria, convocatoriaData.num_movilidades, convocatoriaData.fecha_inicio, convocatoriaData.fecha_fin, convocatoriaData.fechainicioPruebas, convocatoriaData.fechaFinPruebas, convocatoriaData.fechaListadoProvisional, convocatoriaData.fechaListadoDefinitivo, convocatoriaData.Proyecto, convocatoriaData.pais_destino, convocatoriaData.nombre);
+                var validador=new VALIDADOR();
+                var num_errores=0;
+                if (validador.validaDNI(DNI.value)){
+                    errorDNI.firstElementChild.innerHTML="";
+                }else{
+                    num_errores++;
+                    errorDNI.firstElementChild.innerHTML="El DNI no es válido";
+                    errorDNI.firstElementChild.style.color="red";
+                    errorDNI.firstElementChild.style.marginLeft="30%";
+                }
 
-                // Iniciar transacción
-                const inicioTransaccion = await fetch("../Manejo-Becas/APIS/apiinicioTransaccion.php", {
-                    method: "POST"
-                });
-                debugger;
+                if (validador.validaNombre(nombre.value)==true){
+                    errorNombre.firstElementChild.innerHTML="El nombre no es válido";
+                }else{
+                    num_errores++;
+                    errorNombre.firstElementChild.innerHTML="El nombre no es válido";
+                    errorNombre.firstElementChild.style.color="red";
+                    errorNombre.firstElementChild.style.marginLeft="30%";
+                }
 
+                if (validador.validaApellido1(apellido1.value)==true){
+                    errorApellido1.firstElementChild.innerHTML="";
+                }else{
+                    num_errores++;
+                    errorApellido1.firstElementChild.innerHTML="El apellido no es válido";
+                    errorApellido1.firstElementChild.style.color="red";
+                    errorApellido1.firstElementChild.style.marginLeft="30%";
+                }
 
-                const candidato_convocatoria = new CANDIDATO_CONVOCATORIA(
-                    null,
-                    convocatoria,
-                    DNI.value,
-                    candidato.fecha_nacimiento,
-                    candidato.tutor_legal,
-                    apellido1.value,
-                    apellido2.value,
-                    nombre.value,
-                    contraseña.value,
-                    JSONcurso.destinatario,
-                    tlf.value,
-                    correo.value,
-                    domicilio.value,
-                    rol.value
-                );
+                if (validador.validaCorreo(correo.value)){
+                    errorCorreo.firstElementChild.innerHTML="";
+                }else{
+                    num_errores++;
+                    errorCorreo.firstElementChild.innerHTML="El correo no es válido";
+                    errorCorreo.firstElementChild.style.color="red";
+                    errorCorreo.firstElementChild.style.marginLeft="30%";
+                }
 
-                // Enviar solicitud de Candidato_Convocatoria
-                const responseCandidatoConvocatoria = await fetch("../Manejo-Becas/APIS/apiCandidatoConvocatoria.php", {
-                    method: "POST",
-                    body: JSON.stringify(candidato_convocatoria)
-                });
-                if (responseCandidatoConvocatoria.status === 200) {
-                    alert("Solicitud enviada correctamente");
+                if (validador.validaDomicilio(domicilio.value)){
+                    errorDomicilio.firstElementChild.innerHTML="";
+                }else{
+                    num_errores++;
+                    errorDomicilio.firstElementChild.innerHTML="El domicilio no es válido";
+                    errorDomicilio.firstElementChild.style.color="red";
+                    errorDomicilio.firstElementChild.style.marginLeft="30%";
+                }
 
-                    const idData = parseInt(await responseCandidatoConvocatoria.json());
-                    candidato_convocatoria.id_candidato_convocatoria = idData;
+                if (validador.validaCurso(curso.value)){
+                    errorCurso.firstElementChild.innerHTML="";
+                }else{
+                    num_errores++;
+                    errorCurso.firstElementChild.innerHTML="El curso no es válido";
+                    errorCurso.firstElementChild.style.color="red";
+                    errorCurso.firstElementChild.style.marginLeft="30%";
+                }
 
-                    // Procesar archivos
-                    const archivo = document.getElementsByClassName("Archivos");
-                    for (let i = 0; i < archivo.length; i++) {
-                        var formData = new FormData();
-                        if (archivo[i].files.length > 0 && archivo[i].files[0].type == "application/pdf") {
-                            formData.append("archivo", archivo[i].files[0]);
-                            var baremacion = new BAREMACION(null, candidato_convocatoria, item[i], null, null);
-                            formData.append("baremacion", JSON.stringify(baremacion));
-                            console.log(JSON.stringify(baremacion));
-                            alert(JSON.stringify(baremacion));
-                            formData.append("submit", "hola");
-                            fetch("../Manejo-Becas/APIS/apiBaremacion.php", {
-                                method: "POST",
-                                body: formData,
-                            }).then(x => {
-                                if (x.status == 200) {
-                                    alert("Archivo subido");
-                                } else {
-                                    alert("Error");
-                                }
-                            });
-                        }
-                    }
+                if (validador.validaTelefono(tlf.value)){
+                    errorTlf.firstElementChild.innerHTML="";
+                }else{
+                    num_errores++;
+                    errorTlf.firstElementChild.innerHTML="El teléfono no es válido";
+                    errorTlf.firstElementChild.style.color="red";
+                    errorTlf.firstElementChild.style.marginLeft="18%";
+                }
 
-                    const pdf = await fetch("../Manejo-Becas/APIS/apiCreaPDF.php", {
-                        method: "POST",
-                        body: JSON.stringify(candidato_convocatoria),
+                if (validador.validaRol(rol.value)){
+                    errorRol.firstElementChild.innerHTML="";
+                }else{
+                    num_errores++;
+                    errorRol.firstElementChild.innerHTML="El rol no es válido";
+                    errorRol.firstElementChild.style.color="red";
+                    errorRol.firstElementChild.style.marginLeft="30%";
+                }
+
+                
+                
+                if (num_errores==0){
+                    const responseConvocatoria = await fetch('../Manejo-Becas/APIS/apiConvocatoria.php?id=' + idConvocatoria, {
                         headers: {
                             "Content-type": "application/json"
                         }
-                    })
-                    if (pdf.status == 200) {
-                        window.location.reload();
+                    });
+                    const convocatoriaData = await responseConvocatoria.json();
+                    const convocatoria = new CONVOCATORIA(idConvocatoria, convocatoriaData.num_movilidades, convocatoriaData.fecha_inicio, convocatoriaData.fecha_fin, convocatoriaData.fechainicioPruebas, convocatoriaData.fechaFinPruebas, convocatoriaData.fechaListadoProvisional, convocatoriaData.fechaListadoDefinitivo, convocatoriaData.Proyecto, convocatoriaData.pais_destino, convocatoriaData.nombre);
+    
+    
+    
+                    const candidato_convocatoria = new CANDIDATO_CONVOCATORIA(
+                        null,
+                        convocatoria,
+                        DNI.value,
+                        candidato.fecha_nacimiento,
+                        candidato.tutor_legal,
+                        apellido1.value,
+                        apellido2.value,
+                        nombre.value,
+                        contraseña.value,
+                        JSONcurso.destinatario,
+                        tlf.value,
+                        correo.value,
+                        domicilio.value,
+                        rol.value
+                    );
+
+                    const baremacionData = [];
+                    const archivos = document.getElementsByClassName("Archivos");
+                    for (let i = 0; i < archivos.length; i++) {
+                        var baremacionItem = {
+                            item: item[i],
+                            nota: null, // Debes obtener la nota de alguna manera, por ejemplo, de un input
+                            url: null // También debes obtener la URL
+                        };
+                        baremacionData.push(baremacionItem);
                     }
-                } else if (responseCandidatoConvocatoria.status == 400) {
-                    alert("Ya ha realizado una solicitud este usuario");
+
+                    var formData=new FormData();
+                    formData.append("json",JSON.stringify({candidato_convocatoria: candidato_convocatoria,
+                        baremacion: baremacionData}));
+    
+                        for (let i = 0; i < baremacionData.length; i++) {
+                            const archivoSeleccionado = archivos[i].files[0];
+                            if (archivoSeleccionado) {
+                                formData.append("archivo[]", archivoSeleccionado);
+                            }
+                        }
+                    // Enviar solicitud de Candidato_Convocatoria
+                    const responseCandidatoConvocatoria = await fetch("../Manejo-Becas/APIS/apiCandidatoConvocatoria.php", {
+                        method: "POST",
+                        body: formData
+                    });
+                    if (responseCandidatoConvocatoria.status === 200) {
+                        alert("Solicitud enviada correctamente");
+                        window.location.href="http://localhost/Manejo-Becas/index.php?menu=alumno";
+                    }
+                }else{
+                    alert("PONLO BIEN COÑO");
                 }
             } catch (error) {
                 console.error("Error:", error);

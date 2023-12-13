@@ -129,6 +129,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <form method="post">
 <div>
     <h1 id="titulo-ev">SOLICITUDES A EVALUAR</h1>
+    <section id="volver-solicitud" style="position: absolute; top: 1%; left: 21%;">
+        <a href="?menu=baremo"><img src="../Manejo-Becas/IMAGENES/volver.png"></a>
+    </section>
     <table id="solicitudes-tabla">
         <thead>
             <th>ID</th>
@@ -139,7 +142,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </thead>
         <tbody id="solicitudes">
             <?php
-                $solicitudes=BD_CANDIDATOS_CONVOCATORIA::VerSolicitudesConvocatoria($_GET['idConvocatoria']);
+                $id=(int)$_GET['idConvocatoria'];
+                $solicitudes=BD_CANDIDATOS_CONVOCATORIA::VerSolicitudesConvocatoria($id);
                 if ($solicitudes!=null){
                     for ($i=0;$i<count($solicitudes);$i++){
                         echo "<tr>";
@@ -151,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         echo "</tr>";
                     }
                 }else{
-                    echo '<p id="errorSolicitudes">No existen solicitudes en esta convocatoria</p>';
+                    echo '<p id="errorSolicitudes" style="margin-top: 5%; position:absolute;">No existen solicitudes en esta convocatoria</p>';
                 }
             ?>
         </tbody>

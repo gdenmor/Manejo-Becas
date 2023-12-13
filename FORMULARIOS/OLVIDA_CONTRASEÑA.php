@@ -69,7 +69,7 @@
                     <article id="txtDNI-cambia-contraseña">
                         <input type="text" name="DNI">
                     </article>
-                </section>
+                </section><br>
                 <section id="contenedor-contraseña-cambia-contraseña">
                     <article id="lblContraseña-cambia-contraseña">
                         <label>CONTRASEÑA</label>
@@ -77,7 +77,7 @@
                     <article id="txtContraseña-cambia-contraseña">
                         <input type="text" name="password" placeholder="Introduzca la contraseña nueva...">
                     </article>
-                </section>
+                </section><br>
                 <section id="contenedor-contraseña-cambia-contraseña">
                     <article id="lblContraseña-cambia-contraseña">
                         <label> REPITE CONTRASEÑA</label>
@@ -85,7 +85,7 @@
                     <article id="txtContraseña-cambia-contraseña">
                         <input type="text" name="password-repeat" placeholder="Repita la contraseña nueva...">
                     </article>
-                </section>
+                </section><br>
                 <section>
                     <?php
                         if ($mensajeError!==""){

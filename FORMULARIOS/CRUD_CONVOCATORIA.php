@@ -1,5 +1,16 @@
 <?php
     SESSION::CreaSesion();
+    $mensajeErrorNombre="";
+    $mensajeErrorProyecto="";
+    $mensajeErrorMovilidades="";
+    $mensajeErrorDestino="";
+    $mensajeErrorFechaInicio="";
+    $mensajeErrorFechaFin="";
+    $mensajeErrorFechaInicioPruebas="";
+    $mensajeErrorFechaFinPruebas="";
+    $mensajeErrorFechaListadoProvisional="";
+    $mensajeErrorFechaListadoDefinitivo="";
+    $mensajeErrorDestinatarios="";
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
         
         $num_errores=0;
@@ -27,70 +38,70 @@
 
             }else{
                 $num_errores++;
-                echo "Nombre no válido";
+                $mensajeErrorNombre="Nombre no válido";
             }
 
             if ($validador->validaNombre($proyecto,100,1)){
 
             }else{
                 $num_errores++;
-                echo "Proyecto no válido";
+                $mensajeErrorProyecto="Proyecto no válido";
             }
 
             if ($movilidades>0){
 
             }else{
                 $num_errores++;
-                echo "Movilidades no válidas";
+                $mensajeErrorMovilidades="Movilidades no válidas";
             }
 
             if ($validador->validaNombre($destino,100,1)){
 
             }else{
                 $num_errores++;
-                echo "Destino no válido";
+                $mensajeErrorDestino="Destino no válido";
             }
 
             if ($validador->validaFecha($fechainicio)){
 
             }else{
                 $num_errores++;
-                echo "Fcha inicio no válida";
+                $mensajeErrorFechaInicio="Fecha inicio no válida";
             }
 
             if ($validador->validaFecha($fechafin)&&$fechafin>$fechainicio){
 
             }else{
                 $num_errores++;
-                echo "Fecha fin no válida";
+                $mensajeErrorFechaFin="Fecha fin no válida";
             }
 
             if ($validador->validaFecha($fechainicioPruebas)&&$fechainicioPruebas >= $fechainicio&&$fechainicioPruebas<=$fechafin){
 
             }else{
                 $num_errores++;
-                echo "Fecha inicio pruebas no válida";
+                $mensajeErrorFechaInicioPruebas="Fecha inicio pruebas no válida";
             }
 
             if ($validador->validaFecha($fechafinPruebas)&&$fechainicioPruebas<$fechafinPruebas){
 
             }else{
                 $num_errores++;
-                echo "Fecha fin pruebas no válida";
+                $mensajeErrorFechaFinPruebas="Fecha fin pruebas no válida";
             }
 
             if ($validador->validaFecha($fechalistadoprovisional)&&$fechalistadoprovisional>$fechafinPruebas){
 
             }else{
                 $num_errores++;
-                echo "Fecha listado provisional no válida";
+                $mensajeErrorFechaListadoProvisional="Fecha listado provisional no válida";
             }
 
             if ($validador->validaFecha($fechalistadodefinitivo)&&$fechalistadodefinitivo>$fechalistadoprovisional){
 
             }else{
                 $num_errores++;
-                echo "Fecha listado definitivo no válido";
+                $mensajeErrorFechaListadoDefinitivo="Fecha listado definitivo no válido";
             }
 
             $destinatarios=BD_DESTINATARIOS::FindAll();
@@ -106,7 +117,7 @@
 
             }else{
                 $num_errores++;
-                echo "No existen desinatarios";
+                $mensajeErrorDestinatarios="No existen desinatarios";
             }
             
             $maximas = [];
@@ -137,7 +148,7 @@
     
                     }else{
                         $num_errores++;
-                        echo "Nota máxima no válida";
+                        $mensajeErrorNotaMaxima="Nota máxima no válida";
                     }
                 }
     
@@ -146,7 +157,7 @@
     
                     }else{
                         $num_errores++;
-                        echo "Requisito no válido";
+                        $mensajeErrorRequisito="Requisito no válido";
                     }
                 }
     
@@ -155,7 +166,7 @@
                         
                     }else{
                         $num_errores++;
-                        echo "Nota mínima no válida";
+                        $mensajeErrorNotaMinima="Nota mínima no válida";
                     }
                 }
     
@@ -164,7 +175,7 @@
     
                     }else{
                         $num_errores++;
-                        echo "No has puesto si lo aporta o no";
+                        $mensajeErrorAporta="No has puesto si lo aporta o no";
                     }
                 }
             }else{
@@ -176,7 +187,7 @@
                 $fechafinPruebas,$fechalistadoprovisional,$fechalistadodefinitivo,$destino,$nombre,$baremo,$desti,$maximas,
                 $requisitos,$minimas,$aportas,$idioma);
             }else{
-                echo '<p style="margin-left: 50%; z-index: 199;">'.$num_errores.'</p>';
+                
             }
 
         }
@@ -315,8 +326,11 @@
             <form method="post">
                 <span id="span-nombre">Nombre:</span>
                 <input id="txtNombre" type="text" name="nombre">
-                <span id="span-id">ID:</span>
-                <input id="txt-id" type="number" text="id" name="id">
+                <?php
+                    if ($mensajeErrorNombre!==""){
+                        echo '<span class="error">'.$mensajeErrorNombre.'</span>';
+                    }
+                ?>  
                 <span id="span-proyecto">Proyecto:</span>
                 <select id="select-proyecto" name="proyecto" id="select">
                     <?php
@@ -330,7 +344,17 @@
                     }
                     ?>
                 </select><br>
-                <span id="span-destinatario">Destinatario:</span>
+                <?php
+                    if ($mensajeErrorProyecto!==""){
+                        echo '<span class="error">'.$mensajeErrorMovilidades.'</span>';
+                    }
+                ?>  
+                <span id="span-destinatario">Destinatario:</span><br>
+                <?php
+                    if ($mensajeErrorDestinatarios!==""){
+                        echo '<span class="error">'.$mensajeErrorDestinatarios.'</span>';
+                    }
+                ?>  
                 <table id="tabla-destinatario" border="1">
                     <thead>
                         <th>NOMBRE:</th>
@@ -354,20 +378,60 @@
                 </table><br>
                 <span id="span-movilidades">Movilidades</span>
                 <input id="txt-movilidades" name="movilidades" type="number"><br>
+                <?php
+                    if ($mensajeErrorMovilidades!==""){
+                        echo '<span class="error">'.$mensajeErrorMovilidades.'</span>';
+                    }
+                ?>  
                 <span id="span-pais">País de destino:</span>
                 <input id="txt-pais" name="destino" type="text"><br>
+                <?php
+                    if ($mensajeErrorDestino!==""){
+                        echo '<span class="error">'.$mensajeErrorDestino.'</span>';
+                    }
+                ?>  
                 <span id="span-fecha-inicio">Fecha de inicio:</span>
                 <input id="fecha-inicio" name="fechainicio" type="datetime-local"><br>
+                <?php
+                    if ($mensajeErrorFechaInicio!==""){
+                        echo '<span class="error">'.$mensajeErrorFechaInicio.'</span>';
+                    }
+                ?>  
                 <span id="span-fecha-fin">Fecha de fin:</span>
                 <input id="fecha-fin" name="fechafin" type="datetime-local"><br>
+                <?php
+                    if ($mensajeErrorFechaFin!==""){
+                        echo '<span class="error">'.$mensajeErrorFechaFin.'</span>';
+                    }
+                ?>  
                 <span id="span-fecha-inicio-pruebas">Fecha Inicio de Pruebas:</span>
                 <input id="fecha-inicio-pruebas" name="fechainicioPruebas" type="datetime-local"><br>
+                <?php
+                    if ($mensajeErrorFechaInicioPruebas!==""){
+                        echo '<span class="error">'.$mensajeErrorFechaInicioPruebas.'</span>';
+                    }
+                ?>  
                 <span id="span-fecha-fin-pruebas">Fecha Fin de Pruebas:</span>
                 <input id="fecha-fin-pruebas" name="fechafinPruebas" type="datetime-local"><br>
+                <?php
+                    if ($mensajeErrorFechaFinPruebas!==""){
+                        echo '<span class="error">'.$mensajeErrorFechaFinPruebas.'</span>';
+                    }
+                ?>
                 <span id="span-fecha-provisional">Fecha Listado Provisional:</span>
                 <input id="fecha-provisional" name="fechalistadoprovisional" type="datetime-local"><br>
+                <?php
+                    if ($mensajeErrorFechaListadoProvisional!==""){
+                        echo '<span class="error">'.$mensajeErrorFechaListadoProvisional.'</span>';
+                    }
+                ?>
                 <span id="span-definitivo">Fecha Listado Definitivo:</span>
                 <input id="fecha-definitivo" name="fechalistadodefinitivo" type="datetime-local"><br>
+                <?php
+                    if ($mensajeErrorFechaListadoDefinitivo!==""){
+                        echo '<span class="error">'.$mensajeErrorFechaListadoDefinitivo.'</span>';
+                    }
+                ?>
                 <span id="span-baremo">Baremos:</span><br>
                 <table id="tabla-baremo">
                     <thead>
@@ -386,9 +450,10 @@
                                 $baremo = $baremos[$i];
                                 echo '<tr>
                                     <td>  <input type="checkbox" name="boton_baremo'.$i.'"> </td>
-                                    <td>' . $baremo->getNombre() . '</td>
-                                    <td><input name="maxima'.$i.'" type="number"></td>';
+                                    <td>' . $baremo->getNombre() . '</td>';
+                                    
                                     if ($baremo->getNombre()!=="Idioma"){
+                                        echo '<td><input name="maxima'.$i.'" type="number"></td>';
                                         echo '<td><select name="requisito'.$i.'"><option>Sí</option><option>No</option></select></td>';
                                         echo '<td><input name="minima'.$i.'" type="number"></td>';
                                         echo '<td><select name="aporta'.$i.'"><option>Sí</option><option>No</option></select></td>';

@@ -88,29 +88,29 @@
                 <article id="txtDNI-registro">
                     <input class="inputs" type="text" name="DNI" value="<?php echo isset($_POST['DNI'])?$_POST['DNI']:"";?>">
                 </article>
-                <article>
+            </section>
+            <article>
                     <?php
                         if ($mensajeErrorDNI!=""){
-                            echo '<p class="error">'.$mensajeErrorDNI."</p>";
+                            echo '<span class="error">'.$mensajeErrorDNI."</p>";
                         }
                     ?>
-                </article>
-            </section>
+            </article>
             <section class="section" id="contenedor-nombre-registro">
                 <article id="lblNombre-registro">
                     <label>NOMBRE</label>
                 </article>
                 <article id="txtNombre-registro">
                     <input class="inputs" type="text" name="nombre" value="<?php echo isset($_POST['nombre'])?$_POST['nombre']:"";?>">
-                </article>
-                <article>
+                </article><br>
+            </section>
+            <article>
                     <?php
                         if ($mensajeErrorNombre!=""){
-                            echo '<p class="error">'.$mensajeErrorNombre."</p>";
+                            echo '<span class="error">'.$mensajeErrorNombre."</p>";
                         }
                     ?>
-                </article>
-            </section>
+            </article>
             <section class="section" id="contenedor-apellido1-registro">
                 <article id="lblapellido1-registro">
                     <label>PRIMER APELLIDO</label>
@@ -118,14 +118,14 @@
                 <article id="txtapellido1-registro">
                     <input class="inputs" type="text" name="apellido1" value="<?php echo isset($_POST['apellido1'])?$_POST['apellido1']:"";?>">
                 </article>
-                <article>
+            </section>
+            <article>
                     <?php
                         if ($mensajeErrorApellido1!=""){
-                            echo '<p class="error">'.$mensajeErrorApellido1."</p>";
+                            echo '<span class="error">'.$mensajeErrorApellido1."</p>";
                         }
                     ?>
-                </article>
-            </section>
+            </article>
             <section class="section" id="contenedor-apellido2-registro">
                 <article id="lblapellido2-registro">
                     <label>SEGUNDO APELLIDO</label>
@@ -141,14 +141,14 @@
                 <article id="txtcontraseña-registro">
                     <input class="inputs" type="text" name="contraseña" value="<?php echo isset($_POST['contraseña'])?$_POST['contraseña']:"";?>">
                 </article>
-                <article>
+            </section>
+            <article>
                     <?php
                         if ($mensajeErrorContraseña!=""){
-                            echo '<p class="error">'.$mensajeErrorContraseña."</p>";
+                            echo '<span class="error">'.$mensajeErrorContraseña."</p>";
                         }
                     ?>
-                </article>
-            </section>
+            </article>
             <section class="section" id="contenedor-correo-registro">
                 <article id="lblcorreo-registro">
                     <label>CORREO ELECTRÓNICO</label>
@@ -156,14 +156,14 @@
                 <article id="txtcorreo-registro">
                     <input class="inputs" type="email" name="correo" value="<?php echo isset($_POST['correo'])?$_POST['correo']:"";?>">
                 </article>
-                <article>
+            </section>
+            <article>
                     <?php
                         if ($mensajeErrorCorreo!=""){
-                            echo '<p class="error">'.$mensajeErrorCorreo."</p>";
+                            echo '<span class="error">'.$mensajeErrorCorreo."</p>";
                         }
                     ?>
-                </article>
-            </section>
+            </article>
             <section class="section" id="contenedor-domicilio-registro">
                 <article id="lbldomicilio-registro">
                     <label>DOMICILIO</label>
@@ -171,14 +171,14 @@
                 <article id="txtdomicilio-registro">
                     <input class="inputs" type="text" name="domicilio" value="<?php echo isset($_POST['domicilio'])?$_POST['domicilio']:"";?>">
                 </article>
-                <article>
+            </section>
+            <article>
                     <?php
                         if ($mensajeErrorDomicilio!=""){
-                            echo '<p class="error">'.$mensajeErrorDomicilio.'</p>';
+                            echo '<span class="error">'.$mensajeErrorDomicilio.'</p>';
                         }
                     ?>
                 </article>
-            </section>
             <section class="section" id="contenedor-curso-registro">
                 <article id="lblcurso-registro">
                     <label>DESTINATARIO:</label><br>
@@ -207,7 +207,7 @@
                 <article>
                     <?php
                         if ($mensajeErrorDomicilio!=""){
-                            echo '<p class="error">'.$mensajeErrorDomicilio.'</p>';
+                            echo '<span class="error">'.$mensajeErrorDomicilio.'</p>';
                         }
                     ?>
                 </article>

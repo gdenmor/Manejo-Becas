@@ -1,4 +1,5 @@
 <?php
+    $mensajeError="";
     if ($_SERVER['REQUEST_METHOD']=="POST"){
         $convocatorias=BD_CONVOCATORIA::FindAll();
         $convoelegidaid=null;
@@ -9,11 +10,12 @@
                     $actual=new DateTime();
                     if ($convocatorias[$i]->getFechaInicio()<$actual){
                         $fechaActual=new DateTime();
-                        if ($convocatorias[$i]->getFechaFin()<$fechaActual){
+                        $fechafin=new DateTime($convocatorias[$i]->getFechaFin());
+                        if ($fechafin<$fechaActual){
                             BD_CONVOCATORIA::DeleteByID($convoelegidaid);
                             echo "<script>window.location.reload();</script>";
                         }else{
-                            echo "Esta convocatoria al no estar finalizada no se puede borrar";
+                            $mensajeError='Esta convocatoria al no estar finalizada no se puede borrar</p>';
                         }
                     }
                 }
@@ -23,6 +25,11 @@
 
 ?>
     <h1 id="tituloconv">MOSTRAR Y BORRAR CONVOCATORIAS</h1>
+    <?php
+        if ($mensajeError!==""){
+            echo '<span class="error" style="margin-left:45% ;position:absolute;margin-top:5% ;">'.$mensajeError.'</span>';
+        }
+    ?>
     <table id="tablaConvocatorias">
         <thead>
             <th>PROYECTO</th>

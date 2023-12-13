@@ -71,6 +71,7 @@
     justify-content: center;
     align-items: center;
     margin-top: 5%;
+    gap: 3%;
 }
 
 .soli div{
@@ -81,32 +82,43 @@
     margin-right: 3%;
 }
 
+.soli input{
+    border-radius: 5px;
+    width: 60%;
+}
+
 #contenedorsol{
     overflow: auto;
     height: 40%;
     border: 1px solid black;
     width: 50%;
-    margin-left: 25%;
+    margin-left: 37%;
     background-color: #fff;
 }
 
 #sol{
-    margin-left: 42%;
+    margin-left: 55%;
     margin-bottom: 5%;
 }
 
 #bt{
-    margin-left: 40%;
+    margin-left: 55%;
     margin-top: 5%;
 }
 
 
 #bt input{
-    background-color: #4caf50;
-    color: white;
+    background-color: #fff;
+    color: black;
     padding: 10px 20px;
     font-size: 16px;
     border: none;
     cursor: pointer;
     border-radius: 10px;
 }
+
+#bt input:hover{
+    background-color: rgb(231, 223, 223);
+}
+
+

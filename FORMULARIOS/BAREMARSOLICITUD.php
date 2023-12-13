@@ -2,6 +2,7 @@
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
         $num_errores=0;
         $baremos = BD_BAREMACION::SacarSolicitud($_GET['idSolicitud']);
+        $convocatoria=$baremos[0]->getCandidatoConvocatoria()->getConvocatoria();
         $baremosSolicitud=[];
         $idioma=null;
         for ($i=0;$i<count($baremos);$i++){
@@ -32,7 +33,8 @@
     <div id="contenedorsol">
         <div>
             <?php
-            $baremar = BD_BAREMACION::SacarSolicitud($_GET['idSolicitud']);
+            $id=(int)$_GET['idSolicitud'];
+            $baremar = BD_BAREMACION::SacarSolicitud($id);
 
             if ($baremar != null) {
                 for ($i = 0; $i < count($baremar); $i++) {

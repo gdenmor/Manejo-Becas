@@ -1,5 +1,6 @@
 .error{
     color: red;
+    margin-left: 5%;
 }
 
 #contenido-registro{
@@ -12,12 +13,16 @@
     background-color:#ebebe7;
     border: 3px solid black;
     overflow: auto;
+    max-height: calc(100vh - 240px);
 }
 
 #contenido-registro section{
     display: flex;
-    margin-bottom: 5%;
     max-width: 100%;
+}
+
+#contenedor-DNI-registro{
+    margin-top: 5%;
 }
 
 #lblcurso-registro section #txtcurso-registro{
@@ -79,6 +84,7 @@
     position: absolute;
     left: 21%;
     top: 1%;
+    width: 10%;
 }
 
 #contenido-cambia-contraseña {

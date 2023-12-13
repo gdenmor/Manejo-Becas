@@ -36,7 +36,7 @@
                     echo '</div>';  
                 }
             }else{
-                echo "No existen convocatorias";
+                echo '<span class="error" style="margin-left:30%;">No existen convocatorias</span>';
             }
         ?>
     </section>
