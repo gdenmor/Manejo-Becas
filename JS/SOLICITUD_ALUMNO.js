@@ -11,7 +11,7 @@ window.addEventListener("load",function(){
                     var boton=tds[j].firstElementChild;
                     boton.addEventListener("click",function(){
                         var id=tds[0].textContent;
-                        window.location.href="http://localhost/Manejo-Becas/index.php?menu=versolicitud&idSolicitud="+id;
+                        window.location.href="http://localhost/Manejo-Becas/index.php?menu=versolicitud&idSolicitud="+id+"&idConvocatoria="+idConvocatoria;
                     });
                 }
             }

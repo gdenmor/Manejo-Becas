@@ -69,6 +69,20 @@
             }
         }
 
+        public function validaTlf($tlf){
+            $formato=preg_match('/[98]\d{8}$/',$tlf);
+            $formato2=preg_match('/[67]\d{8}$/',$tlf);
+            if ($formato){
+                return true;
+            }else{
+                if ($formato2){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+
 
     }
 

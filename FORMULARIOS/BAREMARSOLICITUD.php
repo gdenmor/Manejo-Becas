@@ -1,7 +1,7 @@
 <?php
     if ($_SERVER["REQUEST_METHOD"]=="POST"){
         $num_errores=0;
-        $baremos = BD_BAREMACION::SacarSolicitud($_GET['idSolicitud']);
+        $baremos = BD_BAREMACION::SacarSolicitud($_GET['idSolicitud'],null);
         $convocatoria=$baremos[0]->getCandidatoConvocatoria()->getConvocatoria();
         $baremosSolicitud=[];
         $idioma=null;
@@ -29,12 +29,16 @@
 
 ?>
 <h1 id="sol">SOLICITUD</h1>
+<section id="volver">
+    <a href="?menu=versolicitudes&idConvocatoria=<?php echo $_GET['idConvocatoria']?>"><img src="../Manejo-Becas/IMAGENES/volver.png"></a>
+</section>
 <form id="solform" method="post">
     <div id="contenedorsol">
         <div>
             <?php
-            $id=(int)$_GET['idSolicitud'];
-            $baremar = BD_BAREMACION::SacarSolicitud($id);
+            $id=$_GET['idSolicitud'];
+            $id_conv=$_GET['idConvocatoria'];
+            $baremar = BD_BAREMACION::SacarSolicitud($id,$id_conv);
 
             if ($baremar != null) {
                 for ($i = 0; $i < count($baremar); $i++) {

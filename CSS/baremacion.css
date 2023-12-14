@@ -121,4 +121,13 @@
     background-color: rgb(231, 223, 223);
 }
 
+#volver{
+    position: absolute;
+    top: 1%;
+    left: 21%;
+}
+#volver img{
+    width: 50%;
+}
+
 

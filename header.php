@@ -41,7 +41,7 @@
                             <li><a><?php echo $usuario->getNombre()?></a></li>
                             <li class="active"><a>BIENVENID@</a</li>
                             <li><a href="?menu=admin">CREAR CONVOCATORIA</a></li>
-                            <li><a href="?menu=actualizaconvocatoria">ACTUALIZAR CONVOCATORIA</a></li>
+                            <li><a href="?menu=actualiza">ACTUALIZAR CONVOCATORIA</a></li>
                             <li><a href="?menu=mostrarConvocatorias">MOSTRAR Y BORRAR CONVOCATORIA</a></li>
                             <li><a href="?menu=baremo">EVALUAR SOLICITUDES</a></li>
                             <li><a><input class="cierra-sesion" type="submit" value="CERRAR SESIÓN" name="logout"></a></li>

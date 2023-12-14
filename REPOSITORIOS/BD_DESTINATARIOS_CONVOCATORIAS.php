@@ -78,6 +78,14 @@
             $resultado->execute();
         }
 
+        public static function DeleteByConvocatoria($id_convocatoria){
+            $conexion=CONEXION::AbreConexion();
+
+            $resultado=$conexion->prepare("DELETE from DESTINATARIOS_CONVOCATORIAS WHERE id_convocatoria=:id_convocatoria");
+            $resultado->bindParam(':id_convocatoria', $id_convocatoria, PDO::PARAM_INT);
+            $resultado->execute();
+        }
+
         public static function UpdateByID($id_destinatario_convocatoria,$objetoActualizado){
             $conexion=CONEXION::AbreConexion();
             $id_convocatoria=$objetoActualizado->getConvocatoria()->getIdConvocatoria();

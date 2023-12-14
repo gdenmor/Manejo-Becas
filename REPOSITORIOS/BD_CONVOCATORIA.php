@@ -309,17 +309,12 @@ class BD_CONVOCATORIA
                 for ($i=0;$i<count($niveles);$i++){
                     if (isset($_POST['notaidioma'.$i])&&$_POST['notaidioma'.$i]>0){
                         $nota= (int)$_POST['notaidioma'.$i];
-                        $notaAnterior=(int)$_POST['notaidioma'.$i-1];
                         if ($i==0){
                             $convocatoria_baremo_idioma=new CONVOCATORIA_BAREMABLE_IDIOMA(null,$convocatoria,$niveles[$i],$idioma,$nota);
                             BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremo_idioma);
                         }else{
-                            if ($nota>=$notaAnterior){
                                 $convocatoria_baremo_idioma=new CONVOCATORIA_BAREMABLE_IDIOMA(null,$convocatoria,$niveles[$i],$idioma,$nota);
                                 BD_CONVOCATORIA_BAREMABLE_IDIOMA::Insert($convocatoria_baremo_idioma);
-                            }else{
-                                $errores++;
-                            }
                         }
                     }else{
                         $errores++;
@@ -330,7 +325,7 @@ class BD_CONVOCATORIA
                     echo "Error en el idioma";
                     $conexion->rollBack();
                 }else{
-                    echo "<p>Convocatoria insertada correctamente</p>";
+                    echo '<p id="exito">Convocatoria insertada correctamente</p>';
                     $conexion->commit();
                 }
             }

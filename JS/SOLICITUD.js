@@ -66,8 +66,9 @@ window.addEventListener("load", async function () {
             headers: {
                 "Content-type": "application/json"
             }
-        })
+        });
         const jsonConvocatoriaBaremable = await apiConvocatoriaBaremable.json();
+        
         const apiConvocatoriaBaremableIdioma = await fetch("../Manejo-Becas/APIS/apiConvocatoriaBaremableIdioma.php?id=" + idConvocatoria, {
             headers: {
                 "Content-type": "application/json"
@@ -292,15 +293,13 @@ window.addEventListener("load", async function () {
                         body: formData
                     });
                     if (responseCandidatoConvocatoria.status === 200) {
-                        alert("Solicitud enviada correctamente");
                         window.location.href="http://localhost/Manejo-Becas/index.php?menu=alumno";
                     }
-                }else{
-                    alert("PONLO BIEN COÑO");
                 }
+                
             } catch (error) {
-                console.error("Error:", error);
-                alert("Error en la transacción");
+                alert("Ha ocurrido un error inesperado. Inténtelo de nuevo");
+                window.location.reload();
             }
 
         })

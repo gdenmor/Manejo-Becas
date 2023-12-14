@@ -1,7 +1,8 @@
+
 <div id="contenedor-barema">
     <form method="post">
         <div>
-            <h1 id="titulo-con">SOLICITUDES A EVALUAR</h1>
+            <h1 id="titulo-con">SOLICITUD A EVALUAR</h1>
             <table id="tablabaremar">
                 <thead>
                     <th>ID CONVOCATORIA</th>

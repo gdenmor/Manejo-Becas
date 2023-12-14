@@ -58,9 +58,6 @@
 <main id="contenedor-cambia-contraseña">
     <form method="post">
         <section id="contenido">
-            <section id="volver-cambia-contraseña">
-                <a href="?menu=inicio"><img src="../Manejo-Becas/IMAGENES/volver.png"></a>
-            </section>
             <section id="contenido-cambia-contraseña">
                 <section id="contenedor-dni-cambia-contraseña">
                     <article id="lblDNI-cambia-contraseña">

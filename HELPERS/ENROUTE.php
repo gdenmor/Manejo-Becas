@@ -33,6 +33,8 @@ if (isset($_GET['menu'])) {
         require_once "../Manejo-Becas/FORMULARIOS/LISTADOPROV.php";
     }else if ($_GET['menu']=="verlisf"){
         require_once "../Manejo-Becas/FORMULARIOS/LISTADODEF.php";
+    }else if ($_GET['menu']=="actualiza"){
+        require_once "../Manejo-Becas/FORMULARIOS/ACTUALIZARCONVOCATORIA.php";
     }else{
         SESSION::Cerrar_Sesion();
     }

@@ -2,7 +2,7 @@
     margin: 0 auto;
     overflow: auto;
     height: 70%;
-    width: 50%;
+    width: 53%;
     margin-left: 37%;
     margin-top: 5%;
 }
@@ -41,7 +41,20 @@
 #fecha-fin-pruebas,
 #fecha-provisional,
 #fecha-definitivo,
-#tabla-baremo {
+#tabla-baremo,
+#txt-actualizaNombre,
+#txt-actualiza-id,
+#select-actualiza-proyecto,
+#tabla-actualiza-destinatario,
+#txt-actualiza-movilidades,
+#txt-actualiza-pais,
+#actualiza-fecha-inicio,
+#actualiza-fecha-fin,
+#fecha-actualiza-inicio-pruebas,
+#fecha-actualiza-fin-pruebas,
+#fecha-actualiza-provisional,
+#fecha-actualiza-definitivo,
+#tabla-actualiza-baremo {
     width: 87%;
     padding: 10px;
     margin-top: 5px;
@@ -69,8 +82,8 @@
 #actualiza,
 #mostrar
 {
-    background-color: #4CAF50;
-    color: white;
+    background-color: white;
+    color: black;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -80,7 +93,7 @@
 #crea:hover,
 #actualiza:hover,
 #mostrar:hover{
-    background-color: #45a049;
+    background-color: #ddd;
 }
 
 #botones{
@@ -112,7 +125,6 @@
     margin-left: 47%;
 }
 #crud{
-    overflow: auto;
     height: 100%;
 }
 #subt{
@@ -147,4 +159,30 @@
 }
 #tituloconv{
     margin-left: 40%;
+}
+
+#exito{
+    margin-left: 50%;
+    color: #2f7431;
+    position: absolute;
+    top: 10%;
+}
+
+#section-actualiza-general{
+    margin: 0 auto;
+    overflow: auto;
+    height: 70%;
+    width: 53%;
+    margin-left: 37%;
+    margin-top: 5%;
+    background-color: #ddd;
+}
+
+#span-actualiza-nombre, #span-actualiza-id, #span-actualiza-proyecto, #span-actualiza-destinatario, #span-actualiza-movilidades,
+#span-actualiza-pais, #span-actualiza-fecha-inicio, #span-actualiza-fecha-fin, #span-actualiza-fecha-inicio-pruebas,
+#span-actualiza-fecha-fin-pruebas, #span-actualiza-fecha-provisional, #span-actualiza-definitivo, #span-actualiza-baremo
+,#span-actualizafecha-fin{
+    display: block;
+    margin-top: 10px;
+    margin-left: 5%;
 }

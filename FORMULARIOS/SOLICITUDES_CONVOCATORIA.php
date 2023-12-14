@@ -129,9 +129,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <form method="post">
 <div>
     <h1 id="titulo-ev">SOLICITUDES A EVALUAR</h1>
-    <section id="volver-solicitud" style="position: absolute; top: 1%; left: 21%;">
-        <a href="?menu=baremo"><img src="../Manejo-Becas/IMAGENES/volver.png"></a>
-    </section>
     <table id="solicitudes-tabla">
         <thead>
             <th>ID</th>

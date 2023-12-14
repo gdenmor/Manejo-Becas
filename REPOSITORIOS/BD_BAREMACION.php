@@ -99,11 +99,15 @@
         $resultado->execute();
     }
 
-    public static function SacarSolicitud($id_solicitud){
+    public static function SacarSolicitud($id_solicitud,$id_convocatoria){
         $id=(int)$id_solicitud;
+        $id_conv=(int)$id_convocatoria;
         $conexion=CONEXION::AbreConexion();
-        $resultado=$conexion->prepare("SELECT * from BAREMACION where id_candidato_convocatoria=:id_candidato_convocatoria");
+        $resultado=$conexion->prepare("SELECT b.* from BAREMACION b inner join candidatos_convocatoria cc on cc.id_candidato_convocatoria=b.id_candidato_convocatoria where b.id_candidato_convocatoria=:id_candidato_convocatoria
+         and cc.id_convocatoria=:id_convocatoria");
         $resultado->bindParam(":id_candidato_convocatoria",$id,PDO::PARAM_INT);
+        $resultado->bindParam(":id_convocatoria",$id_conv,PDO::PARAM_INT);
+
         $resultado->execute();
 
         $Baremaciones=null;
